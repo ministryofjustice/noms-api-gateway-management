@@ -1,0 +1,21 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  # For details on connection pooling, see rails configuration guide
+  # http://guides.rubyonrails.org/configuring.html#database-pooling
+  pool: 5
+  host: <%= ENV['API_GATEWAY_MANAGEMENT_DATABASE_HOST'] || 'localhost' %>
+  username: <%= ENV['API_GATEWAY_MANAGEMENT_DATABASE_USERNAME'] %>
+  password: <%= ENV['API_GATEWAY_MANAGEMENT_DATABASE_PASSWORD'] %>
+
+development:
+  <<: *default
+  database: API_GATEWAY_MANAGEMENT_development
+
+test: &test
+  <<: *default
+  database: 'API_GATEWAY_MANAGEMENT_test'
+
+production:
+  <<: *default
+  database: <%= ENV['API_GATEWAY_MANAGEMENT_DATABASE'] %>
