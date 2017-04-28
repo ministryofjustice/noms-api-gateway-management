@@ -31,9 +31,9 @@ ActiveRecord::Schema.define(version: 20170428092008) do
     t.string   "api_env"
     t.datetime "expires"
     t.string   "contact_email"
-    t.boolean  "revoked"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.boolean  "revoked",       default: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
   end
 
 end

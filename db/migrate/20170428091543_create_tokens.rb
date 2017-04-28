@@ -8,7 +8,7 @@ class CreateTokens < ActiveRecord::Migration[5.0]
       t.string :api_env
       t.datetime :expires
       t.string :contact_email
-      t.boolean :revoked
+      t.boolean :revoked, default: false
 
       t.timestamps
     end
