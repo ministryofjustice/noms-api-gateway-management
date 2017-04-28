@@ -24,6 +24,7 @@ class TokensController < ApplicationController
     @token = Token.new(token_params)
 
     if @token.save
+      ProvisionToken.call(token: @token, client_pub: @token.client_pub_key)
       redirect_to @token, notice: 'Token was successfully created.'
     else
       render :new
@@ -58,7 +59,8 @@ class TokensController < ApplicationController
         :client_name,
         :api_env,
         :contact_email,
-        :revoked
+        :revoked,
+        :client_pub_key
       )
     end
 end

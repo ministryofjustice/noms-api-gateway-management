@@ -17,6 +17,9 @@
     = f.text_field :contact_email
   .field
     = f.label :api_env
-    = f.text_field :api_env
+    = f.collection_select :api_env, Token::API_ENVS, :to_s, :to_s
+  .field
+    = f.label :client_public_key
+    = f.file_field :client_public_key
   .actions
     = f.submit @token.new_record? ? 'Create' : 'Save'
