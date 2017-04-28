@@ -10,6 +10,7 @@ gem 'govuk_frontend_toolkit'
 gem 'govuk_template', '0.18.0'
 gem 'haml-rails'
 gem 'jquery-rails'
+gem 'jwt'
 gem 'pg'
 gem 'rails', '~> 5.0.2'
 gem 'sass-rails'
@@ -18,8 +19,6 @@ gem 'unicorn-rails'
 gem 'validates_email_format_of'
 
 group :development do
-  gem 'listen', '~> 3.0.5'
-  gem 'rubocop', require: false
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'web-console'
@@ -33,7 +32,6 @@ group :development, :test do
 end
 
 group :test do
-  gem 'codeclimate-test-reporter'
   gem 'database_cleaner'
   gem 'factory_girl_rails'
   gem 'faker'
