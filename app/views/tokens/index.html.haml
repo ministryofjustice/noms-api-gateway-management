@@ -18,18 +18,18 @@
   %tbody
     - @tokens.each do |token|
       %tr
-        %td= token.issued_at
+        %td= l token.issued_at, format: :long
         %td= token.requested_by
         %td= token.client_name
         %td= token.fingerprint
         %td= token.api_env
-        %td= token.expires
+        %td= l token.expires, format: :long
         %td= token.contact_email
-        %td= token.revoked
+        %td= token.revoked? ? 'Yes' : 'No'
         %td= link_to 'Show', token
         %td= link_to 'Edit', edit_token_path(token)
         %td= link_to 'Destroy', token, :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
 
-= link_to 'New Token', new_token_path
+= link_to 'Create token', new_token_path
