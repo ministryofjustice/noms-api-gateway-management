@@ -8,4 +8,6 @@ RSpec.describe Token, type: :model do
   it { should validate_presence_of(:api_env) }
   it { should validate_presence_of(:expires) }
   it { should validate_presence_of(:contact_email) }
+
+  it { should validate_inclusion_of(:api_env).in_array(Token::API_ENVS) }
 end
