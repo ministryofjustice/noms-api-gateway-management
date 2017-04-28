@@ -4,4 +4,4 @@ Admin/management tool for the [NOMS API Gateway](https://github.com/ministryofju
 
 Alerts on token expiration.
 
-Token request interface for potential clients to submit requests for access.
+Token request interface for potential clients to submit requests for access to the NOMIS API.

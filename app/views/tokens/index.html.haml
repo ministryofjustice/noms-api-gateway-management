@@ -1,0 +1,35 @@
+%h1 Listing tokens
+
+%table
+  %thead
+    %tr
+      %th Issued at
+      %th Requested by
+      %th Client name
+      %th Fingerprint
+      %th Api env
+      %th Expires
+      %th Contact email
+      %th Revoked
+      %th
+      %th
+      %th
+
+  %tbody
+    - @tokens.each do |token|
+      %tr
+        %td= token.issued_at
+        %td= token.requested_by
+        %td= token.client_name
+        %td= token.fingerprint
+        %td= token.api_env
+        %td= token.expires
+        %td= token.contact_email
+        %td= token.revoked
+        %td= link_to 'Show', token
+        %td= link_to 'Edit', edit_token_path(token)
+        %td= link_to 'Destroy', token, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Token', new_token_path

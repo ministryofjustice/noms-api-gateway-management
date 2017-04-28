@@ -1,0 +1,25 @@
+%h1 Listing access_requests
+
+%table
+  %thead
+    %tr
+      %th Email
+      %th Name
+      %th Reason
+      %th
+      %th
+      %th
+
+  %tbody
+    - @access_requests.each do |access_request|
+      %tr
+        %td= access_request.email
+        %td= access_request.name
+        %td= access_request.reason
+        %td= link_to 'Show', access_request
+        %td= link_to 'Edit', edit_access_request_path(access_request)
+        %td= link_to 'Destroy', access_request, :method => :delete, :data => { :confirm => 'Are you sure?' }
+
+%br
+
+= link_to 'New Access request', new_access_request_path

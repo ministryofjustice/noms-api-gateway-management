@@ -1,0 +1,30 @@
+%p#notice= notice
+
+%p
+  %b Issued at:
+  = @token.issued_at
+%p
+  %b Requested by:
+  = @token.requested_by
+%p
+  %b Client name:
+  = @token.client_name
+%p
+  %b Fingerprint:
+  = @token.fingerprint
+%p
+  %b Api env:
+  = @token.api_env
+%p
+  %b Expires:
+  = @token.expires
+%p
+  %b Contact email:
+  = @token.contact_email
+%p
+  %b Revoked:
+  = @token.revoked
+
+= link_to 'Edit', edit_token_path(@token)
+\|
+= link_to 'Back', tokens_path
