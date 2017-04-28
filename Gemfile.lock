@@ -225,6 +225,8 @@ GEM
     unicorn-rails (2.2.0)
       rack
       unicorn
+    validates_email_format_of (1.6.3)
+      i18n
     web-console (3.5.0)
       actionview (>= 5.0)
       activemodel (>= 5.0)
@@ -264,6 +266,7 @@ DEPENDENCIES
   spring-watcher-listen (~> 2.0.0)
   uglifier
   unicorn-rails
+  validates_email_format_of
   web-console
 
 BUNDLED WITH

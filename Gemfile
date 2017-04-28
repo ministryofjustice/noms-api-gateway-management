@@ -15,6 +15,7 @@ gem 'rails', '~> 5.0.2'
 gem 'sass-rails'
 gem 'uglifier'
 gem 'unicorn-rails'
+gem 'validates_email_format_of'
 
 group :development do
   gem 'listen', '~> 3.0.5'
