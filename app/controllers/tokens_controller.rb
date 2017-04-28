@@ -3,7 +3,7 @@ class TokensController < ApplicationController
 
   # GET /tokens
   def index
-    @tokens = Token.all
+    @tokens = Token.order(created_at: :desc)
   end
 
   # GET /tokens/1
@@ -53,6 +53,12 @@ class TokensController < ApplicationController
 
     # Only allow a trusted parameter "white list" through.
     def token_params
-      params.require(:token).permit(:issued_at, :requested_by, :client_name, :fingerprint, :api_env, :expires, :contact_email, :revoked)
+      params.require(:token).permit(
+        :requested_by,
+        :client_name,
+        :api_env,
+        :contact_email,
+        :revoked
+      )
     end
 end

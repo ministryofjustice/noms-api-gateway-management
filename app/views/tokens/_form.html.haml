@@ -7,28 +7,16 @@
           %li= msg
 
   .field
-    = f.label :issued_at
-    = f.datetime_select :issued_at
-  .field
     = f.label :requested_by
     = f.text_field :requested_by
   .field
     = f.label :client_name
     = f.text_field :client_name
   .field
-    = f.label :fingerprint
-    = f.text_field :fingerprint
-  .field
-    = f.label :api_env
-    = f.text_field :api_env
-  .field
-    = f.label :expires
-    = f.datetime_select :expires
-  .field
     = f.label :contact_email
     = f.text_field :contact_email
   .field
-    = f.label :revoked
-    = f.check_box :revoked
+    = f.label :api_env
+    = f.text_field :api_env
   .actions
-    = f.submit 'Save'
+    = f.submit @token.new_record? ? 'Create' : 'Save'
