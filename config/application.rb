@@ -24,5 +24,7 @@ module NomsApiGatewayManagement
       g.view_specs false
       g.helper_specs false
     end
+
+    ActionView::Base.default_form_builder = GovukElementsFormBuilder::FormBuilder
   end
 end

@@ -4,7 +4,12 @@ module ProvisionToken
   ACCESS_POLICY = /.*/
 
   def call(token:, client_pub:, provisioner_key: nil)
-    private_key_data = provisioner_key.read
+    private_key_data = if provisioner_key
+      provisioner_key.read
+    else
+      RetrieveKey.call(env: token.api_env)
+    end
+
     private_key = OpenSSL::PKey::EC.new(private_key_data)
     client_pub_data = client_pub.read
     client_pub = OpenSSL::PKey::EC.new(client_pub_data)

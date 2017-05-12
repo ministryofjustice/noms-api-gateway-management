@@ -1,19 +1,24 @@
-= form_for @access_request do |f|
-  - if @access_request.errors.any?
-    #error_explanation
-      %h2= "#{pluralize(@access_request.errors.count, "error")} prohibited this access_request from being saved:"
-      %ul
-        - @access_request.errors.full_messages.each do |msg|
-          %li= msg
+= GovukElementsErrorsHelper.error_summary @access_request,
+  'There were problems submitting this form', ''
 
+= form_for @access_request do |f|
   .field
-    = f.label :email
-    = f.text_field :email
-  .field
-    = f.label :name
     = f.text_field :name
   .field
-    = f.label :reason
+    = f.text_field :email
+  .field
+    = f.text_field :app_name
+  .field
     = f.text_area :reason
+  .field
+    = f.collection_select :api_env, Token::API_ENVS, :to_s, :to_s, prompt: true
+  .field
+    .form-group
+      = f.label :client_pub_key_file, class: 'form-label'
+      = f.file_field :client_pub_key_file
+  .field
+    .form-group
+      = f.label :pgp_key_file, class: 'form-label'
+      = f.file_field :pgp_key_file
   .actions
-    = f.submit 'Save'
+    = f.submit 'Submit', class: 'button'

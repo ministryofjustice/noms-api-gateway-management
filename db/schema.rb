@@ -18,9 +18,13 @@ ActiveRecord::Schema.define(version: 20170428092008) do
   create_table "access_requests", force: :cascade do |t|
     t.string   "email"
     t.string   "name"
+    t.string   "app_name"
+    t.string   "api_env"
     t.text     "reason"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.text     "client_pub_key"
+    t.text     "pgp_key"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
   create_table "tokens", force: :cascade do |t|
