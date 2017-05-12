@@ -21,5 +21,8 @@
   .field
     = f.label :client_public_key
     = f.file_field :client_public_key
+  .field
+    = f.label :pgp_key, 'PGP Key (used to encrypt generated token)'
+    = f.file_field :pgp_key
   .actions
     = f.submit @token.new_record? ? 'Create' : 'Save'

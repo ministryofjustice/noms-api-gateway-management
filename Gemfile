@@ -5,14 +5,17 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+gem 'govuk_elements_form_builder', git: 'https://github.com/ministryofjustice/govuk_elements_form_builder.git'
 gem 'govuk_elements_rails'
 gem 'govuk_frontend_toolkit'
 gem 'govuk_template', '0.18.0'
 gem 'haml-rails'
 gem 'jquery-rails'
 gem 'jwt'
+gem 'mail-gpg'
 gem 'pg'
 gem 'rails', '~> 5.0.2'
+gem 'rest-client'
 gem 'sass-rails'
 gem 'uglifier'
 gem 'unicorn-rails'

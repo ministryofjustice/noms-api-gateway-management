@@ -20,6 +20,13 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
+  helpers:
+    label:
+      access_request:
+        app_name: Application/service name
+        api_env: NOMIS API environment
+        pgp_key_file: Your PGP/GPG public key
+        client_pub_key_file: Your public client key
   time:
     formats:
       default: "%Y-%m-%d"
