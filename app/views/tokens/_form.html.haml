@@ -7,16 +7,12 @@
           %li= msg
 
   .field
-    = f.label :requested_by
     = f.text_field :requested_by
   .field
-    = f.label :client_name
     = f.text_field :client_name
   .field
-    = f.label :contact_email
     = f.text_field :contact_email
   .field
-    = f.label :api_env
     = f.collection_select :api_env, Token::API_ENVS, :to_s, :to_s
   .field
     = f.label :client_public_key
