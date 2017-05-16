@@ -6,8 +6,7 @@ class AccessRequest < ApplicationRecord
   validates :api_env, inclusion: Token::API_ENVS
   validates_email_format_of :email
 
-  after_create :set_client_pub_key
-  after_create :set_pgp_key
+  before_save :set_pgp_key, :set_client_pub_key
 
   private
 
