@@ -1,5 +1,5 @@
 class Token < ApplicationRecord
-  API_ENVS = %w( dev preprod prod )
+  API_ENVS = %w( dev preprod prod ).freeze
   attr_accessor :client_pub_key
 
   validates :issued_at, :requested_by, :client_name, :fingerprint, :api_env,
