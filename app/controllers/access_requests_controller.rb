@@ -3,7 +3,7 @@ class AccessRequestsController < ApplicationController
 
   # GET /access_requests
   def index
-    @access_requests = AccessRequest.all
+    @access_requests = AccessRequest.order(created_at: :desc)
   end
 
   # GET /access_requests/1
