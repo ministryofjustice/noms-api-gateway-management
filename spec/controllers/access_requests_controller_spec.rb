@@ -23,12 +23,30 @@ RSpec.describe AccessRequestsController, type: :controller do
   # This should return the minimal set of attributes required to create a valid
   # AccessRequest. As you add validations to AccessRequest, be sure to
   # adjust the attributes here as well.
+
+  let(:client_pub_key_file) {
+    fixture_file_upload('test_client.pub', 'text/plain')
+  }
+
+  let(:pgp_key_file) {
+    fixture_file_upload('test_gpg.asc', 'text/plain')
+  }
+
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    {
+      email: 'example@example.com',
+      name: 'John Smith',
+      reason: 'lorem ipsum',
+      api_env: 'preprod',
+      client_pub_key_file: client_pub_key_file,
+      pgp_key_file: pgp_key_file
+    }
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {
+        email: ''
+    }
   }
 
   # This should return the minimal set of values that should be in the session
@@ -59,16 +77,10 @@ RSpec.describe AccessRequestsController, type: :controller do
     end
   end
 
-  describe "GET #edit" do
-    it "assigns the requested access_request as @access_request" do
-      access_request = AccessRequest.create! valid_attributes
-      get :edit, params: {id: access_request.to_param}, session: valid_session
-      expect(assigns(:access_request)).to eq(access_request)
-    end
-  end
-
   describe "POST #create" do
     context "with valid params" do
+      before { ActiveJob::Base.queue_adapter = :test }
+
       it "creates a new AccessRequest" do
         expect {
           post :create, params: {access_request: valid_attributes}, session: valid_session
@@ -85,6 +97,13 @@ RSpec.describe AccessRequestsController, type: :controller do
         post :create, params: {access_request: valid_attributes}, session: valid_session
         expect(response).to redirect_to(AccessRequest.last)
       end
+
+      it "sends a notification email" do
+        post :create, params: {access_request: valid_attributes}, session: valid_session
+        expect {
+          AccessRequestMailer.access_request_email.deliver_later
+        }.to have_enqueued_job.on_queue('mailers')
+      end
     end
 
     context "with invalid params" do
@@ -96,47 +115,6 @@ RSpec.describe AccessRequestsController, type: :controller do
       it "re-renders the 'new' template" do
         post :create, params: {access_request: invalid_attributes}, session: valid_session
         expect(response).to render_template("new")
-      end
-    end
-  end
-
-  describe "PUT #update" do
-    context "with valid params" do
-      let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
-      }
-
-      it "updates the requested access_request" do
-        access_request = AccessRequest.create! valid_attributes
-        put :update, params: {id: access_request.to_param, access_request: new_attributes}, session: valid_session
-        access_request.reload
-        skip("Add assertions for updated state")
-      end
-
-      it "assigns the requested access_request as @access_request" do
-        access_request = AccessRequest.create! valid_attributes
-        put :update, params: {id: access_request.to_param, access_request: valid_attributes}, session: valid_session
-        expect(assigns(:access_request)).to eq(access_request)
-      end
-
-      it "redirects to the access_request" do
-        access_request = AccessRequest.create! valid_attributes
-        put :update, params: {id: access_request.to_param, access_request: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(access_request)
-      end
-    end
-
-    context "with invalid params" do
-      it "assigns the access_request as @access_request" do
-        access_request = AccessRequest.create! valid_attributes
-        put :update, params: {id: access_request.to_param, access_request: invalid_attributes}, session: valid_session
-        expect(assigns(:access_request)).to eq(access_request)
-      end
-
-      it "re-renders the 'edit' template" do
-        access_request = AccessRequest.create! valid_attributes
-        put :update, params: {id: access_request.to_param, access_request: invalid_attributes}, session: valid_session
-        expect(response).to render_template("edit")
       end
     end
   end

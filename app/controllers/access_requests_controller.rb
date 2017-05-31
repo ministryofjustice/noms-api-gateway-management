@@ -15,27 +15,15 @@ class AccessRequestsController < ApplicationController
     @access_request = AccessRequest.new
   end
 
-  # GET /access_requests/1/edit
-  def edit
-  end
-
   # POST /access_requests
   def create
     @access_request = AccessRequest.new(access_request_params)
 
     if @access_request.save
+      AccessRequestMailer.access_request_email(@access_request).deliver_later
       redirect_to @access_request, notice: 'Access request was successfully created.'
     else
       render :new
-    end
-  end
-
-  # PATCH/PUT /access_requests/1
-  def update
-    if @access_request.update(access_request_params)
-      redirect_to @access_request, notice: 'Access request was successfully updated.'
-    else
-      render :edit
     end
   end
 
