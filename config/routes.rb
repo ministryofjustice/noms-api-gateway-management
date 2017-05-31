@@ -1,6 +1,5 @@
 Rails.application.routes.draw do
-  root to: 'home#index'
-  get 'home/index'
+  root to: 'access_requests#new'
 
   resources :access_requests, except: [:edit, :update]
   resources :tokens
