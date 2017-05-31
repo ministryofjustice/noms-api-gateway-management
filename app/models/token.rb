@@ -8,4 +8,7 @@ class Token < ApplicationRecord
   validates :api_env, inclusion: Token::API_ENVS
 
   validates_email_format_of :contact_email
+
+  scope :revoked, -> { where(revoked: true) }
+  scope :unrevoked, -> { where.not(revoked: true) }
 end

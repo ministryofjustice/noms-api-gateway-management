@@ -5,8 +5,9 @@ FactoryGirl.define do
     client_name 'some_app'
     fingerprint SecureRandom.uuid
     api_env 'preprod'
-    expires { 2.years.from_now }
+    expires { 1.year.from_now }
     contact_email { Faker::Internet.email }
     revoked false
+    client_pub_key { File.open("#{Rails.root}/spec/fixtures/test_client.pub") }
   end
 end
