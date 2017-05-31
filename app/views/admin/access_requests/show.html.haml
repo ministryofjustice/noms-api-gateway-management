@@ -1,0 +1,29 @@
+%p#notice= notice
+
+%p
+  %b Email:
+  = @access_request.email
+%p
+  %b Name:
+  = @access_request.name
+%p
+  %b Reason:
+  = @access_request.reason
+
+%p
+  %b App name:
+  = @access_request.app_name
+
+%p
+  %b API environment:
+  = @access_request.api_env
+
+%p
+  %b Client public key:
+  %pre
+    = @access_request.client_pub_key
+
+%p
+  %b GPG key:
+  %pre
+    = @access_request.pgp_key

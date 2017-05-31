@@ -1,4 +1,4 @@
-class TokensController < ApplicationController
+class Admin::TokensController < Admin::AdminController
   before_action :set_token, only: [:show, :edit, :update, :destroy]
 
   # GET /tokens
@@ -31,7 +31,7 @@ class TokensController < ApplicationController
 
     if @token.save
       # mail token (encrypted)
-      redirect_to @token, notice: 'Encrypted token and sent.'
+      redirect_to [:admin, @token], notice: 'Encrypted token and sent.'
     else
       render :new
     end
@@ -40,7 +40,7 @@ class TokensController < ApplicationController
   # PATCH/PUT /tokens/1
   def update
     if @token.update(token_params)
-      redirect_to @token, notice: 'Token was successfully updated.'
+      redirect_to [:admin, @token], notice: 'Token was successfully updated.'
     else
       render :edit
     end
@@ -49,7 +49,7 @@ class TokensController < ApplicationController
   # DELETE /tokens/1
   def destroy
     @token.destroy
-    redirect_to tokens_url, notice: 'Token was successfully destroyed.'
+    redirect_to admin_tokens_url, notice: 'Token was successfully destroyed.'
   end
 
   private

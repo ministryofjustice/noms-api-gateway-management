@@ -54,14 +54,6 @@ RSpec.describe AccessRequestsController, type: :controller do
   # AccessRequestsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe "GET #index" do
-    it "assigns all access_requests as @access_requests" do
-      access_request = AccessRequest.create! valid_attributes
-      get :index, params: {}, session: valid_session
-      expect(assigns(:access_requests)).to eq([access_request])
-    end
-  end
-
   describe "GET #show" do
     it "assigns the requested access_request as @access_request" do
       access_request = AccessRequest.create! valid_attributes
@@ -118,20 +110,4 @@ RSpec.describe AccessRequestsController, type: :controller do
       end
     end
   end
-
-  describe "DELETE #destroy" do
-    it "destroys the requested access_request" do
-      access_request = AccessRequest.create! valid_attributes
-      expect {
-        delete :destroy, params: {id: access_request.to_param}, session: valid_session
-      }.to change(AccessRequest, :count).by(-1)
-    end
-
-    it "redirects to the access_requests list" do
-      access_request = AccessRequest.create! valid_attributes
-      delete :destroy, params: {id: access_request.to_param}, session: valid_session
-      expect(response).to redirect_to(access_requests_url)
-    end
-  end
-
 end

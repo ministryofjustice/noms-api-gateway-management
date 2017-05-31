@@ -26,10 +26,10 @@
         %td= l token.expires, format: :long
         %td= token.contact_email
         %td= token.revoked? ? 'Yes' : 'No'
-        %td= link_to 'Show', token
-        %td= link_to 'Edit', edit_token_path(token)
-        %td= link_to 'Destroy', token, :method => :delete, :data => { :confirm => 'Are you sure?' }
+        %td= link_to 'Show', [:admin, token]
+        %td= link_to 'Edit', edit_admin_token_path(token)
+        %td= link_to 'Destroy', [:admin, token], :method => :delete, :data => { :confirm => 'Are you sure?' }
 
 %br
 
-= link_to 'Create token', new_token_path
+= link_to 'Create token', new_admin_token_path

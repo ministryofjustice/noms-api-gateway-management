@@ -18,7 +18,7 @@ require 'rails_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
-RSpec.describe TokensController, type: :controller do
+RSpec.describe Admin::TokensController, type: :controller do
   let(:client_pub_key) { fixture_file_upload('test_client.pub', 'text/plain') }
 
   # This should return the minimal set of attributes required to create a valid
@@ -106,7 +106,7 @@ RSpec.describe TokensController, type: :controller do
 
       it "redirects to the created token" do
         post :create, params: {token: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(Token.last)
+        expect(response).to redirect_to([:admin, Token.last])
       end
     end
 
@@ -146,7 +146,7 @@ RSpec.describe TokensController, type: :controller do
 
       it "redirects to the token" do
         put :update, params: {id: token.to_param, token: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(token)
+        expect(response).to redirect_to([:admin, token])
       end
     end
 
@@ -174,7 +174,7 @@ RSpec.describe TokensController, type: :controller do
 
     it "redirects to the tokens list" do
       delete :destroy, params: {id: token.to_param}, session: valid_session
-      expect(response).to redirect_to(tokens_url)
+      expect(response).to redirect_to(admin_tokens_url)
     end
   end
 

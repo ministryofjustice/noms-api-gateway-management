@@ -1,10 +1,5 @@
 class AccessRequestsController < ApplicationController
-  before_action :set_access_request, only: [:show, :edit, :update, :destroy]
-
-  # GET /access_requests
-  def index
-    @access_requests = AccessRequest.order(created_at: :desc)
-  end
+  before_action :set_access_request, only: [:show]
 
   # GET /access_requests/1
   def show
@@ -25,12 +20,6 @@ class AccessRequestsController < ApplicationController
     else
       render :new
     end
-  end
-
-  # DELETE /access_requests/1
-  def destroy
-    @access_request.destroy
-    redirect_to access_requests_url, notice: 'Access request was successfully destroyed.'
   end
 
   private
