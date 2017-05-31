@@ -19,16 +19,29 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 RSpec.describe TokensController, type: :controller do
+  let(:client_pub_key) { fixture_file_upload('test_client.pub', 'text/plain') }
 
   # This should return the minimal set of attributes required to create a valid
   # Token. As you add validations to Token, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
-    skip("Add a hash of attributes valid for your model")
+    {
+      requested_by: 'John Smith',
+      client_name: 'xxx',
+      api_env: 'prod',
+      contact_email: 'email@example.com',
+      client_pub_key: client_pub_key,
+      expires: 1.year.from_now
+    }
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {
+      requested_by: 'John Smith',
+      client_name: 'xxx',
+      api_env: 'foobar',
+      contact_email: 'email@example.com'
+    }
   }
 
   # This should return the minimal set of values that should be in the session
@@ -36,17 +49,26 @@ RSpec.describe TokensController, type: :controller do
   # TokensController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
+  let(:test_provisioner_key) { fixture_file_upload('test_provisioner.key', 'text/plain') }
+
+  before do
+    allow(RetrieveKey).to receive(:call).with('prod').and_return(test_provisioner_key.read)
+    allow(RetrieveKey).to receive(:call).with('foobar').and_raise(ArgumentError)
+  end
+
   describe "GET #index" do
+    let(:token) { create(:token) }
+
     it "assigns all tokens as @tokens" do
-      token = Token.create! valid_attributes
       get :index, params: {}, session: valid_session
       expect(assigns(:tokens)).to eq([token])
     end
   end
 
   describe "GET #show" do
+    let(:token) { create(:token) }
+
     it "assigns the requested token as @token" do
-      token = Token.create! valid_attributes
       get :show, params: {id: token.to_param}, session: valid_session
       expect(assigns(:token)).to eq(token)
     end
@@ -60,8 +82,9 @@ RSpec.describe TokensController, type: :controller do
   end
 
   describe "GET #edit" do
+    let(:token) { create(:token) }
+
     it "assigns the requested token as @token" do
-      token = Token.create! valid_attributes
       get :edit, params: {id: token.to_param}, session: valid_session
       expect(assigns(:token)).to eq(token)
     end
@@ -101,26 +124,27 @@ RSpec.describe TokensController, type: :controller do
   end
 
   describe "PUT #update" do
+    let(:token) { create(:token) }
+
     context "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        {
+          api_env: 'preprod'
+        }
       }
 
       it "updates the requested token" do
-        token = Token.create! valid_attributes
         put :update, params: {id: token.to_param, token: new_attributes}, session: valid_session
         token.reload
-        skip("Add assertions for updated state")
+        expect(token.api_env).to eq('preprod')
       end
 
       it "assigns the requested token as @token" do
-        token = Token.create! valid_attributes
         put :update, params: {id: token.to_param, token: valid_attributes}, session: valid_session
         expect(assigns(:token)).to eq(token)
       end
 
       it "redirects to the token" do
-        token = Token.create! valid_attributes
         put :update, params: {id: token.to_param, token: valid_attributes}, session: valid_session
         expect(response).to redirect_to(token)
       end
@@ -128,13 +152,11 @@ RSpec.describe TokensController, type: :controller do
 
     context "with invalid params" do
       it "assigns the token as @token" do
-        token = Token.create! valid_attributes
         put :update, params: {id: token.to_param, token: invalid_attributes}, session: valid_session
         expect(assigns(:token)).to eq(token)
       end
 
       it "re-renders the 'edit' template" do
-        token = Token.create! valid_attributes
         put :update, params: {id: token.to_param, token: invalid_attributes}, session: valid_session
         expect(response).to render_template("edit")
       end
@@ -142,15 +164,15 @@ RSpec.describe TokensController, type: :controller do
   end
 
   describe "DELETE #destroy" do
+    let!(:token) { create(:token) }
+
     it "destroys the requested token" do
-      token = Token.create! valid_attributes
       expect {
         delete :destroy, params: {id: token.to_param}, session: valid_session
       }.to change(Token, :count).by(-1)
     end
 
     it "redirects to the tokens list" do
-      token = Token.create! valid_attributes
       delete :destroy, params: {id: token.to_param}, session: valid_session
       expect(response).to redirect_to(tokens_url)
     end

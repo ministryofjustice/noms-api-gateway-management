@@ -23,11 +23,14 @@ class TokensController < ApplicationController
   def create
     @token = Token.new(token_params)
 
-    if @token.save
+    begin
       token =  ProvisionToken.call(token: @token, client_pub: @token.client_pub_key)
+    rescue Exception => e
+      render :new and return
+    end
 
+    if @token.save
       # mail token (encrypted)
-
       redirect_to @token, notice: 'Encrypted token and sent.'
     else
       render :new
@@ -62,7 +65,9 @@ class TokensController < ApplicationController
         :client_name,
         :api_env,
         :contact_email,
-        :revoked
+        :revoked,
+        :client_pub_key,
+        :expires
       )
     end
 end
