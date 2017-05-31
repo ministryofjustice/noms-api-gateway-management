@@ -17,9 +17,10 @@
     .content
       %nav{ class: "proposition-menu" }
         = link_to 'API Gateway Management', root_path, id: 'proposition-name'
-        - if true
-          .sign-out
-            = button_to 'Sign out', '#', method: :delete, class: 'styled-as-link'
+        - if controller_path.split('/').first == 'admin'
+          - if true
+            .sign-out
+              = button_to 'Sign out', '#', method: :delete, class: 'styled-as-link'
 
 = content_for :content do
   %main{ id: "wrapper", role: "main" }
