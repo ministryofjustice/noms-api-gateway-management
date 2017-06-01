@@ -16,28 +16,31 @@ ActiveRecord::Schema.define(version: 20170428092008) do
   enable_extension "plpgsql"
 
   create_table "access_requests", force: :cascade do |t|
-    t.string   "email"
-    t.string   "name"
-    t.string   "app_name"
+    t.string   "contact_email"
+    t.string   "requested_by"
+    t.string   "service_name"
     t.string   "api_env"
     t.text     "reason"
     t.text     "client_pub_key"
     t.text     "pgp_key"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.boolean  "processed",      default: false
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
   end
 
   create_table "tokens", force: :cascade do |t|
     t.datetime "issued_at"
     t.string   "requested_by"
-    t.string   "client_name"
+    t.string   "service_name"
     t.string   "fingerprint"
     t.string   "api_env"
     t.datetime "expires"
     t.string   "contact_email"
-    t.boolean  "revoked",       default: false
-    t.datetime "created_at",                    null: false
-    t.datetime "updated_at",                    null: false
+    t.boolean  "revoked",        default: false
+    t.text     "client_pub_key"
+    t.text     "pgp_key"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
   end
 
 end

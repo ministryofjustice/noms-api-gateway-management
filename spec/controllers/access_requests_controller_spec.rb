@@ -34,8 +34,8 @@ RSpec.describe AccessRequestsController, type: :controller do
 
   let(:valid_attributes) {
     {
-      email: 'example@example.com',
-      name: 'John Smith',
+      contact_email: 'example@example.com',
+      requested_by: 'John Smith',
       reason: 'lorem ipsum',
       api_env: 'preprod',
       client_pub_key_file: client_pub_key_file,
@@ -45,7 +45,7 @@ RSpec.describe AccessRequestsController, type: :controller do
 
   let(:invalid_attributes) {
     {
-        email: ''
+        contact_email: ''
     }
   }
 

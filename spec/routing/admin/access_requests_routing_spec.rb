@@ -2,6 +2,9 @@ require "rails_helper"
 
 RSpec.describe Admin::AccessRequestsController, type: :routing do
   describe "routing" do
+    it "routes to #index for root /admin" do
+      expect(:get => "/admin").to route_to("admin/access_requests#index")
+    end
 
     it "routes to #index" do
       expect(get: "/admin/access_requests").to route_to("admin/access_requests#index")

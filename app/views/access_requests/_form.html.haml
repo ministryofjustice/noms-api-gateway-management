@@ -3,11 +3,11 @@
 
 = form_for @access_request do |f|
   .field
-    = f.text_field :name
+    = f.text_field :requested_by
   .field
-    = f.text_field :email
+    = f.text_field :contact_email
   .field
-    = f.text_field :app_name
+    = f.text_field :service_name
   .field
     = f.text_area :reason
   .field

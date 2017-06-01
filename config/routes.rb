@@ -4,9 +4,12 @@ Rails.application.routes.draw do
   resources :access_requests, only: [:new, :create, :show]
 
   namespace :admin do
-    root to: 'tokens#index'
+    root to: 'access_requests#index'
 
-    resources :tokens
+    resources :tokens, except: [:edit, :update, :destroy] do
+      put :revoke, on: :member
+      patch :revoke, on: :member
+    end
     resources :access_requests, except: [:new, :create, :edit, :update]
   end
 end

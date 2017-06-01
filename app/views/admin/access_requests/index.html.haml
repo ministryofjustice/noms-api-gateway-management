@@ -4,10 +4,10 @@
   %thead
     %tr
       %th Date
-      %th Email
-      %th Name
+      %th Contact email
+      %th Requested by
       %th Reason
-      %th App name
+      %th Service name
       %th Env
       %th
       %th
@@ -17,10 +17,10 @@
     - @access_requests.each do |access_request|
       %tr
         %td= access_request.created_at
-        %td= mail_to access_request.email
-        %td= access_request.name
+        %td= mail_to access_request.contact_email
+        %td= access_request.requested_by
         %td= access_request.reason
-        %td= access_request.app_name
+        %td= access_request.service_name
         %td= access_request.api_env
         %td= link_to 'Show', [:admin, access_request]
         %td= link_to 'Approve', new_admin_token_path(access_request:access_request)

@@ -27,10 +27,10 @@ RSpec.describe Admin::TokensController, type: :controller do
   let(:valid_attributes) {
     {
       requested_by: 'John Smith',
-      client_name: 'xxx',
+      service_name: 'xxx',
       api_env: 'prod',
       contact_email: 'email@example.com',
-      client_pub_key: client_pub_key,
+      client_pub_key_file: client_pub_key,
       expires: 1.year.from_now
     }
   }
@@ -81,15 +81,6 @@ RSpec.describe Admin::TokensController, type: :controller do
     end
   end
 
-  describe "GET #edit" do
-    let(:token) { create(:token) }
-
-    it "assigns the requested token as @token" do
-      get :edit, params: {id: token.to_param}, session: valid_session
-      expect(assigns(:token)).to eq(token)
-    end
-  end
-
   describe "POST #create" do
     context "with valid params" do
       it "creates a new Token" do
@@ -123,59 +114,23 @@ RSpec.describe Admin::TokensController, type: :controller do
     end
   end
 
-  describe "PUT #update" do
+  describe "PUT #revoke" do
     let(:token) { create(:token) }
 
-    context "with valid params" do
-      let(:new_attributes) {
-        {
-          api_env: 'preprod'
-        }
-      }
-
-      it "updates the requested token" do
-        put :update, params: {id: token.to_param, token: new_attributes}, session: valid_session
-        token.reload
-        expect(token.api_env).to eq('preprod')
-      end
-
-      it "assigns the requested token as @token" do
-        put :update, params: {id: token.to_param, token: valid_attributes}, session: valid_session
-        expect(assigns(:token)).to eq(token)
-      end
-
-      it "redirects to the token" do
-        put :update, params: {id: token.to_param, token: valid_attributes}, session: valid_session
-        expect(response).to redirect_to([:admin, token])
-      end
+    it "updates the requested token" do
+      put :revoke, params: {id: token.to_param}, session: valid_session
+      token.reload
+      expect(token).to be_revoked
     end
 
-    context "with invalid params" do
-      it "assigns the token as @token" do
-        put :update, params: {id: token.to_param, token: invalid_attributes}, session: valid_session
-        expect(assigns(:token)).to eq(token)
-      end
-
-      it "re-renders the 'edit' template" do
-        put :update, params: {id: token.to_param, token: invalid_attributes}, session: valid_session
-        expect(response).to render_template("edit")
-      end
-    end
-  end
-
-  describe "DELETE #destroy" do
-    let!(:token) { create(:token) }
-
-    it "destroys the requested token" do
-      expect {
-        delete :destroy, params: {id: token.to_param}, session: valid_session
-      }.to change(Token, :count).by(-1)
+    it "assigns the requested token as @token" do
+      put :revoke, params: {id: token.to_param}, session: valid_session
+      expect(assigns(:token)).to eq(token)
     end
 
-    it "redirects to the tokens list" do
-      delete :destroy, params: {id: token.to_param}, session: valid_session
+    it "redirects to the admin tokens path" do
+      put :revoke, params: {id: token.to_param}, session: valid_session
       expect(response).to redirect_to(admin_tokens_url)
     end
   end
-
 end

@@ -23,10 +23,12 @@ en:
   helpers:
     label:
       access_request:
-        app_name: Application/service name
+        service_name: Application/service name
         api_env: NOMIS API environment
         pgp_key_file: Your PGP/GPG public key
         client_pub_key_file: Your public client key
+      token:
+        service_name: Application/service name
   time:
     formats:
       default: "%Y-%m-%d"

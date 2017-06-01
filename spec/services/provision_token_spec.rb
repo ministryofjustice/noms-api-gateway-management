@@ -2,14 +2,12 @@ require 'rails_helper'
 
 RSpec.describe ProvisionToken do
   let(:test_provisioner_key) { fixture_file_upload('test_provisioner.key', 'text/plain') }
-  let(:test_client_pub) { fixture_file_upload('test_client.pub', 'text/plain') }
   let(:token) { build(:token, issued_at: nil, expires: 2.years.from_now) }
 
   describe '#call' do
     let!(:jwt_token) do
       described_class.call(
         token: token,
-        client_pub: test_client_pub,
         provisioner_key: test_provisioner_key
       )
     end

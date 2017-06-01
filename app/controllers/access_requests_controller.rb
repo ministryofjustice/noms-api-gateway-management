@@ -31,9 +31,9 @@ class AccessRequestsController < ApplicationController
     # Only allow a trusted parameter "white list" through.
     def access_request_params
       params.require(:access_request).permit(
-        :email,
-        :name,
-        :app_name,
+        :contact_email,
+        :requested_by,
+        :service_name,
         :reason,
         :api_env,
         :client_pub_key_file,

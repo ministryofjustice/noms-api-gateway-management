@@ -2,9 +2,9 @@ class AccessRequest < ApplicationRecord
   attr_accessor :client_pub_key_file
   attr_accessor :pgp_key_file
 
-  validates :name, :email, :reason, :api_env, :client_pub_key_file, :pgp_key_file, presence: :true
+  validates :requested_by, :contact_email, :reason, :api_env, :client_pub_key_file, :pgp_key_file, presence: :true
   validates :api_env, inclusion: Token::API_ENVS
-  validates_email_format_of :email
+  validates_email_format_of :contact_email
 
   before_save :set_pgp_key, :set_client_pub_key
 

@@ -1,35 +1,30 @@
-%h1 Listing tokens
+%h1 Tokens (#{@tokens.count})
 
 %table
   %thead
     %tr
-      %th Issued at
-      %th Requested by
-      %th Client name
-      %th Fingerprint
-      %th Api env
+      %th Issued
+      %th Requestor
+      %th Contact
+      %th Service
+      %th Env
       %th Expires
-      %th Contact email
       %th Revoked
       %th
       %th
-      %th
-
   %tbody
     - @tokens.each do |token|
       %tr
         %td= l token.issued_at, format: :long
         %td= token.requested_by
-        %td= token.client_name
-        %td= token.fingerprint
+        %td= mail_to token.contact_email
+        %td= token.service_name
         %td= token.api_env
-        %td= l token.expires, format: :long
-        %td= token.contact_email
+        %td= l token.expires rescue ''
         %td= token.revoked? ? 'Yes' : 'No'
         %td= link_to 'Show', [:admin, token]
-        %td= link_to 'Edit', edit_admin_token_path(token)
-        %td= link_to 'Destroy', [:admin, token], :method => :delete, :data => { :confirm => 'Are you sure?' }
+        %td= link_to 'Revoke', revoke_admin_token_path(token), data: { confirm: 'Are you sure?' }
 
 %br
 
-= link_to 'Create token', new_admin_token_path
+= link_to 'Create token', new_admin_token_path, class: 'button'

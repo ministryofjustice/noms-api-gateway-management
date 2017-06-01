@@ -7,8 +7,11 @@
   %b Requested by:
   = @token.requested_by
 %p
-  %b Client name:
-  = @token.client_name
+  %b Contact email:
+  = @token.contact_email
+%p
+  %b Service name:
+  = @token.service_name
 %p
   %b Fingerprint:
   = @token.fingerprint
@@ -17,14 +20,10 @@
   = @token.api_env
 %p
   %b Expires:
-  = @token.expires
-%p
-  %b Contact email:
-  = @token.contact_email
+  = l @token.expires rescue ''
 %p
   %b Revoked:
   = @token.revoked
 
-= link_to 'Edit', edit_admin_token_path(@token)
-\|
-= link_to 'Back', admin_tokens_path
+= link_to 'Revoke', revoke_admin_token_path(@token), data: { confirm: 'Are you sure?' }, class: 'button'
+

@@ -3,7 +3,7 @@ module ProvisionToken
 
   ACCESS_POLICY = /.*/
 
-  def call(token:, client_pub:, provisioner_key: nil)
+  def call(token:, provisioner_key: nil)
     begin
       private_key_data = if provisioner_key
         provisioner_key.read
@@ -15,13 +15,12 @@ module ProvisionToken
     end
 
     private_key = OpenSSL::PKey::EC.new(private_key_data)
-    client_pub_data = client_pub.read
-    client_pub = OpenSSL::PKey::EC.new(client_pub_data)
+    client_pub_key = OpenSSL::PKey::EC.new(token.client_pub_key)
 
     now = Time.now
     client_token, fingerprint = generate_client_token(
-      client_name: token.client_name,
-      client_pub_key: client_pub,
+      client_name: token.service_name,
+      client_pub_key: client_pub_key,
       provisioning_pri_key: private_key,
       valid_from: now,
       valid_to: token.expires,

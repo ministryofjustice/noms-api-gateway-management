@@ -1,5 +1,5 @@
 class Admin::TokensController < Admin::AdminController
-  before_action :set_token, only: [:show, :edit, :update, :destroy]
+  before_action :set_token, only: [:show, :edit, :revoke]
 
   # GET /tokens
   def index
@@ -13,19 +13,28 @@ class Admin::TokensController < Admin::AdminController
   # GET /tokens/new
   def new
     @token = Token.new
-  end
 
-  # GET /tokens/1/edit
-  def edit
+    if params[:access_request]
+      @access_request = AccessRequest.find(params[:access_request])
+
+      [:requested_by, :contact_email, :api_env, :service_name, :client_pub_key].each do |variable|
+        eval("@token.#{variable} = @access_request.#{variable}")
+      end
+    end
   end
 
   # POST /tokens
   def create
     @token = Token.new(token_params)
 
+    if @token.client_pub_key_file.present?
+      @token.client_pub_key = @token.client_pub_key_file.read
+    end
+
     begin
-      token =  ProvisionToken.call(token: @token, client_pub: @token.client_pub_key)
+      token = ProvisionToken.call(token: @token)
     rescue Exception => e
+      @token.errors.add(:client_pub_key)
       render :new and return
     end
 
@@ -38,18 +47,8 @@ class Admin::TokensController < Admin::AdminController
   end
 
   # PATCH/PUT /tokens/1
-  def update
-    if @token.update(token_params)
-      redirect_to [:admin, @token], notice: 'Token was successfully updated.'
-    else
-      render :edit
-    end
-  end
-
-  # DELETE /tokens/1
-  def destroy
-    @token.destroy
-    redirect_to admin_tokens_url, notice: 'Token was successfully destroyed.'
+  def revoke
+    @token.revoke! and redirect_to admin_tokens_url, notice: 'Token was successfully revoked.'
   end
 
   private
@@ -62,11 +61,12 @@ class Admin::TokensController < Admin::AdminController
     def token_params
       params.require(:token).permit(
         :requested_by,
-        :client_name,
+        :service_name,
         :api_env,
         :contact_email,
         :revoked,
         :client_pub_key,
+        :client_pub_key_file,
         :expires
       )
     end
