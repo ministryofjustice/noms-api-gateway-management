@@ -15,12 +15,21 @@
 = content_for :proposition_header do
   .header-proposition
     .content
+
+      = link_to 'Menu', '#proposition-links', class: 'js-header-toggle menu'
+
       %nav{ class: "proposition-menu" }
-        = link_to 'API Gateway Management', root_path, id: 'proposition-name'
+        = link_to 'API Gateway Management', root_url, id: 'proposition-name'
         - if controller_path.split('/').first == 'admin'
-          - if true
-            .sign-out
-              = button_to 'Sign out', '#', method: :delete, class: 'styled-as-link'
+          %ul#proposition-links
+            %li
+              = link_to 'Access Requests', admin_access_requests_url
+            %li
+              = link_to 'Tokens', admin_tokens_url
+            - if true
+              %li
+                .sign-out
+                  = button_to 'Sign out', '#', method: :delete, class: 'styled-as-link'
 
 = content_for :content do
   %main{ id: "wrapper", role: "main" }
