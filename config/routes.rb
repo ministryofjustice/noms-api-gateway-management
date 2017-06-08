@@ -12,4 +12,8 @@ Rails.application.routes.draw do
     end
     resources :access_requests, except: [:new, :create, :edit, :update]
   end
+
+  namespace :api, format: :json do
+    resources :tokens, only: [:index]
+  end
 end
