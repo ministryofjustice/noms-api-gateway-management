@@ -12,4 +12,10 @@ Rails.application.routes.draw do
     end
     resources :access_requests, except: [:new, :create, :edit, :update]
   end
+
+  namespace :api, format: :json do
+    resources :tokens, only: [:revoked] do
+      get :revoked, on: :collection
+    end
+  end
 end
