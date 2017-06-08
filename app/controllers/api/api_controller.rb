@@ -1,5 +1,5 @@
 class Api::ApiController < ApplicationController
-  before_action :authenticate!
+  # before_action :authenticate!
 
   protected
 

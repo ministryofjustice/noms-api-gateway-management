@@ -14,6 +14,8 @@ Rails.application.routes.draw do
   end
 
   namespace :api, format: :json do
-    resources :tokens, only: [:index]
+    resources :tokens, only: [:revoked] do
+      get :revoked, on: :collection
+    end
   end
 end

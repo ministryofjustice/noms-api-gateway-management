@@ -6,7 +6,7 @@ RSpec.describe Api::TokensController, type: :controller do
   # TokensController. Be sure to keep this updated too.
   let(:valid_session) { {} }
 
-  describe '#index' do
+  describe '#revoked' do
     let(:token_1) { create(:token) }
     let(:token_2) { create(:token) }
     let(:token_3) { create(:token) }
@@ -15,7 +15,7 @@ RSpec.describe Api::TokensController, type: :controller do
       token_1.revoke!
       token_3.revoke!
 
-      get :index, params: {}, session: valid_session
+      get :revoked, params: {}, session: valid_session
       expect(JSON.parse(response.body)).to eq([token_1.fingerprint, token_3.fingerprint])
     end
   end
