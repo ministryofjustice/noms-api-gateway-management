@@ -14,11 +14,31 @@
     = f.collection_select :api_env, Token::API_ENVS, :to_s, :to_s, prompt: true
   .field
     .form-group
-      = f.label :client_pub_key_file, class: 'form-label'
+      = f.label :client_pub_key_file, class: 'form-label' do
+        Client public key
+        %span.form-hint
+          %p
+            Your client key pair. Generate with:
+
+          %p{ style: 'font-family: monospace; font-size: 80%' }
+            openssl ecparam -name prime256v1 -genkey -noout -out client.key
+            %br
+            openssl ec -in client.key -pubout -out client.pub
+
+          %p
+            Attach ONLY the public (client.pub) portion.
+
       = f.file_field :client_pub_key_file
   .field
     .form-group
-      = f.label :pgp_key_file, class: 'form-label'
+      = f.label :pgp_key_file, class: 'form-label' do
+        Your PGP/GPG public key
+        %span.form-hint
+          %p
+            Attach your GPG public key. #{link_to 'Guide to generating a GPG key', 'https://www.gnupg.org/gph/en/manual.html#AEN26', target: '_blank'}.
+
+          %p
+            This will be used to encrypt your token so we can send it to you securely.
       = f.file_field :pgp_key_file
   .actions
     = f.submit 'Submit', class: 'button'

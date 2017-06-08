@@ -29,6 +29,18 @@ en:
         client_pub_key_file: Your public client key
       token:
         service_name: Application/service name
+    hint:
+      access_request:
+        requested_by: |
+          Your name.
+        contact_email: |
+          Your email address.
+        service_name: |
+          The name of your app or service.
+        api_env: |
+          The NOMIS API enviroment you would like to access.
+        reason: |
+          Outline which endpoints you require access to and reasons for doing so.
   time:
     formats:
       default: "%Y-%m-%d"
