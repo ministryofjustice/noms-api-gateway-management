@@ -89,13 +89,6 @@ RSpec.describe AccessRequestsController, type: :controller do
         post :create, params: {access_request: valid_attributes}, session: valid_session
         expect(response).to redirect_to(AccessRequest.last)
       end
-
-      it "sends a notification email" do
-        post :create, params: {access_request: valid_attributes}, session: valid_session
-        expect {
-          AccessRequestMailer.access_request_email.deliver_later
-        }.to have_enqueued_job.on_queue('mailers')
-      end
     end
 
     context "with invalid params" do
