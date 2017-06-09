@@ -71,8 +71,6 @@ RSpec.describe AccessRequestsController, type: :controller do
 
   describe "POST #create" do
     context "with valid params" do
-      before { ActiveJob::Base.queue_adapter = :test }
-
       it "creates a new AccessRequest" do
         expect {
           post :create, params: {access_request: valid_attributes}, session: valid_session

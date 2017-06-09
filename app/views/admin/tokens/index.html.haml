@@ -23,7 +23,9 @@
         %td= l token.expires rescue ''
         %td= token.revoked? ? 'Yes' : 'No'
         %td= link_to 'Show', [:admin, token]
-        %td= link_to 'Revoke', revoke_admin_token_path(token), data: { confirm: 'Are you sure?' }
+        %td
+          - unless token.revoked?
+            = button_to 'Revoke', revoke_admin_token_path(token), method: :put, data: { confirm: 'Are you sure?' }, class: 'button'
 
 %br
 
