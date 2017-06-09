@@ -11,14 +11,29 @@
   .field
     = f.collection_select :api_env, Token::API_ENVS, :to_s, :to_s
   .field
-    = f.label :expires
-    = f.date_field :expires, value: 1.year.from_now.to_date
+    .form-group
+      = f.label :expires, class: 'form-label' do
+        Expires
+        %span.form-hint
+          %p
+            When this token will expire. Default is 1 year from issue.
+        = f.date_field :expires, value: 1.year.from_now.to_date
   .field
-    = f.label :client_pub_key_file
-    = f.file_field :client_pub_key_file
-    = f.hidden_field :client_pub_key, value: @token.client_pub_key
+    .form-group
+      = f.label :client_pub_key_file, class: 'form-label' do
+        Client public key
+        %span.form-hint
+          %p
+            Supplied by requester.
+      = f.file_field :client_pub_key_file
+      = f.hidden_field :client_pub_key, value: @token.client_pub_key
   .field
-    = f.label :pgp_key, 'PGP Key (used to encrypt generated token)'
-    = f.file_field :pgp_key
+    .form-group
+      = f.label :pgp_key, class: 'form-label' do
+        PGP/GPG public key
+        %span.form-hint
+          %p
+            This will be used to encrypt the token so it can be sent securely.
+      = f.file_field :pgp_key
   .actions
     = f.submit @token.new_record? ? 'Create' : 'Save', class: 'button'

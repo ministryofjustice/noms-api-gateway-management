@@ -29,6 +29,7 @@ en:
         client_pub_key_file: Your public client key
       token:
         service_name: Application/service name
+        api_env: NOMIS API environment
     hint:
       access_request:
         requested_by: |
@@ -41,6 +42,15 @@ en:
           The NOMIS API enviroment you would like to access.
         reason: |
           Outline which endpoints you require access to and reasons for doing so.
+      token:
+        requested_by: |
+          The name of the person requesting the token.
+        contact_email: |
+          The email of the main contact for this token.
+        service_name: |
+          The app or service this token will be used by.
+        api_env: |
+          The NOMIS API enviroment this token allows access to.
   time:
     formats:
       default: "%Y-%m-%d"
