@@ -131,6 +131,8 @@ GEM
     nio4r (2.0.0)
     nokogiri (1.7.2)
       mini_portile2 (~> 2.1.0)
+    notifications-ruby-client (2.1.0)
+      jwt (~> 1.5)
     pg (0.20.0)
     pry (0.10.4)
       coderay (~> 1.1.0)
@@ -273,6 +275,7 @@ DEPENDENCIES
   jquery-rails
   jwt
   mail-gpg
+  notifications-ruby-client
   pg
   pry-byebug
   pry-rails

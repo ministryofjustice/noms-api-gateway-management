@@ -15,7 +15,8 @@ class AccessRequestsController < ApplicationController
     @access_request = AccessRequest.new(access_request_params)
 
     if @access_request.save
-      AccessRequestMailer.access_request_email(@access_request).deliver_later
+      Notify.service_team(@access_request, admin_access_request_url(@access_request))
+
       redirect_to @access_request, notice: 'Access request was successfully created.'
     else
       render :new
