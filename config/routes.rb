@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   root to: 'access_requests#new'
 
   resources :access_requests, only: [:new, :create, :show]
+  get 'access_request/confirmation', to: 'access_requests#show'
 
   namespace :admin do
     root to: 'access_requests#index'
