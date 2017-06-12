@@ -1,6 +1,4 @@
 class AccessRequestsController < ApplicationController
-  before_action :set_access_request, only: [:show]
-
   # GET /access_requests/1
   def show
   end
@@ -17,18 +15,13 @@ class AccessRequestsController < ApplicationController
     if @access_request.save
       Notify.service_team(@access_request, admin_access_request_url(@access_request))
 
-      redirect_to @access_request, notice: 'Access request was successfully created.'
+      redirect_to access_request_confirmation_url, notice: 'Access request was successfully created.'
     else
       render :new
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_access_request
-      @access_request = AccessRequest.find(params[:id])
-    end
-
     # Only allow a trusted parameter "white list" through.
     def access_request_params
       params.require(:access_request).permit(

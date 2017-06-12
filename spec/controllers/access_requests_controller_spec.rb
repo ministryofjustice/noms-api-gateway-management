@@ -55,11 +55,6 @@ RSpec.describe AccessRequestsController, type: :controller do
   let(:valid_session) { {} }
 
   describe "GET #show" do
-    it "assigns the requested access_request as @access_request" do
-      access_request = AccessRequest.create! valid_attributes
-      get :show, params: {id: access_request.to_param}, session: valid_session
-      expect(assigns(:access_request)).to eq(access_request)
-    end
   end
 
   describe "GET #new" do
@@ -85,7 +80,7 @@ RSpec.describe AccessRequestsController, type: :controller do
 
       it "redirects to the created access_request" do
         post :create, params: {access_request: valid_attributes}, session: valid_session
-        expect(response).to redirect_to(AccessRequest.last)
+        expect(response).to redirect_to(access_request_confirmation_url)
       end
     end
 
