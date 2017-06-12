@@ -9,5 +9,6 @@ FactoryGirl.define do
     contact_email { Faker::Internet.email }
     revoked false
     client_pub_key { File.open("#{Rails.root}/spec/fixtures/test_client.pub").read }
+    pgp_key { File.open("#{Rails.root}/spec/fixtures/test_gpg.asc").read }
   end
 end
