@@ -33,20 +33,5 @@
         = f.file_field :client_pub_key_file
         = f.hidden_field :client_pub_key, value: @token.client_pub_key
 
-
-  - if @token.pgp_key.present?
-    %p
-      = f.text_area :pgp_key, disabled: true, rows: 10
-  - else
-    .field
-      .form-group
-        = f.label :pgp_key_file, class: 'form-label' do
-          PGP/GPG public key
-          %span.form-hint
-            %p
-              This will be used to encrypt the token so it can be sent securely.
-        = f.file_field :pgp_key_file
-        = f.hidden_field :pgp_key, value: @token.pgp_key
-
   .actions
     = f.submit @token.new_record? ? 'Create' : 'Save', class: 'button'

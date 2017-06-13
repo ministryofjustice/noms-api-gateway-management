@@ -7,7 +7,6 @@ class CreateAccessRequests < ActiveRecord::Migration[5.0]
       t.string :api_env
       t.text :reason
       t.text :client_pub_key
-      t.text :pgp_key
       t.boolean :processed, default: false
 
       t.timestamps

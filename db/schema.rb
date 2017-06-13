@@ -22,7 +22,6 @@ ActiveRecord::Schema.define(version: 20170428092008) do
     t.string   "api_env"
     t.text     "reason"
     t.text     "client_pub_key"
-    t.text     "pgp_key"
     t.boolean  "processed",      default: false
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
@@ -38,7 +37,6 @@ ActiveRecord::Schema.define(version: 20170428092008) do
     t.string   "contact_email"
     t.boolean  "revoked",        default: false
     t.text     "client_pub_key"
-    t.text     "pgp_key"
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
   end

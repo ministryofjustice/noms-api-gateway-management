@@ -10,7 +10,6 @@ class CreateTokens < ActiveRecord::Migration[5.0]
       t.string :contact_email
       t.boolean :revoked, default: false
       t.text :client_pub_key
-      t.text :pgp_key
 
       t.timestamps
     end

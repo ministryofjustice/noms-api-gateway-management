@@ -25,7 +25,6 @@ en:
       access_request:
         service_name: Application/service name
         api_env: NOMIS API environment
-        pgp_key_file: Your PGP/GPG public key
         client_pub_key_file: Your public client key
       token:
         service_name: Application/service name

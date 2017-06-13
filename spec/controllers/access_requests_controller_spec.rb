@@ -28,10 +28,6 @@ RSpec.describe AccessRequestsController, type: :controller do
     fixture_file_upload('test_client.pub', 'text/plain')
   }
 
-  let(:pgp_key_file) {
-    fixture_file_upload('test_gpg.asc', 'text/plain')
-  }
-
   let(:valid_attributes) {
     {
       contact_email: 'example@example.com',
@@ -39,7 +35,6 @@ RSpec.describe AccessRequestsController, type: :controller do
       reason: 'lorem ipsum',
       api_env: 'preprod',
       client_pub_key_file: client_pub_key_file,
-      pgp_key_file: pgp_key_file
     }
   }
 

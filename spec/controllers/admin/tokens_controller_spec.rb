@@ -19,7 +19,6 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 RSpec.describe Admin::TokensController, type: :controller do
-  let(:pgp_key) { fixture_file_upload('test_gpg.asc', 'text/plain') }
   let(:client_pub_key) { fixture_file_upload('test_client.pub', 'text/plain') }
 
   # This should return the minimal set of attributes required to create a valid
@@ -32,7 +31,6 @@ RSpec.describe Admin::TokensController, type: :controller do
       api_env: 'prod',
       contact_email: 'email@example.com',
       client_pub_key_file: client_pub_key,
-      pgp_key_file: pgp_key,
       expires: 1.year.from_now
     }
   }
