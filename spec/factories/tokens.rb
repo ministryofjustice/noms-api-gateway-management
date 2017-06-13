@@ -7,7 +7,19 @@ FactoryGirl.define do
     api_env 'preprod'
     expires { 1.year.from_now }
     contact_email { Faker::Internet.email }
-    revoked false
     client_pub_key { File.open("#{Rails.root}/spec/fixtures/test_client.pub").read }
+    state 'inactive'
+
+    trait :inactive do
+      state 'inactive'
+    end
+
+    trait :active do
+      state 'active'
+    end
+
+    trait :revoked do
+      state 'revoked'
+    end
   end
 end

@@ -8,8 +8,9 @@ class CreateTokens < ActiveRecord::Migration[5.0]
       t.string :api_env
       t.datetime :expires
       t.string :contact_email
-      t.boolean :revoked, default: false
+      t.string :state, default: 'inactive'
       t.text :client_pub_key
+      t.text :trackback_token, index: true
 
       t.timestamps
     end

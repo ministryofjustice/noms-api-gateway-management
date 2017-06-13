@@ -2,6 +2,9 @@
   'There were problems submitting this form', ''
 
 = form_for [:admin, @token] do |f|
+  - if @access_request.present?
+    = hidden_field_tag :access_request_id, @access_request.id
+
   .field
     = f.text_field :requested_by
   .field

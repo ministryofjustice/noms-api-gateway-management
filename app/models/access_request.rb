@@ -10,6 +10,21 @@ class AccessRequest < ApplicationRecord
 
   before_validation :set_client_pub_key
 
+  scope :processed, -> { where(processed: true) }
+  scope :unprocessed, -> { where.not(processed: true) }
+
+  def process!
+    update_attribute(:processed, true)
+  end
+
+  def processed?
+    !!processed
+  end
+
+  def unprocessed?
+    !processed?
+  end
+
   private
 
   def set_client_pub_key
