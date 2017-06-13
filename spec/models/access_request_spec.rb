@@ -1,11 +1,12 @@
 require 'rails_helper'
 
 RSpec.describe AccessRequest, type: :model do
+  it_behaves_like 'an EC Public Key validatable'
+
   it { should validate_presence_of(:contact_email) }
   it { should validate_presence_of(:requested_by) }
   it { should validate_presence_of(:reason) }
-  it { should validate_presence_of(:client_pub_key_file) }
-
+  it { should validate_presence_of(:client_pub_key) }
   it { should validate_inclusion_of(:api_env).in_array(Token::API_ENVS) }
 
   describe 'sets the client pub key' do
