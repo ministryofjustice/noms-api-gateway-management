@@ -17,7 +17,7 @@ class Admin::TokensController < Admin::AdminController
     if params[:access_request]
       @access_request = AccessRequest.find(params[:access_request])
 
-      [:requested_by, :contact_email, :api_env, :service_name, :client_pub_key, :pgp_key].each do |variable|
+      [:requested_by, :contact_email, :api_env, :service_name, :client_pub_key].each do |variable|
         eval("@token.#{variable} = @access_request.#{variable}")
       end
     end
@@ -27,7 +27,6 @@ class Admin::TokensController < Admin::AdminController
   def create
     @token = Token.new(token_params)
     @token.client_pub_key = @token.client_pub_key_file.read if @token.client_pub_key_file.present?
-    @token.pgp_key = @token.pgp_key_file.read if @token.pgp_key_file.present?
 
     begin
       token = ProvisionToken.call(token: @token)
@@ -65,8 +64,6 @@ class Admin::TokensController < Admin::AdminController
         :revoked,
         :client_pub_key,
         :client_pub_key_file,
-        :pgp_key,
-        :pgp_key_file,
         :expires
       )
     end
