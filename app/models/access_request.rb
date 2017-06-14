@@ -5,7 +5,7 @@ class AccessRequest < ApplicationRecord
     presence: :true
 
   validates :client_pub_key, ec_public_key: true
-  validates :api_env, inclusion: Token::API_ENVS
+  validates :api_env, inclusion: ApiEnv.all
   validates_email_format_of :contact_email
 
   before_validation :set_client_pub_key
