@@ -4,8 +4,8 @@ shared_examples 'an EC Public Key validatable' do |attribute_name: :client_pub_k
   let(:ec_private_key) { fixture_file_upload('test_client.key', 'text/plain').read }
 
   describe 'validation' do
-    context 'valid' do
-      it 'is valid when the the property is a valid EC public key' do
+    context 'when the the property is a valid EC public key' do
+      it 'is valid' do
         ec_public_key_validatable.instance_variable_set("@#{attribute_name}", ec_public_key)
         ec_public_key_validatable.valid?
 
@@ -13,8 +13,8 @@ shared_examples 'an EC Public Key validatable' do |attribute_name: :client_pub_k
       end
     end
 
-    context 'invalid' do
-      context 'when valid EC key but not a public key' do
+    context 'when the the property is not a valid EC public key' do
+      context 'is private EC key' do
         before do
           ec_public_key_validatable.client_pub_key = ec_private_key
           ec_public_key_validatable.valid?
@@ -29,7 +29,7 @@ shared_examples 'an EC Public Key validatable' do |attribute_name: :client_pub_k
         end
       end
 
-      context 'when not valid in any way' do
+      context 'is not valid' do
         before do
           ec_public_key_validatable.client_pub_key = 'foobar'
           ec_public_key_validatable.valid?
