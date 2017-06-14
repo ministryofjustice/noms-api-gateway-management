@@ -1,11 +1,9 @@
 class EcPublicKeyValidator < ActiveModel::EachValidator
   def validate_each(record, attribute, value)
-    regex = /\A-----BEGIN PUBLIC KEY-----.+-----END PUBLIC KEY-----\Z/m
-
     begin
-      OpenSSL::PKey::EC.new(value)
+      key = OpenSSL::PKey::EC.new(value)
 
-      if value !~ regex
+      if key.private_key?
         record.errors[attribute] << (options[:message] || 'is not a public key')
       end
     rescue
