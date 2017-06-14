@@ -31,6 +31,7 @@ class AccessRequestsController < ApplicationController
         :reason,
         :api_env,
         :client_pub_key_file,
+        :client_pub_key
       )
     end
 end

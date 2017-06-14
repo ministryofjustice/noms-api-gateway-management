@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Token, type: :model do
+  it_behaves_like 'an EC Public Key validatable'
+
   it { should validate_presence_of(:issued_at) }
   it { should validate_presence_of(:requested_by) }
   it { should validate_presence_of(:service_name) }
