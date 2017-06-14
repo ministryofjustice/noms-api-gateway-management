@@ -24,6 +24,5 @@
 %p
   %b Revoked:
   = @token.revoked
-
-= link_to 'Revoke', revoke_admin_token_path(@token), data: { confirm: 'Are you sure?' }, class: 'button'
-
+  
+= button_to 'Revoke', revoke_admin_token_path(@token), method: :put, data: { confirm: 'Are you sure?' }, class: 'button'
