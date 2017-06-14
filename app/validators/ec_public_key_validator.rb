@@ -3,6 +3,8 @@ class EcPublicKeyValidator < ActiveModel::EachValidator
     begin
       key = OpenSSL::PKey::EC.new(value)
 
+      # Calling #public_key? returns true for both public and private key,
+      # #private_key seems to behave correctly.
       if key.private_key?
         record.errors[attribute] << (options[:message] || 'is not a public key')
       end
