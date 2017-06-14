@@ -7,6 +7,7 @@ FactoryGirl.define do
     api_env 'preprod'
     expires { 1.year.from_now }
     contact_email { Faker::Internet.email }
+    permissions '.*'
     client_pub_key { File.open("#{Rails.root}/spec/fixtures/test_client.pub").read }
     state 'inactive'
 

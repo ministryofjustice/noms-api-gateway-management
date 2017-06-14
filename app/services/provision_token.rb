@@ -1,8 +1,6 @@
 module ProvisionToken
   module_function
 
-  ACCESS_POLICY = /.*/
-
   def call(token:, provisioner_key: nil)
     begin
       private_key_data = if provisioner_key
@@ -24,7 +22,7 @@ module ProvisionToken
       provisioning_pri_key: private_key,
       valid_from: now,
       valid_to: token.expires,
-      access: ACCESS_POLICY
+      access: token.permissions
     )
 
     token.update_attribute(:fingerprint, fingerprint)

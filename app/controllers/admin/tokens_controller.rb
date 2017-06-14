@@ -56,6 +56,7 @@ class Admin::TokensController < Admin::AdminController
         :service_name,
         :api_env,
         :contact_email,
+        :permissions,
         :client_pub_key,
         :client_pub_key_file,
         :expires

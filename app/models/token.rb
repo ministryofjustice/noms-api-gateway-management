@@ -1,9 +1,9 @@
 class Token < ApplicationRecord
-  
+
   attr_accessor :client_pub_key_file
 
   validates :requested_by, :service_name, :api_env, :expires, :contact_email,
-    :client_pub_key, presence: :true
+    :client_pub_key, :permissions, presence: :true
 
   validates :client_pub_key, ec_public_key: true
   validates :api_env, inclusion: ApiEnv.all

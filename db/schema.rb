@@ -37,9 +37,10 @@ ActiveRecord::Schema.define(version: 20170428092008) do
     t.string   "contact_email"
     t.string   "state",           default: "inactive"
     t.text     "client_pub_key"
+    t.text     "trackback_token"
+    t.text     "permissions"
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
-    t.text     "trackback_token"
     t.index ["trackback_token"], name: "index_tokens_on_trackback_token", using: :btree
   end
 

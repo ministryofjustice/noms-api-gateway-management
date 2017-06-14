@@ -31,7 +31,8 @@ RSpec.describe Admin::TokensController, type: :controller do
       api_env: 'prod',
       contact_email: 'email@example.com',
       client_pub_key_file: client_pub_key,
-      expires: 1.year.from_now
+      expires: 1.year.from_now,
+      permissions: '.*'
     }
   }
 

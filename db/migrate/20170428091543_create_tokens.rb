@@ -11,6 +11,7 @@ class CreateTokens < ActiveRecord::Migration[5.0]
       t.string :state, default: 'inactive'
       t.text :client_pub_key
       t.text :trackback_token, index: true
+      t.text :permissions
 
       t.timestamps
     end
