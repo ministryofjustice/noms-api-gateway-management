@@ -1,7 +1,34 @@
 # NOMS API Gateway Management
 
-Admin/management tool for the [NOMS API Gateway](https://github.com/ministryofjustice/noms-api-gateway). Facilitates the provisioning, tracking and revocation of client tokens for the NOMIS API. Updates a live cache of revoked tokens which will be tracked by the running API Gateway.
+Admin/management tool for the [NOMS API Gateway](https://github.com/ministryofjustice/noms-api-gateway). Facilitates the provisioning, tracking and revocation of client tokens for the NOMIS API.
 
-Alerts on token expiration.
+External users/client can submit requests to access the NOMIS API.
 
-Token request interface for potential clients to submit requests for access to the NOMIS API.
+Provides an endpoint ```/api/tokens/revoked``` which is polled by the API Gateway to handle revoked tokens.
+
+Uses [GOV.UK Notify](https://www.gov.uk/government/publications/govuk-notify/govuk-notify) to send notifications.
+
+### Dependencies
+
+PostgreSQL
+
+GOV.UK Notify account with templates set up for:
+
+Team notification email when access request submitted.
+Token creation email for users, with trackback link to provision token.
+
+See [Notify service](https://github.com/ministryofjustice/noms-api-gateway-management/blob/master/app/services/notify.rb) for required template params.
+
+
+### Environment variables
+
+    GOVUK_NOTIFY_API_KEY - API key for Notify
+    ACCESS_REQUEST_NOTIFICATION_TEMPLATE - access request template id
+    TOKEN_TRACKBACK_TEMPLATE - token creation template it
+    TEAM_EMAIL - email address of the product/support team
+    API_AUTH - shared secret used to authenticate against the /api/tokens/revoked endpoint
+
+### Set up and run
+
+    rake db:create db:migrate
+    rails s
