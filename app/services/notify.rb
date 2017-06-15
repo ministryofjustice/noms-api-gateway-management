@@ -12,7 +12,7 @@ module Notify
       email_address: TEAM_EMAIL,
       template_id: ACCESS_REQUEST_NOTIFICATION_TEMPLATE,
       personalisation: {
-        requestor: access_request.requested_by,
+        requester: access_request.requested_by,
         env: access_request.api_env,
         access_request_link: link
       }
