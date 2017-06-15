@@ -50,6 +50,8 @@ en:
           The app or service this token will be used by.
         api_env: |
           The NOMIS API enviroment this token allows access to.
+        permissions: |
+          A regular expression list of permissions for the API endpoints. ".*" grants permissions to all endpoints. Example: "^\/nomisapi\/lookup\/active_offender$".
   time:
     formats:
       default: "%Y-%m-%d"

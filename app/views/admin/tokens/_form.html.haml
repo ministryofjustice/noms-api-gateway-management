@@ -22,6 +22,9 @@
             When this token will expire. Default is 1 year from issue.
         = f.date_field :expires, value: 1.year.from_now.to_date
 
+  .field
+    = f.text_area :permissions
+
   - if @token.client_pub_key.present?
     %p
       = f.text_area :client_pub_key, disabled: true, rows: 6

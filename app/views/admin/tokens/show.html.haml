@@ -18,6 +18,11 @@
 %p
   %b Api env:
   = @token.api_env
+
+%p
+  %b Permissions:
+  = @token.permissions
+
 %p
   %b Expires:
   = l @token.expires rescue ''
