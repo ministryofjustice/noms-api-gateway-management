@@ -1,0 +1,8 @@
+%p#notice= notice
+
+%p
+  Your access token is available for download below. Please note that this is a one time only download link and will expire once downloaded or in X days. If you have any issues please contact X.
+
+= form_for @token do |f|
+  = hidden_field_tag :trackback_token, @token.trackback_token
+  = f.submit 'Download', class: 'button'

@@ -8,6 +8,7 @@
       %th Email
       %th Service
       %th Env
+      %th Processed
       %th
       %th
       %th
@@ -20,6 +21,11 @@
         %td= mail_to access_request.contact_email
         %td= access_request.service_name
         %td= access_request.api_env
+        %td= access_request.processed?
         %td= link_to 'Show', [:admin, access_request]
-        %td= link_to 'Approve', new_admin_token_path(access_request:access_request)
-        %td= link_to 'Reject', [:admin, access_request], method: :delete, data: { confirm: 'Are you sure?' }
+        %td
+          - if access_request.unprocessed?
+            = link_to 'Approve', new_admin_token_path(access_request:access_request)
+        %td
+          - if access_request.unprocessed?
+            = link_to 'Reject', [:admin, access_request], method: :delete, data: { confirm: 'Are you sure?' }

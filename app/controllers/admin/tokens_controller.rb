@@ -26,18 +26,13 @@ class Admin::TokensController < Admin::AdminController
   # POST /tokens
   def create
     @token = Token.new(token_params)
-    @token.client_pub_key = @token.client_pub_key_file.read if @token.client_pub_key_file.present?
-
-    begin
-      token = ProvisionToken.call(token: @token)
-    rescue Exception => e
-      @token.errors.add(:client_pub_key)
-      render :new and return
-    end
+    @access_request = AccessRequest.find(params[:access_request_id]) rescue nil
 
     if @token.save
-      # mail token (encrypted)
-      redirect_to [:admin, @token], notice: 'Encrypted token and sent.'
+      @access_request.process! if @access_request
+      Notify.token_trackback(@token, new_token_url(trackback_token: @token.trackback_token))
+
+      redirect_to admin_tokens_url, notice: 'Token creation link sent.'
     else
       render :new
     end
@@ -61,7 +56,6 @@ class Admin::TokensController < Admin::AdminController
         :service_name,
         :api_env,
         :contact_email,
-        :revoked,
         :client_pub_key,
         :client_pub_key_file,
         :expires
