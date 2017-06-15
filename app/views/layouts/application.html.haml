@@ -29,7 +29,7 @@
             - if true
               %li
                 .sign-out
-                  = button_to 'Sign out', '#', method: :delete, class: 'styled-as-link'
+                  = button_to 'Sign out', '/logout', method: :delete, class: 'styled-as-link'
 
 = content_for :content do
   %main{ id: "wrapper", role: "main" }
