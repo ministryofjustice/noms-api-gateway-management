@@ -9,7 +9,7 @@ RSpec.describe AccessRequest, type: :model do
   it { should validate_presence_of(:requested_by) }
   it { should validate_presence_of(:reason) }
   it { should validate_presence_of(:client_pub_key) }
-  it { should validate_inclusion_of(:api_env).in_array(Token::API_ENVS) }
+  it { should validate_inclusion_of(:api_env).in_array(ApiEnv.all) }
 
   describe 'sets the client pub key' do
     let(:client_pub_key_file) { fixture_file_upload('test_client.pub', 'text/plain') }

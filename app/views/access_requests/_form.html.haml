@@ -11,7 +11,7 @@
   .field
     = f.text_area :reason
   .field
-    = f.collection_select :api_env, Token::API_ENVS, :to_s, :to_s, prompt: true
+    = f.collection_select :api_env, ApiEnv.all, :to_s, :to_s, prompt: true
   .field
     .form-group
       = f.label :client_pub_key_file, class: 'form-label' do
