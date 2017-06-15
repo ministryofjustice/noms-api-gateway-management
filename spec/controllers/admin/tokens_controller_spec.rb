@@ -82,6 +82,11 @@ RSpec.describe Admin::TokensController, type: :controller do
   end
 
   describe "POST #create" do
+    before do
+      response = double(id: 'f23caa')
+      allow(Notify::CLIENT).to receive(:send_email).and_return(response)
+    end
+
     context "with valid params" do
       it "creates a new Token" do
         expect {
@@ -97,7 +102,7 @@ RSpec.describe Admin::TokensController, type: :controller do
 
       it "redirects to the created token" do
         post :create, params: {token: valid_attributes}, session: valid_session
-        expect(response).to redirect_to([:admin, Token.last])
+        expect(response).to redirect_to(admin_tokens_url)
       end
     end
 

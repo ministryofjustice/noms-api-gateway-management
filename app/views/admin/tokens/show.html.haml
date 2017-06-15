@@ -2,7 +2,7 @@
 
 %p
   %b Issued at:
-  = @token.issued_at
+  = @token.issued_at || ''
 %p
   %b Requested by:
   = @token.requested_by
@@ -22,7 +22,8 @@
   %b Expires:
   = l @token.expires rescue ''
 %p
-  %b Revoked:
-  = @token.revoked
-  
-= button_to 'Revoke', revoke_admin_token_path(@token), method: :put, data: { confirm: 'Are you sure?' }, class: 'button'
+  %b Status:
+  = @token.state.humanize
+
+- if @token.active?
+  = button_to 'Revoke', revoke_admin_token_path(@token), method: :put, data: { confirm: 'Are you sure?' }, class: 'button'

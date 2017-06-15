@@ -9,22 +9,22 @@
       %th Service
       %th Env
       %th Expires
-      %th Revoked
+      %th Status
       %th
       %th
   %tbody
     - @tokens.each do |token|
       %tr
-        %td= l token.issued_at, format: :long
+        %td= l token.issued_at, format: :long rescue '-'
         %td= token.requested_by
         %td= mail_to token.contact_email
         %td= token.service_name
         %td= token.api_env
         %td= l token.expires rescue ''
-        %td= token.revoked? ? 'Yes' : 'No'
+        %td= token.state.humanize
         %td= link_to 'Show', [:admin, token]
         %td
-          - unless token.revoked?
+          - if token.active?
             = button_to 'Revoke', revoke_admin_token_path(token), method: :put, data: { confirm: 'Are you sure?' }, class: 'button'
 
 %br
