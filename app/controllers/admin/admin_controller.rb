@@ -17,7 +17,7 @@ class Admin::AdminController < ApplicationController
   end
 
   def not_authorized
-    render text: 'You are not authorized to do that', status: 403 and return
+    render plain: 'You are not authorized to do that', status: 403 and return
   end
 
   def login_required

@@ -2,18 +2,18 @@ require 'rails_helper'
 
 RSpec.describe "AccessRequests", type: :request do
   describe "GET /admin/access_requests" do
-    it "gets the admin index" do
+    it "redirects to the login page" do
       get admin_access_requests_path
-      expect(response).to have_http_status(200)
+      expect(response).to redirect_to('/auth/mojsso')
     end
   end
 
   describe "GET /admin/access_requests/1" do
     let(:access_request) { create(:access_request) }
 
-    it "gets the access request" do
+    it "redirects to the login page" do
       get admin_access_request_path(access_request)
-      expect(response).to have_http_status(200)
+      expect(response).to redirect_to('/auth/mojsso')
     end
   end
 

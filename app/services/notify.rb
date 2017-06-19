@@ -3,7 +3,7 @@ require 'notifications/client'
 module Notify
   module_function
 
-  CLIENT = Notifications::Client.new(ENV['GOVUK_NOTIFY_API_KEY'])
+  CLIENT = Notifications::Client.new(ENV.fetch('GOVUK_NOTIFY_API_KEY', ''))
   ACCESS_REQUEST_NOTIFICATION_TEMPLATE = ENV['ACCESS_REQUEST_NOTIFICATION_TEMPLATE']
   TOKEN_TRACKBACK_TEMPLATE = ENV['TOKEN_TRACKBACK_TEMPLATE']
   TEAM_EMAIL = ENV['TEAM_EMAIL']
