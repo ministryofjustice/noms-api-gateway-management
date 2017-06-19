@@ -19,6 +19,11 @@ Token creation email for users, with trackback link to provision token.
 
 See [Notify service](https://github.com/ministryofjustice/noms-api-gateway-management/blob/master/app/services/notify.rb) for required template params.
 
+MOJ Sign-on
+
+The admin controllers are secured with [moj-signon](https://github.com/ministryofjustice/moj-signon)
+This integration requires some environment variables (see 'Environment variables' below).
+Users must have the 'admin' role to gain access to any admin controller methods.
 
 ### Environment variables
 
@@ -27,6 +32,9 @@ See [Notify service](https://github.com/ministryofjustice/noms-api-gateway-manag
     TOKEN_TRACKBACK_TEMPLATE - token creation template it
     TEAM_EMAIL - email address of the product/support team
     API_AUTH - shared secret used to authenticate against the /api/tokens/revoked endpoint
+    MOJSSO_ID - Client ID in the moj-signon service
+    MOJSSO_SECRET - Secret associated with the app in the moj-signon service
+    MOJSSO_URL - Full URL at which the moj-signon service can be found
 
 ### Set up and run
 
