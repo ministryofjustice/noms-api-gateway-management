@@ -12,6 +12,7 @@
 
 # Ignore local env variables for dev/test
 /.env
+/*.env
 
 # Ignore the default SQLite database.
 /db/*.sqlite3
