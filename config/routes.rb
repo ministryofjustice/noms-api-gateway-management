@@ -5,6 +5,9 @@ Rails.application.routes.draw do
   get 'access_request/confirmation', to: 'access_requests#show'
 
   resources :tokens, only: [:new, :update]
+  # This is the callback url we return to after signing in with moj-signon
+  get '/auth/:provider/callback', to: 'sessions#create'
+  delete '/logout', to: 'sessions#destroy'
 
   namespace :admin do
     root to: 'access_requests#index'
