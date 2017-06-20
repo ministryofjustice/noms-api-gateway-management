@@ -53,11 +53,8 @@ RSpec.describe Admin::TokensController, type: :controller do
   let(:admin_session){ {'sso_user' => {'permissions'=> [{'roles' => [ 'admin' ]}]}}}
 
 
-  let(:test_provisioner_key) { fixture_file_upload('test_provisioner.key', 'text/plain') }
-
   before do
-    allow(RetrieveKey).to receive(:call).with('prod').and_return(test_provisioner_key.read)
-    allow(RetrieveKey).to receive(:call).with('foobar').and_raise(ArgumentError)
+    ProvisioningKey.create(api_env: 'preprod', content: fixture_file_upload('test_provisioner.key', 'text/plain').read)
   end
 
   context 'when not logged in' do

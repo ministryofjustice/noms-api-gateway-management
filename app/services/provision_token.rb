@@ -1,13 +1,9 @@
 module ProvisionToken
   module_function
 
-  def call(token:, provisioner_key: nil)
+  def call(token:)
     begin
-      private_key_data = if provisioner_key
-        provisioner_key.read
-      else
-        RetrieveKey.call(token.api_env)
-      end
+      private_key_data = RetrieveKey.call(token.api_env)
     rescue
       raise Exception, 'Unable to retrieve provisioning key'
     end

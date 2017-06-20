@@ -6,8 +6,14 @@ RSpec.describe RetrieveKey do
       expect{ described_class.call('foobar') }.to raise_exception(ArgumentError)
     end
 
-    it 'does not raise an exception for a valid env' do
-      expect{ described_class.call('prod') }.to_not raise_exception
+    it 'raises an exception when the key does not exist' do
+      expect{ described_class.call('prod') }.to raise_exception(ProvisioningKeyNotFoundError)
     end
+
+    it 'returns the key content for the given API env' do
+      ProvisioningKey.create(api_env: 'prod', content: fixture_file_upload('test_provisioner.key', 'text/plain').read)
+      expect( described_class.call('prod') ).to eq(fixture_file_upload('test_provisioner.key', 'text/plain').read)
+    end
+
   end
 end

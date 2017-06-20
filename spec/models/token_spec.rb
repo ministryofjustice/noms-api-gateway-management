@@ -72,6 +72,10 @@ RSpec.describe Token, type: :model do
   describe '#provision_and_activate!' do
     let(:inactive_token) { create(:token, trackback_token: 'xxxx') }
 
+    before do
+      ProvisioningKey.create(api_env: 'preprod', content: fixture_file_upload('test_provisioner.key', 'text/plain').read )
+    end
+
     it 'provisions the token' do
       expect(inactive_token.provision_and_activate!).to_not be_nil
     end
