@@ -19,3 +19,6 @@ test: &test
 production:
   <<: *default
   database: <%= ENV['API_GATEWAY_MANAGEMENT_DATABASE'] %>
+
+cucumber:
+  <<: *test
