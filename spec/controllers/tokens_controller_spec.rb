@@ -3,6 +3,10 @@ require 'rails_helper'
 RSpec.describe TokensController, type: :controller do
   let(:token) { create(:token) }
 
+  before do
+    ProvisioningKey.create(api_env: 'preprod', content: file_fixture('test_provisioner.key').read)
+  end
+
   describe "GET #new" do
     context 'with a valid trackback token' do
       it "returns http success" do

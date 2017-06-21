@@ -1,15 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe ProvisionToken do
-  let(:test_provisioner_key) { fixture_file_upload('test_provisioner.key', 'text/plain') }
   let(:token) { build(:token, issued_at: nil, expires: 2.years.from_now) }
+  before do
+    ProvisioningKey.create(api_env: 'preprod', content: file_fixture('test_provisioner.key').read )
+  end
 
   describe '#call' do
     let!(:jwt_token) do
-      described_class.call(
-        token: token,
-        provisioner_key: test_provisioner_key
-      )
+      described_class.call(token: token)
     end
 
     let!(:decoded_token) { JWT.decode(jwt_token, nil, false) }

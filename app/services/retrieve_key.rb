@@ -1,11 +1,17 @@
+class ProvisioningKeyNotFoundError < StandardError
+end
+
 module RetrieveKey
   module_function
+
 
   def call(env)
     raise ArgumentError, "Argument is not a valid env: #{ApiEnv.all.join(', ')}" unless ApiEnv.all.include? env
 
-    # Stubbed for testing/prototyping
-    File.open("#{Rails.root}/spec/fixtures/test_provisioner.key").read
+    key = ProvisioningKey.find_by(api_env: env)
+    raise ProvisioningKeyNotFoundError, "Provisioning key not found for api_env: #{env}" unless key
+
+    key.content
   end
 
   class << self

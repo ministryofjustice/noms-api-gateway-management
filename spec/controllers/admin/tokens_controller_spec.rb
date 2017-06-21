@@ -19,7 +19,7 @@ require 'rails_helper'
 # that an instance is receiving a specific message.
 
 RSpec.describe Admin::TokensController, type: :controller do
-  let(:client_pub_key) { fixture_file_upload('test_client.pub', 'text/plain') }
+  let(:client_pub_key_file) { fixture_file_upload('files/test_client.pub', 'text/plain') }
 
   # This should return the minimal set of attributes required to create a valid
   # Token. As you add validations to Token, be sure to
@@ -30,7 +30,7 @@ RSpec.describe Admin::TokensController, type: :controller do
       service_name: 'xxx',
       api_env: 'prod',
       contact_email: 'email@example.com',
-      client_pub_key_file: client_pub_key,
+      client_pub_key_file: client_pub_key_file,
       expires: 1.year.from_now,
       permissions: '.*'
     }
@@ -53,11 +53,8 @@ RSpec.describe Admin::TokensController, type: :controller do
   let(:admin_session){ {'sso_user' => {'permissions'=> [{'roles' => [ 'admin' ]}]}}}
 
 
-  let(:test_provisioner_key) { fixture_file_upload('test_provisioner.key', 'text/plain') }
-
   before do
-    allow(RetrieveKey).to receive(:call).with('prod').and_return(test_provisioner_key.read)
-    allow(RetrieveKey).to receive(:call).with('foobar').and_raise(ArgumentError)
+    ProvisioningKey.create(api_env: 'preprod', content: file_fixture('test_provisioner.key').read)
   end
 
   context 'when not logged in' do

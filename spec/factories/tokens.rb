@@ -8,7 +8,7 @@ FactoryGirl.define do
     expires { 1.year.from_now }
     contact_email { Faker::Internet.email }
     permissions '.*'
-    client_pub_key { File.open("#{Rails.root}/spec/fixtures/test_client.pub").read }
+    client_pub_key { File.read("#{Rails.root}/spec/fixtures/files/test_client.pub") }
     state 'inactive'
 
     trait :inactive do

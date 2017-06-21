@@ -12,7 +12,7 @@ RSpec.describe AccessRequest, type: :model do
   it { should validate_inclusion_of(:api_env).in_array(ApiEnv.all) }
 
   describe 'sets the client pub key' do
-    let(:client_pub_key_file) { fixture_file_upload('test_client.pub', 'text/plain') }
+    let(:client_pub_key_file) { file_fixture('test_client.pub') }
 
     subject do
       create(:access_request, client_pub_key_file: client_pub_key_file)
