@@ -25,7 +25,7 @@ RSpec.describe AccessRequestsController, type: :controller do
   # adjust the attributes here as well.
 
   let(:client_pub_key_file) {
-    fixture_file_upload('test_client.pub', 'text/plain')
+    fixture_file_upload('files/test_client.pub', 'text/plain')
   }
 
   let(:valid_attributes) {

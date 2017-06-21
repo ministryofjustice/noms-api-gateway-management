@@ -4,7 +4,7 @@ RSpec.describe TokensController, type: :controller do
   let(:token) { create(:token) }
 
   before do
-    ProvisioningKey.create(api_env: 'preprod', content: fixture_file_upload('test_provisioner.key', 'text/plain').read)
+    ProvisioningKey.create(api_env: 'preprod', content: file_fixture('test_provisioner.key').read)
   end
 
   describe "GET #new" do

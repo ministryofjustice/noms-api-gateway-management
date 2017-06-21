@@ -1,7 +1,7 @@
 shared_examples 'an EC Public Key validatable' do |attribute_name: :client_pub_key|
   let(:ec_public_key_validatable) { build(described_class.to_s.underscore.to_sym) }
-  let(:ec_public_key) { fixture_file_upload('test_client.pub', 'text/plain').read }
-  let(:ec_private_key) { fixture_file_upload('test_client.key', 'text/plain').read }
+  let(:ec_public_key) { file_fixture('test_client.pub').read }
+  let(:ec_private_key) { file_fixture('test_client.key').read }
 
   describe 'validation' do
     context 'when the the property is a valid EC public key' do
