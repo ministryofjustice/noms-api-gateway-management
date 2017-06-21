@@ -11,8 +11,8 @@ RSpec.describe RetrieveKey do
     end
 
     it 'returns the key content for the given API env' do
-      ProvisioningKey.create(api_env: 'prod', content: fixture_file_upload('test_provisioner.key', 'text/plain').read)
-      expect( described_class.call('prod') ).to eq(fixture_file_upload('test_provisioner.key', 'text/plain').read)
+      ProvisioningKey.create(api_env: 'prod', content: file_fixture('test_provisioner.key').read)
+      expect( described_class.call('prod') ).to eq(file_fixture('test_provisioner.key').read)
     end
 
   end
