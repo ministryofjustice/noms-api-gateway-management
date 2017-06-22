@@ -42,3 +42,13 @@ Users must have the 'admin' role to gain access to any admin controller methods.
 
     rake db:create db:migrate
     rails s
+
+### Disable authentication
+
+It is possible to disable authentication for testing:
+
+```
+$ AUTH_ENABLED=false rails s
+...
+[WARN] MOJSSO_ID/MOJSSO_SECRET/MOJSSO_URL not configured
+```

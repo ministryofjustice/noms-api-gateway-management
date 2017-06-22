@@ -17,6 +17,8 @@ Rails.application.routes.draw do
       patch :revoke, on: :member
     end
     resources :access_requests, except: [:new, :create, :edit, :update]
+
+    resources :provisioning_keys, only: [:index, :new, :create, :show, :destroy]
   end
 
   namespace :api, format: :json do

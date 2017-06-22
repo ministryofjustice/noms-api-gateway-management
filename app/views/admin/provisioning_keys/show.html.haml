@@ -1,0 +1,8 @@
+%p#notice= notice
+
+%p
+  %b Issued at:
+  = @provisioning_key.created_at || ''
+%p
+  %b Environment:
+  = @provisioning_key.api_env

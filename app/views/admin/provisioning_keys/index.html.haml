@@ -1,0 +1,21 @@
+%h1 Provisioning keys (#{@provisioning_keys.count})
+
+%table
+  %thead
+    %tr
+      %th Environment
+      %th Created at
+      %th Actions
+      %th
+
+  %tbody
+    - @provisioning_keys.each do |provisioning_key|
+      %tr
+        %td= provisioning_key.api_env
+        %td= l provisioning_key.created_at, format: :long
+        %td= link_to 'Show', admin_provisioning_key_url(provisioning_key)
+        %td= link_to 'Delete', [:admin, provisioning_key], method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'Create new key', new_admin_provisioning_key_url, class: 'button'
