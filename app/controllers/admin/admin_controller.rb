@@ -1,7 +1,7 @@
 require 'custom_exceptions'
 
 class Admin::AdminController < ApplicationController
-  before_action :authenticate!, :ensure_admin!
+  before_action :authenticate!, :ensure_admin! if Rails.configuration.auth_enabled
 
   rescue_from Auth::NotAuthorized, with: :not_authorized
   rescue_from Auth::NotLoggedIn, with: :login_required
