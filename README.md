@@ -40,7 +40,7 @@ Users must have the 'admin' role to gain access to any admin controller methods.
 
 ### Set up and run
 
-    rake db:create db:migrate
+    rake db:create db:migrate db:seed
     rails s
 
 ### Disable authentication
