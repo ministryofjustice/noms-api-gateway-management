@@ -29,6 +29,8 @@ en:
       token:
         service_name: Application/service name
         api_env: NOMIS API environment
+      provisioning_key:
+        api_env: API environment
     hint:
       access_request:
         requested_by: |
@@ -41,6 +43,11 @@ en:
           The NOMIS API enviroment you would like to access.
         reason: |
           Outline which endpoints you require access to and reasons for doing so.
+      provisioning_key:
+        api_env: |
+          The API environment this provisioning key will be used to issue tokens for
+        content: |
+          The EC Private Key
       token:
         requested_by: |
           The name of the person requesting the token.
