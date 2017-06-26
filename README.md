@@ -40,7 +40,9 @@ Users must have the 'admin' role to gain access to any admin controller methods.
 
 ### Set up and run
 
-    rake db:create db:migrate
+Development seed data is provided in [db/seeds.rb](https://github.com/ministryofjustice/noms-api-gateway-management/blob/master/db/seeds.rb) to create dummy provisioning keys for each of the API environment (dev, preprod, and prod).
+
+    rake db:create db:migrate db:seed
     rails s
 
 ### Disable authentication
