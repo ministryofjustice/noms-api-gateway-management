@@ -47,10 +47,18 @@ Development seed data is provided in [db/seeds.rb](https://github.com/ministryof
 
 ### Disable authentication
 
-It is possible to disable authentication for testing:
+It is possible to disable authentication for development and testing:
 
 ```
 $ AUTH_ENABLED=false rails s
 ...
 [WARN] MOJSSO_ID/MOJSSO_SECRET/MOJSSO_URL not configured
+```
+
+### Disable GOV.UK Notfiy
+
+It is possible to disable authentication for development and testing:
+
+```
+$ NOTIFY_ENABLED=false rails s
 ```
