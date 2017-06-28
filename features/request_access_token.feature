@@ -19,3 +19,13 @@ Feature: Request access token
       | Client public key         | test_client.pub       | file   |
     And submits the form
     Then the user should be redirected to the confirmation page
+
+  Scenario: User tries to submit incomplete form
+    When the user fills out the form with:
+      | field                     | value                 | type   |
+      | Requested by              | John Smith            | text   |
+      | Contact email             | johnsmith@example.com | text   |
+      | Application/service name  | Candies to prisoners  | text   |
+      | Reason                    | Some reason           | text   |
+    And submits the form
+    Then the user should see validation errors

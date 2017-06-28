@@ -32,3 +32,7 @@ end
 Then(/^the user should be redirected to the confirmation page$/) do
   expect(current_url).to eq(access_request_confirmation_url)
 end
+
+Then(/^the user should see validation errors$/) do
+  expect(page).to have_content('There were problems submitting this form')
+end
