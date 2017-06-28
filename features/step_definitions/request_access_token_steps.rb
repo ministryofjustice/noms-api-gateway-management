@@ -13,17 +13,22 @@ Then(/^a link to the NOMIS API documentation should be visble$/) do
 end
 
 When(/^the user fills out the form with:$/) do |table|
-  regexes = {
-    "regex1" => "^\/nomisapi\/health$\n^\/nomisapi\/lookup/active_offender?date_of_birth=[\d-]+&noms_id=[\w]+$"
-  }
+  table.symbolic_hashes.each do |hash|
+    case hash[:type]
+      when 'text'
+        fill_in hash[:field], with: hash[:value]
+      when 'select'
+        select hash[:value], from: hash[:field]
+      when 'file'
+        attach_file hash[:field], "#{Rails.root}/spec/fixtures/files/#{hash[:value]}"
+    end
+  end
+end
 
-  data = table.rows_hash
-  fill_in "Requested by", with: data["Requested by"]
-  fill_in "Contact email", with: data["Contact email"]
-  fill_in "Application/service name", with: data["Application/service name"]
-  fill_in "Reason", with: regexes[data["Reason"]]
-  select data["NOMIS API environment"], from: "NOMIS API environment"
-  attach_file "Client public key", "#{Rails.root}/spec/fixtures/files/#{data["Client public key"]}"
-
+When(/^submits the form$/) do
   click_button 'Submit'
+end
+
+Then(/^the user should be redirected to the confirmation page$/) do
+  expect(current_url).to eq(access_request_confirmation_url)
 end

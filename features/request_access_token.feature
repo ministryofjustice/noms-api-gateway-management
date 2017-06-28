@@ -10,10 +10,12 @@ Feature: Request access token
 
   Scenario: User completes and submits the access request form
     When the user fills out the form with:
-      | field | value |
-      | Requested by | John Smith |
-      | Contact email | johnsmith@example.com |
-      | Application/service name | Candies to prisoners |
-      | Reason | regex1 |
-      | NOMIS API environment | prod |
-      | Client public key | test_client.pub |
+      | field                     | value                 | type   |
+      | Requested by              | John Smith            | text   |
+      | Contact email             | johnsmith@example.com | text   |
+      | Application/service name  | Candies to prisoners  | text   |
+      | Reason                    | Some reason           | text   |
+      | NOMIS API environment     | prod                  | select |
+      | Client public key         | test_client.pub       | file   |
+    And submits the form
+    Then the user should be redirected to the confirmation page
