@@ -3,10 +3,10 @@ require 'notifications/client'
 module Notify
   module_function
 
-  CLIENT = Notifications::Client.new(ENV.fetch('GOVUK_NOTIFY_API_KEY', ''))
-  ACCESS_REQUEST_NOTIFICATION_TEMPLATE = ENV['ACCESS_REQUEST_NOTIFICATION_TEMPLATE']
-  TOKEN_TRACKBACK_TEMPLATE = ENV['TOKEN_TRACKBACK_TEMPLATE']
-  TEAM_EMAIL = ENV['TEAM_EMAIL']
+  CLIENT = Notifications::Client.new(Rails.configuration.govuk_notify_api_key)
+  ACCESS_REQUEST_NOTIFICATION_TEMPLATE = Rails.configuration.access_request_notification_template
+  TOKEN_TRACKBACK_TEMPLATE = Rails.configuration.token_trackback_template
+  TEAM_EMAIL = Rails.configuration.team_email
 
   def service_team(access_request, link)
     email = CLIENT.send_email(

@@ -13,7 +13,9 @@ class AccessRequestsController < ApplicationController
     @access_request = AccessRequest.new(access_request_params)
 
     if @access_request.save
-      Notify.service_team(@access_request, admin_access_request_url(@access_request))
+      if Rails.configuration.notify_enabled
+        Notify.service_team(@access_request, admin_access_request_url(@access_request))
+      end
 
       redirect_to access_request_confirmation_url, notice: 'Access request was successfully created.'
     else
