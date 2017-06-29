@@ -10,22 +10,31 @@ Feature: Request access token
 
   Scenario: User completes and submits the access request form
     When the user fills out the form with:
-      | field                     | value                 | type   |
-      | Requested by              | John Smith            | text   |
-      | Contact email             | johnsmith@example.com | text   |
-      | Application/service name  | Candies to prisoners  | text   |
-      | Reason                    | Some reason           | text   |
-      | NOMIS API environment     | prod                  | select |
-      | Client public key         | test_client.pub       | file   |
+      | field                               | value                 | type   |
+      | access_request[requested_by]        | John Smith            | text   |
+      | access_request[contact_email]       | johnsmith@example.com | text   |
+      | access_request[service_name]        | Candies to prisoners  | text   |
+      | access_request[reason]              | Some reason           | text   |
+      | access_request[api_env]             | prod                  | select |
+      | access_request[client_pub_key_file] | test_client.pub       | file   |
     And submits the form
     Then the user should be redirected to the confirmation page
 
-  Scenario: User tries to submit incomplete form
-    When the user fills out the form with:
-      | field                     | value                 | type   |
-      | Requested by              | John Smith            | text   |
-      | Contact email             | johnsmith@example.com | text   |
-      | Application/service name  | Candies to prisoners  | text   |
-      | Reason                    | Some reason           | text   |
-    And submits the form
-    Then the user should see validation errors
+    When the admin user accesses the admin home page
+    Then the user should be redirected to single sign on
+
+    When the admin user submits their credentials
+    Then they should authenticate successfully
+    And the new access request should be displayed
+
+    When the admin user clicks "Approve" on the request
+    Then the confirmation form should be shown
+    And  after the admin user adds permissions and clicks "Approve"
+    Then the trackpack link is displayed
+
+    When the user follows the trackback link
+    Then the download page is active
+
+    When the user clicks the download button
+    Then a valid token is downloaded
+    And  the trackback link is not valid anymore
