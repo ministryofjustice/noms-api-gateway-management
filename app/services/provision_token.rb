@@ -10,6 +10,7 @@ module ProvisionToken
 
     private_key = OpenSSL::PKey::EC.new(private_key_data)
     client_pub_key = OpenSSL::PKey::EC.new(token.client_pub_key)
+    permissions = token.permissions.split("\n").reject { |l| l.start_with?('#') }
 
     now = Time.now
     client_token, fingerprint = generate_client_token(
@@ -18,7 +19,7 @@ module ProvisionToken
       provisioning_pri_key: private_key,
       valid_from: now,
       valid_to: token.expires,
-      access: token.permissions
+      access: permissions
     )
 
     token.update_attribute(:fingerprint, fingerprint)

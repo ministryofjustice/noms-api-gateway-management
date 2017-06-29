@@ -1,7 +1,16 @@
 require 'rails_helper'
 
 RSpec.describe ProvisionToken do
-  let(:token) { build(:token, issued_at: nil, expires: 2.years.from_now) }
+  let(:permissions_string) do
+    "^\/api/allowed/endpoint/one$\n" + "^\/api/allowed/endpoint/two$\n" + "^\/api/allowed/endpoint/three$\n"
+  end
+
+  let(:expiration) { 2.years.from_now }
+
+  let(:token) do
+    build(:token, service_name: 'foobar', issued_at: nil, expires: expiration, permissions: permissions_string)
+  end
+
   before do
     ProvisioningKey.create(api_env: 'preprod', content: file_fixture('test_provisioner.key').read )
   end
@@ -15,6 +24,22 @@ RSpec.describe ProvisionToken do
 
     it 'generates a token using the provisioning key and client public key' do
       expect(decoded_token).to_not be_nil
+    end
+
+    it "sets the generated token's client name" do
+      expect(decoded_token.first['client']).to eq('foobar')
+    end
+
+    it "sets the generated token's permissions" do
+      expect(decoded_token.first['access']).to eq(permissions_string.split)
+    end
+
+    it "sets the generated token's issued at (iat)" do
+      expect(decoded_token.first['iat']).to be_within(2).of(Time.now.to_i)
+    end
+
+    it "sets the generated token's expiration" do
+      expect(decoded_token.first['exp']).to be_within(2).of(expiration.to_i)
     end
 
     it "sets the token record's fingerprint" do
