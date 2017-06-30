@@ -21,6 +21,7 @@ gem 'sass-rails'
 gem 'uglifier'
 gem 'unicorn-rails'
 gem 'validates_email_format_of'
+gem 'tzinfo-data'
 
 group :development do
   gem 'spring'
