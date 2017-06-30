@@ -1,5 +1,5 @@
 ---
 applications:
-- name: noms-api-gateway-management
+- name: noms-api-access
   memory: 256M
   buildpack: ruby_buildpack
