@@ -30,9 +30,14 @@ class Admin::TokensController < Admin::AdminController
 
     if @token.save
       @access_request.process! if @access_request
-      Notify.token_trackback(@token, new_token_url(trackback_token: @token.trackback_token))
 
-      redirect_to admin_tokens_url, notice: 'Token creation link sent.'
+      if Rails.configuration.notify_enabled
+        Notify.token_trackback(@token, new_token_url(trackback_token: @token.trackback_token))
+        redirect_to admin_tokens_url, notice: 'Token creation link sent.'
+      else
+        redirect_to admin_tokens_url, notice: 'Token creation link sent: ' + new_token_url(trackback_token: @token.trackback_token)
+      end
+
     else
       render :new
     end
