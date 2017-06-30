@@ -27,7 +27,8 @@
 
   - if @token.client_pub_key.present?
     %p
-      = f.text_area :client_pub_key, disabled: true, rows: 6
+    .field
+      = f.text_area :client_pub_key, readonly: true, rows: 6
   - else
     .field
       .form-group
