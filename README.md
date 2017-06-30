@@ -1,6 +1,7 @@
 [![Build Status](https://travis-ci.org/ministryofjustice/noms-api-gateway-management.svg?branch=master)](https://travis-ci.org/ministryofjustice/noms-api-gateway-management)
 
 # NOMS API Gateway Management
+### AKA "NOMS API Access"
 
 Admin/management tool for the [NOMS API Gateway](https://github.com/ministryofjustice/noms-api-gateway). Facilitates the provisioning, tracking and revocation of client tokens for the NOMIS API.
 
