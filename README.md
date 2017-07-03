@@ -13,18 +13,18 @@ Uses [GOV.UK Notify](https://www.gov.uk/government/publications/govuk-notify/gov
 
 ### Dependencies
 
-PostgreSQL
+* PostgreSQL
 
-GOV.UK Notify account with templates set up for:
+* GOV.UK Notify account with templates set up for:
 
-Team notification email when access request submitted.
-Token creation email for users, with trackback link to provision token.
+  * Team notification email when access request submitted.
+  * Token creation email for users, with trackback link to provision token.
+  * See [Notify service](https://github.com/ministryofjustice/noms-api-gateway-management/blob/master/app/services/notify.rb) for required template params.
 
-See [Notify service](https://github.com/ministryofjustice/noms-api-gateway-management/blob/master/app/services/notify.rb) for required template params.
-
-MOJ Sign-on
+* MOJ Sign-on
 
 The admin controllers are secured with [moj-signon](https://github.com/ministryofjustice/moj-signon)
+
 This integration requires some environment variables (see 'Environment variables' below).
 Users must have the 'admin' role to gain access to any admin controller methods.
 
@@ -38,6 +38,8 @@ Users must have the 'admin' role to gain access to any admin controller methods.
     MOJSSO_ID - Client ID in the moj-signon service
     MOJSSO_SECRET - Secret associated with the app in the moj-signon service
     MOJSSO_URL - Full URL at which the moj-signon service can be found
+    AUTH_ENABLED - Enable/Disable MOJ SSO authentication - Default "true"
+    NOTIFY_ENABLED - Enable/Disable email notifications via Notify - Default "true"
 
 ### Set up and run
 
@@ -46,20 +48,33 @@ Development seed data is provided in [db/seeds.rb](https://github.com/ministryof
     rake db:create db:migrate db:seed
     rails s
 
-### Disable authentication
+### Tests
 
-It is possible to disable authentication for development and testing:
+#### Unit tests
 
-```
-$ AUTH_ENABLED=false rails s
-...
-[WARN] MOJSSO_ID/MOJSSO_SECRET/MOJSSO_URL not configured
-```
+Test all features and regressions locally.
 
-### Disable GOV.UK Notfiy
+Requirements:
 
-It is possible to disable authentication for development and testing:
+* Local postgres database
+* Ruby environment including all gems
 
-```
-$ NOTIFY_ENABLED=false rails s
-```
+Run with : `bundle exec rspec`
+
+### Acceptance tests
+
+Test main features agains a running external environment.
+
+Requirements:
+
+* Running external environment with notifications disabled
+* Ruby environment including all gems
+
+Configuration:
+
+    DOMAIN_UNDER_TEST - URL of remote application - Default http://localhost:3000
+    MOJSSO_USER - Registered MOJ SSO user
+    MOJSSO_PASSWORD - Password for user above
+    AUTH_ENABLED - Enable/Disable authentication on client side - Default "true"
+
+Run with `bundle exec cucumber`
