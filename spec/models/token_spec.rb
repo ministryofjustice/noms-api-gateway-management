@@ -7,11 +7,57 @@ RSpec.describe Token, type: :model do
   it { should validate_presence_of(:service_name) }
   it { should validate_presence_of(:api_env) }
   it { should validate_presence_of(:expires) }
-  it { should validate_presence_of(:contact_email) }
-  it { should validate_presence_of(:client_pub_key) }
-  it { should validate_presence_of(:permissions) }
-
+  it { should validate_presence_of(:created_from) }
+  it { should validate_inclusion_of(:created_from).in_array(Token::CREATED_FROM_VALUES) }
   it { should validate_inclusion_of(:api_env).in_array(ApiEnv.all) }
+
+  context 'when created from the web form' do
+    subject{ Token.new(created_from: 'web') }
+    
+    it { should validate_presence_of(:contact_email) }
+    it { should validate_presence_of(:client_pub_key) }
+    it { should validate_presence_of(:permissions) }
+  end
+
+  context 'when created from the csv import' do
+    subject{ Token.new(created_from: 'import') }
+
+    it { should_not validate_presence_of(:contact_email) }
+    it { should_not validate_presence_of(:client_pub_key) }
+    it { should_not validate_presence_of(:permissions) }
+  end
+    
+  #   describe 'an otherwise valid Token' do
+  #     before do
+  #       subject.requested_by = 'Dave'
+  #       subject.service_name = 'Thingumizer'
+  #       subject.api_env = 'dev'
+  #       subject.expires = Time.now + 1.year
+  #       subject.contact_email = 'al@example.com'
+  #       subject.permissions = '.*'
+  #     end
+
+  #     context 'with no contact_email ' do
+  #       before { subject.contact_email = nil }
+  #       it "is still valid" do
+  #         expect(subject.valid?).to eq(true)
+  #       end
+  #     end
+  #     context 'with no client_pub_key ' do
+  #       before { subject.client_pub_key = nil }
+  #       it "is still valid" do
+  #         expect(subject.valid?).to eq(true)
+  #       end
+  #     end
+  #     context 'with no permissions ' do
+  #       before { subject.permissions = nil }
+  #       it "is still valid" do
+  #         expect(subject.valid?).to eq(true)
+  #       end
+  #     end
+  #   end
+  # end
+  
 
   describe 'scopes' do
     let(:inactive_token) { create(:token) }
@@ -93,12 +139,25 @@ RSpec.describe Token, type: :model do
     end
   end
 
-  describe 'trackback token' do
+  describe 'an unsaved Token' do
     subject { build(:token, trackback_token: nil) }
 
-    it 'sets the trackback token after save' do
-      subject.save
-      expect(subject.trackback_token).to_not be_nil
+    describe 'being saved' do
+      context 'created_from the web' do
+        before{ subject.created_from = 'web' }
+
+        it 'sets the trackback token' do
+          expect{ subject.save }.to change(subject, :trackback_token).from(nil)
+        end
+      end
+
+      context 'created_from import' do
+        before{ subject.created_from = 'import' }
+
+        it 'does not set the trackback_token' do
+          expect{ subject.trackback_token }.to_not change(subject, :trackback_token)
+        end
+      end
     end
   end
 end

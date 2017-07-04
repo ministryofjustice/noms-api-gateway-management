@@ -46,6 +46,18 @@ Development seed data is provided in [db/seeds.rb](https://github.com/ministryof
     rake db:create db:migrate db:seed
     rails s
 
+
+### Importing existing tokens
+
+There is a rake task in [lib/tasks/import.rake](https://github.com/ministryofjustice/noms-api-gateway-management/lib/tasks/import.rake) to import tokens from a CSV file. The column mappings were based around the existing [Google spreadsheet of tokens](https://docs.google.com/spreadsheets/d/1PJHdykrJ1e7nsm0_07vksy6DbVLzjwHuDAkbwt88y3Q/edit#gid=0) - if you need to change them, you can alter the *from_csv_row* method in [app/models/token.rb](https://github.com/ministryofjustice/noms-api-gateway-management/app/models/token.rb)
+
+To run the task:
+
+    rake import:tokens FILE=/path/to/the/csv/file/here
+
+The import is surrounded in a transaction - either all the rows import successfully, or the whole operation rolls back and no changes are made.
+
+
 ### Disable authentication
 
 It is possible to disable authentication for development and testing:

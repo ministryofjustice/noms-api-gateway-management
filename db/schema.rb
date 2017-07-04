@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170619135612) do
+ActiveRecord::Schema.define(version: 20170704091532) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -48,6 +48,7 @@ ActiveRecord::Schema.define(version: 20170619135612) do
     t.text     "permissions"
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
+    t.string   "created_from",    default: "web"
     t.index ["trackback_token"], name: "index_tokens_on_trackback_token", using: :btree
   end
 
