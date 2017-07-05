@@ -31,8 +31,8 @@ Users must have the 'admin' role to gain access to any admin controller methods.
 ### Environment variables
 
     GOVUK_NOTIFY_API_KEY - API key for Notify
-    ACCESS_REQUEST_NOTIFICATION_TEMPLATE - access request template id
-    TOKEN_TRACKBACK_TEMPLATE - token creation template it
+    ACCESS_REQUEST_NOTIFICATION_TEMPLATE - access request template ID
+    TOKEN_TRACKBACK_TEMPLATE - token creation template ID
     TEAM_EMAIL - email address of the product/support team
     API_AUTH - shared secret used to authenticate against the /api/tokens/revoked endpoint
     MOJSSO_ID - Client ID in the moj-signon service
@@ -76,7 +76,7 @@ To run the task:
 The import is surrounded in a transaction - either all the rows import successfully, or the whole operation rolls back and no changes are made.
 
 
-### Disable authenticationsv
+### Disable authentication
 
 Requirements:
 
