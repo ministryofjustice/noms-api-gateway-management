@@ -49,7 +49,7 @@ Development seed data is provided in [db/seeds.rb](https://github.com/ministryof
 
 ### Importing existing tokens
 
-There is a rake task in [lib/tasks/import.rake](https://github.com/ministryofjustice/noms-api-gateway-management/lib/tasks/import.rake) to import tokens from a CSV file. The column mappings were based around the existing [Google spreadsheet of tokens](https://docs.google.com/spreadsheets/d/1PJHdykrJ1e7nsm0_07vksy6DbVLzjwHuDAkbwt88y3Q/edit#gid=0) - if you need to change them, you can alter the *from_csv_row* method in [app/models/token.rb](https://github.com/ministryofjustice/noms-api-gateway-management/app/models/token.rb)
+There is a rake task in [lib/tasks/import.rake](https://github.com/ministryofjustice/noms-api-gateway-management/lib/tasks/import.rake) to import tokens from a CSV file. The column mappings were based around the existing [Google spreadsheet of tokens](https://docs.google.com/spreadsheets/d/1PJHdykrJ1e7nsm0_07vksy6DbVLzjwHuDAkbwt88y3Q/edit#gid=0) - if you need to change them, you can alter the *mapped_csv_values* method in [app/models/imported_token_builder.rb](https://github.com/ministryofjustice/noms-api-gateway-management/app/models/imported_token_builder.rb)
 
 To run the task:
 
