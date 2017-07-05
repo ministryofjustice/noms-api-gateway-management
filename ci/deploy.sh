@@ -22,8 +22,8 @@ cf set-env "${CF_APP_NAME}" API_AUTH "${API_AUTH}" > /dev/null
 
 cf set-env "${CF_APP_NAME}" MOJSSO_URL "${MOJSSO_URL}"
 
-if [ "${NOTIFY_ENABLED}" = "true" ]; then
-  cf set-env "${CF_APP_NAME}" NOTIFY_ENABLED "${NOTIFY_ENABLED}"
+if [ "${NOTIFY_ENABLED:-true}" = "true" ]; then
+  cf set-env "${CF_APP_NAME}" NOTIFY_ENABLED true
 
   echo "Setting \$GOVUK_NOTIFY_API_KEY variable..."
   cf set-env "${CF_APP_NAME}" GOVUK_NOTIFY_API_KEY "${GOVUK_NOTIFY_API_KEY}" > /dev/null
