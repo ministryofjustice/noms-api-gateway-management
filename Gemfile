@@ -21,6 +21,7 @@ gem 'sass-rails'
 gem 'uglifier'
 gem 'unicorn-rails'
 gem 'validates_email_format_of'
+gem 'tzinfo-data'
 
 group :development do
   gem 'spring'
@@ -42,6 +43,7 @@ group :test do
   gem 'factory_girl_rails'
   gem 'faker'
   gem 'launchy'
+  gem 'mechanize'
   gem 'rails-controller-testing'
   gem 'rspec-mocks'
   gem 'shoulda-matchers', '~> 3.1.0', require: false
