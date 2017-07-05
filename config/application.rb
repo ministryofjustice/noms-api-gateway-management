@@ -12,8 +12,8 @@ module NomsApiGatewayManagement
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
 
-    config.app_title = 'API Gateway Management'
-    config.proposition_title = 'API Gateway Management'
+    config.app_title = 'NOMIS API access'
+    config.proposition_title = 'NOMIS API access'
     config.phase = 'alpha'
     config.product_type = 'service'
     config.feedback_url = ''
