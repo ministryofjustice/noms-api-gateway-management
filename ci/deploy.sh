@@ -14,7 +14,6 @@ cf set-env "${CF_APP_NAME}" MOJSSO_ID "${MOJSSO_ID}" > /dev/null
 cf set-env "${CF_APP_NAME}" MOJSSO_SECRET "${MOJSSO_SECRET}" > /dev/null
 cf set-env "${CF_APP_NAME}" GOVUK_NOTIFY_API_KEY "${GOVUK_NOTIFY_API_KEY}" > /dev/null
 cf set-env "${CF_APP_NAME}" NOTIFY_ENABLED "${NOTIFY_ENABLED}" > /dev/null
-cf set-env "${CF_APP_NAME}" TEAM_EMAIL "${TEAM_EMAIL}" > /dev/null
 cf set-env "${CF_APP_NAME}" API_AUTH "${API_AUTH}" > /dev/null
 cf set-env "${CF_APP_NAME}" MOJSSO_URL "${MOJSSO_URL}" > /dev/null
 cf start "${CF_APP_NAME}"
