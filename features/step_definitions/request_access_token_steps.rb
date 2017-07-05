@@ -7,9 +7,8 @@ Given(/^the user is on the home page$/) do
 end
 
 Then(/^they should be redirected to the new access request page$/) do
-  # FIXME: change title
   expect(@home_page.title).to eq(
-    "GOV.UK - The best place to find government services and information"
+    "New access request - NOMIS API access"
   )
 end
 
@@ -75,8 +74,7 @@ When(/^the admin user submits their credentials$/) do
 end
 
 Then(/^they should authenticate successfully$/) do
-  # FIXME: change title
-  expect(@admin_home_page.title).to eq("GOV.UK - The best place to find government services and information")
+  expect(@admin_home_page.title).to eq("Access requests - NOMIS API access")
 end
 
 And(/^the new access request should be displayed$/) do
@@ -97,9 +95,8 @@ When(/^the admin user clicks "([^"]*)" on the request$/) do |arg1|
 end
 
 Then(/^the confirmation form should be shown$/) do
-  # FIXME: change title
   expect(@confirmation_page.title).to eq(
-    "GOV.UK - The best place to find government services and information"
+    "New token - NOMIS API access"
   )
 end
 
