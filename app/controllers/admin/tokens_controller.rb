@@ -26,6 +26,10 @@ class Admin::TokensController < Admin::AdminController
   # POST /tokens
   def create
     @token = Token.new(token_params)
+    # Explicitly set this here, rather than allow it to be passed in,
+    # as if this value is not 'web', some validations are bypassed
+    # to allow import of incomplete data from old spreadsheet
+    @token.created_from = 'web'
     @access_request = AccessRequest.find(params[:access_request_id]) rescue nil
 
     if @token.save
