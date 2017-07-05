@@ -108,7 +108,7 @@ end
 
 Then(/^the trackpack link is displayed$/) do
   notice = @tokens_page.css('#notice').inner_text
-  match_data = /(http:.*)$/.match notice
+  match_data = /(https?:.*)$/.match notice
   @link = match_data[0]
 
   expect(@link).not_to be_empty
