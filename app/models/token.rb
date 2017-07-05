@@ -59,27 +59,12 @@ class Token < ApplicationRecord
     created_from == 'import'
   end
 
-  def self.from_csv_row(row)
-    new( {
-      requested_by: row['Requested by'] || '(unknown)', 
-      api_env: row['NOMS API env'],
-      expires: row['Expiry date'] || Time.now + 1.year, 
-      contact_email: 'unknown',
-      client_pub_key: nil,
-      service_name: row['Client name'],
-      permissions: nil,
-      created_from: 'import',
-      fingerprint: row['Token fingerprint'],
-      state: 'active',
-      trackback_token: nil
-    } )
-  end
-
-
   private
 
   def set_client_pub_key
-    self.client_pub_key = self.client_pub_key_file.read if self.client_pub_key_file.present?
+    if self.client_pub_key_file.present?
+      self.client_pub_key = self.client_pub_key_file.read
+    end
   end
 
   def set_trackback_token
