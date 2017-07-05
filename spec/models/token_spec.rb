@@ -26,38 +26,6 @@ RSpec.describe Token, type: :model do
     it { should_not validate_presence_of(:client_pub_key) }
     it { should_not validate_presence_of(:permissions) }
   end
-    
-  #   describe 'an otherwise valid Token' do
-  #     before do
-  #       subject.requested_by = 'Dave'
-  #       subject.service_name = 'Thingumizer'
-  #       subject.api_env = 'dev'
-  #       subject.expires = Time.now + 1.year
-  #       subject.contact_email = 'al@example.com'
-  #       subject.permissions = '.*'
-  #     end
-
-  #     context 'with no contact_email ' do
-  #       before { subject.contact_email = nil }
-  #       it "is still valid" do
-  #         expect(subject.valid?).to eq(true)
-  #       end
-  #     end
-  #     context 'with no client_pub_key ' do
-  #       before { subject.client_pub_key = nil }
-  #       it "is still valid" do
-  #         expect(subject.valid?).to eq(true)
-  #       end
-  #     end
-  #     context 'with no permissions ' do
-  #       before { subject.permissions = nil }
-  #       it "is still valid" do
-  #         expect(subject.valid?).to eq(true)
-  #       end
-  #     end
-  #   end
-  # end
-  
 
   describe 'scopes' do
     let(:inactive_token) { create(:token) }
