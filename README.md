@@ -40,6 +40,7 @@ Users must have the 'admin' role to gain access to any admin controller methods.
     MOJSSO_URL - Full URL at which the moj-signon service can be found
     AUTH_ENABLED - Enable/Disable MOJ SSO authentication - Default "true"
     NOTIFY_ENABLED - Enable/Disable email notifications via Notify - Default "true"
+    ACCESS_REQUEST_MAX_REQUESTS_PER_MINUTE - Max requests to the access request form per minute, defaults to 6.
 
 ### Set up and run
 
