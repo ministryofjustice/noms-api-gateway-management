@@ -1,6 +1,8 @@
 require_relative 'boot'
 
 require 'rails/all'
+require 'rack/throttle'
+require_relative '../app/middleware/access_request_form_throttle'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
@@ -11,6 +13,9 @@ module NomsApiGatewayManagement
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.
+
+    Rails.configuration.access_request_max_requests_per_minute = ENV.fetch('ACCESS_REQUEST_MAX_REQUESTS_PER_MINUTE', 6)
+    config.middleware.use AccessRequestFormThrottle, max: Rails.configuration.access_request_max_requests_per_minute
 
     config.app_title = 'NOMIS API access'
     config.proposition_title = 'NOMIS API access'
