@@ -26,4 +26,16 @@ RSpec.describe Notify do
       expect(Notify.token_trackback(token, trackback_token)).to eq('96f063d1-996d-43ed-9253-6a32c423faaf')
     end
   end
+
+  describe '#reject_access_request' do
+    let(:access_request) { create(:access_request) }
+
+    before do
+      allow(Notify).to receive(:reject_access_request).with(access_request).and_return('36f043d1-956c-43ed-9253-6a32c423fbbf')
+    end
+
+    it 'sends a request to GOV UK Notify and returns the notification id' do
+      expect(Notify.reject_access_request(access_request)).to eq('36f043d1-956c-43ed-9253-6a32c423fbbf')
+    end
+  end
 end
