@@ -4,7 +4,7 @@
 
 %p
   %b Contact email:
-  = @access_request.contact_email
+  = mail_to @access_request.contact_email
 %p
   %b Requested by:
   = @access_request.requested_by
@@ -24,3 +24,8 @@
   %b Client public key:
   %pre
     = @access_request.client_pub_key
+
+- if @access_request.unprocessed?
+  %p
+    = link_to 'Approve', new_admin_token_path(access_request: @access_request), class: 'button'
+    = link_to 'Reject', [:admin, @access_request], method: :delete, data: { confirm: 'Are you sure?' }, class: 'button'
