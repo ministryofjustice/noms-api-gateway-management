@@ -237,6 +237,8 @@ GEM
     rb-fsevent (0.9.8)
     rb-inotify (0.9.8)
       ffi (>= 0.5.0)
+    recaptcha (4.3.1)
+      json
     rest-client (2.0.2)
       http-cookie (>= 1.0.2, < 2.0)
       mime-types (>= 1.16, < 4.0)
@@ -349,6 +351,7 @@ DEPENDENCIES
   rack-throttle
   rails (~> 5.0.2)
   rails-controller-testing
+  recaptcha
   rest-client
   rspec-mocks
   rspec-rails

@@ -53,9 +53,33 @@ RSpec.describe AccessRequestsController, type: :controller do
   end
 
   describe "GET #new" do
+    ENV['RECAPTCHA_SITE_KEY'] = 'e5a84b8c-77ad-4ce1-a336-8aed5478181a'
+    ENV['RECAPTCHA_SECRET_KEY'] = '0d631b45-a0ec-4f87-82a5-323364bde007'
+
+    let(:recaptcha_enabled) { true }
+    before { Rails.configuration.recaptcha_enabled = recaptcha_enabled }
+    before { get :new, params: {}, session: valid_session }
+
+
     it "assigns a new access_request as @access_request" do
-      get :new, params: {}, session: valid_session
       expect(assigns(:access_request)).to be_a_new(AccessRequest)
+    end
+
+    context 'when reCAPTCHA enabled' do
+      render_views
+
+      it 'renders the Google reCAPTCHA with the template' do
+        expect(response.body).to have_selector('.g-recaptcha')
+      end
+    end
+
+    context 'when reCAPTCHA disabled' do
+      let(:recaptcha_enabled) { false }
+      render_views
+
+      it 'does not render the Google reCAPTCHA with the template' do
+        expect(response.body).to_not have_selector('.g-recaptcha')
+      end
     end
   end
 

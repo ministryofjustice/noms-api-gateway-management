@@ -28,6 +28,10 @@ The admin controllers are secured with [moj-signon](https://github.com/ministryo
 This integration requires some environment variables (see 'Environment variables' below).
 Users must have the 'admin' role to gain access to any admin controller methods.
 
+* Google reCaptcha
+
+Protection againt DDoS and bots on the user facing access request form is provided by a CAPTCHA using [Google's service](https://www.google.com/recaptcha/intro/).
+
 ### Environment variables
 
     GOVUK_NOTIFY_API_KEY - API key for Notify
@@ -40,6 +44,9 @@ Users must have the 'admin' role to gain access to any admin controller methods.
     MOJSSO_URL - Full URL at which the moj-signon service can be found
     AUTH_ENABLED - Enable/Disable MOJ SSO authentication - Default "true"
     NOTIFY_ENABLED - Enable/Disable email notifications via Notify - Default "true"
+    RECAPTCHA_ENABLED - Enable/Disable reCAPTCHA - Default "true"
+    RECAPTCHA_SITE_KEY - Google reCAPTCHA key
+    RECAPTCHA_SECRET_KEY - Google reCAPTCHA secret
     ACCESS_REQUEST_MAX_REQUESTS_PER_MINUTE - Max requests to the access request form per minute, defaults to 6.
 
 ### Set up and run

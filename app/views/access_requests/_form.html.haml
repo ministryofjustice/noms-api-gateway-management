@@ -29,5 +29,9 @@
             Attach ONLY the public (client.pub) portion.
 
       = f.file_field :client_pub_key_file
+
+  - if Rails.configuration.recaptcha_enabled
+    %p{ style: 'clear: both;' }
+      = recaptcha_tags
   .actions
     = f.submit 'Submit', class: 'button'

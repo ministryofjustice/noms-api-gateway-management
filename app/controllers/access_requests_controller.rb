@@ -12,7 +12,7 @@ class AccessRequestsController < ApplicationController
   def create
     @access_request = AccessRequest.new(access_request_params)
 
-    if @access_request.save
+    if recaptcha && @access_request.save
       if Rails.configuration.notify_enabled
         Notify.service_team(@access_request, admin_access_request_url(@access_request))
       end
@@ -24,6 +24,14 @@ class AccessRequestsController < ApplicationController
   end
 
   private
+    def recaptcha
+      if Rails.configuration.recaptcha_enabled
+        verify_recaptcha(model: @access_request)
+      else
+        true
+      end
+    end
+
     # Only allow a trusted parameter "white list" through.
     def access_request_params
       params.require(:access_request).permit(
