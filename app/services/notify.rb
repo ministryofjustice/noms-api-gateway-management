@@ -27,7 +27,7 @@ module Notify
       email_address: token.contact_email,
       template_id: TOKEN_TRACKBACK_TEMPLATE,
       personalisation: {
-        requestor: token.requested_by,
+        requester: token.requested_by,
         env: token.api_env,
         trackback_link: link
       }
