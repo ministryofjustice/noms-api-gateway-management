@@ -30,24 +30,27 @@ Users must have the 'admin' role to gain access to any admin controller methods.
 
 * Google reCaptcha
 
-Protection againt DDoS and bots on the user facing access request form is provided by a CAPTCHA using [Google's service](https://www.google.com/recaptcha/intro/).
+Protection against DDoS and bots on the user facing access request form is provided by a CAPTCHA using [Google's service](https://www.google.com/recaptcha/intro/).
 
 ### Environment variables
 
-    GOVUK_NOTIFY_API_KEY - API key for Notify
-    ACCESS_REQUEST_NOTIFICATION_TEMPLATE - access request template ID
-    TOKEN_TRACKBACK_TEMPLATE - token creation template ID
-    TEAM_EMAIL - email address of the product/support team
-    API_AUTH - shared secret used to authenticate against the /api/tokens/revoked endpoint
-    MOJSSO_ID - Client ID in the moj-signon service
-    MOJSSO_SECRET - Secret associated with the app in the moj-signon service
-    MOJSSO_URL - Full URL at which the moj-signon service can be found
-    AUTH_ENABLED - Enable/Disable MOJ SSO authentication - Default "true"
-    NOTIFY_ENABLED - Enable/Disable email notifications via Notify - Default "true"
-    RECAPTCHA_ENABLED - Enable/Disable reCAPTCHA - Default "true"
-    RECAPTCHA_SITE_KEY - Google reCAPTCHA key
-    RECAPTCHA_SECRET_KEY - Google reCAPTCHA secret
-    ACCESS_REQUEST_MAX_REQUESTS_PER_MINUTE - Max requests to the access request form per minute, defaults to 6.
+|name                                   |purpose                                           |default|test        |run locally   |
+|---------------------------------------|--------------------------------------------------|-------|------------|--------------|
+|AUTH_ENABLED                           |Enable/disable MOJ SSO authentication             |true   |true        |false         |
+|NOTIFY_ENABLED                         |Enable/disable email notifications                |true   |false       |false         |
+|RECAPTCHA_ENABLED                      |Enable/Disable reCAPTCHA                          |true   |false       |false         |
+|MOJSSO_ID                              |Client ID in the moj-signon service               |-      |foobar      |-             |
+|MOJSSO_SECRET                          |Application secret in the moj-signon service      |-      |foobar      |-             |
+|ACCESS_REQUEST_MAX_REQUESTS_PER_MINUTE |Max requests to the access request form per minute|6|6|6|
+|MOJSSO_URL                             |Full URL at which the moj-signon service can be found|-|-|-|
+|GOVUK_NOTIFY_API_KEY                   |API key for Notify|-|-|-|
+|API_AUTH                               |shared secret used to authenticate against the /api/tokens/revoked endpoint|-|-|-|
+|ACCESS_REQUEST_NOTIFICATION_TEMPLATE   |access request template ID|-|-|-|
+|TOKEN_TRACKBACK_TEMPLATE               |token creation template ID|-|-|-|
+|TEAM_EMAIL                             |email address of the product/support team|-|-|-|
+|RECAPTCHA_SITE_KEY                     |Google reCAPTCHA key|-|-|-|
+|RECAPTCHA_SECRET_KEY                   |Google reCAPTCHA secret|-|-|-|
+
 
 ### Set up and run
 
@@ -71,7 +74,7 @@ Run with : `bundle exec rspec`
 
 #### Acceptance tests
 
-Test main features agains a running external environment.
+Test main features against a running external environment.
 
 Requirements:
 
