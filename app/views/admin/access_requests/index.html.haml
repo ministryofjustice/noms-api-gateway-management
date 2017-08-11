@@ -22,7 +22,7 @@
         %td= access_request.requested_by
         %td= mail_to access_request.contact_email
         %td= access_request.service_name
-        %td= access_request.api_env
+        %td= access_request.environment_name
         %td= access_request.processed?
         %td= link_to 'Show', [:admin, access_request]
         %td

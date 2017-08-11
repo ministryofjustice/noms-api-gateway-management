@@ -9,7 +9,7 @@ class TokensController < ApplicationController
   def update
     begin
       payload = @token.provision_and_activate!
-      filename = "nomis-api_#{@token.service_name.downcase.underscore}_#{@token.api_env}.token"
+      filename = "nomis-api_#{@token.service_name.downcase.underscore}_#{@token.environment.name}.token"
       send_data(payload, type: 'text/plain', disposition: 'attachment', filename: filename)
     rescue
       redirect_to new_token_url(trackback_token: params[:trackback_token]),

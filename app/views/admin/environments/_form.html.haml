@@ -1,0 +1,13 @@
+= GovukElementsErrorsHelper.error_summary @environment,
+  'There were problems submitting this form', ''
+
+= form_for [:admin, @environment] do |f|
+
+  .field
+    = f.text_area :name
+
+  .field
+    = f.text_area :provisioning_key
+
+  .actions
+    = f.submit 'Submit', class: 'button'

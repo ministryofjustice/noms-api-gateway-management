@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Admin::ProvisioningKeysController, type: :controller do
+RSpec.describe Admin::EnvironmentsController, type: :controller do
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # Admin::AccessRequestsController. Be sure to keep this updated too.
@@ -9,29 +9,28 @@ RSpec.describe Admin::ProvisioningKeysController, type: :controller do
   let(:valid_session){ {'sso_user' => {}} }
   let(:admin_session){ {'sso_user' => {'permissions'=> [{'roles' => [ 'admin' ]}]}}}
 
-  let(:provisioning_key_1) { create(:provisioning_key) }
+  let(:environment_1) { create(:environment, name: 'dev') }
 
   # This should return the minimal set of attributes required to create a valid
   # Token. As you add validations to Token, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) {
     {
-      api_env: 'dev',
-      content: file_fixture('test_provisioner.key').read
+      name: 'dev',
+      provisioning_key: file_fixture('test_provisioner.key').read
     }
   }
 
   let(:invalid_attributes) {
     {
-      api_env: 'foobar',
-      content: file_fixture('test_provisioner.key').read
+      provisioning_key: file_fixture('test_provisioner.key').read
     }
   }
 
   let(:bad_key) {
     {
-      api_env: 'foobar',
-      content: 'abcd1234'
+      name: 'foobar',
+      provisioning_key: 'abcd1234'
     }
   }
 
@@ -54,14 +53,14 @@ RSpec.describe Admin::ProvisioningKeysController, type: :controller do
 
     describe "GET #show" do
       it "redirects to /auth/mojsso" do
-        get :show, params: {id: provisioning_key_1.to_param}, session: session
+        get :show, params: {id: environment_1.to_param}, session: session
         expect( response ).to redirect_to '/auth/mojsso'
       end
     end
 
     describe "POST create" do
       it "redirects to /auth/mojsso" do
-        post :create, params: {provisioning_key: valid_attributes}, session: session
+        post :create, params: {environment: valid_attributes}, session: session
         expect( response ).to redirect_to '/auth/mojsso'
       end
     end
@@ -87,14 +86,14 @@ RSpec.describe Admin::ProvisioningKeysController, type: :controller do
 
       describe "GET #show" do
         it "responds with 403" do
-          get :show, params: {id: provisioning_key_1.to_param}, session: session
+          get :show, params: {id: environment_1.to_param}, session: session
           expect( response.status ).to eq(403)
         end
       end
 
       describe "POST create" do
         it "responds with 403" do
-          post :create, params: {provisioning_key: valid_attributes}, session: session
+          post :create, params: {environment: valid_attributes}, session: session
           expect( response.status ).to eq(403)
         end
       end
@@ -104,68 +103,68 @@ RSpec.describe Admin::ProvisioningKeysController, type: :controller do
       let(:session){ admin_session }
 
       describe "GET #index" do
-        it "assigns all provisioning keys to @provisioning_keys" do
+        it "assigns all environments to @environments" do
           get :index, params: {}, session: session
-          expect(assigns(:provisioning_keys)).to eq([provisioning_key_1])
+          expect(assigns(:environments)).to eq([environment_1])
         end
       end
 
       describe "GET #new" do
-        it "assigns a new provisioning_key to @provisioning_key" do
+        it "assigns a new environment to @environment" do
           get :new, params: {}, session: session
-          expect(assigns(:provisioning_key)).to be_a_new(ProvisioningKey)
+          expect(assigns(:environment)).to be_a_new(Environment)
         end
       end
 
       describe "GET #show" do
         it "assigns the requested token as @token" do
-          get :show, params: {id: provisioning_key_1.to_param}, session: session
-          expect(assigns(:provisioning_key)).to eq(provisioning_key_1)
+          get :show, params: {id: environment_1.to_param}, session: session
+          expect(assigns(:environment)).to eq(environment_1)
         end
       end
 
       describe "DELETE #destroy" do
-        it "destroys the requested provisioning_key" do
-          post :create, params: {provisioning_key: valid_attributes}, session: session
-          expect(ProvisioningKey.count).to be(1)
-          provisioning_key_2 = assigns(:provisioning_key)
-          delete :destroy, params: {id: provisioning_key_2.to_param}, session: session
-          expect(ProvisioningKey.count).to be(0)
+        it "destroys the requested environment" do
+          post :create, params: {environment: valid_attributes}, session: session
+          expect(Environment.count).to be(1)
+          environment_2 = assigns(:environment)
+          delete :destroy, params: {id: environment_2.to_param}, session: session
+          expect(Environment.count).to be(0)
         end
 
-        it "redirects to the provisioning_key list" do
-          delete :destroy, params: {id: provisioning_key_1.to_param}, session: session
-          expect(response).to redirect_to(admin_provisioning_keys_url)
+        it "redirects to the environment list" do
+          delete :destroy, params: {id: environment_1.to_param}, session: session
+          expect(response).to redirect_to(admin_environments_url)
         end
       end
 
       context "with valid params" do
         it "creates a new ProvisioningKey" do
           expect {
-            post :create, params: {provisioning_key: valid_attributes}, session: session
-          }.to change(ProvisioningKey, :count).by(1)
+            post :create, params: {environment: valid_attributes}, session: session
+          }.to change(Environment, :count).by(1)
         end
 
-        it "assigns a newly created provisioning_key as @provisioning_key and persists it" do
-          post :create, params: {provisioning_key: valid_attributes}, session: session
-          expect(assigns(:provisioning_key)).to be_a(ProvisioningKey)
-          expect(assigns(:provisioning_key)).to be_persisted
+        it "assigns a newly created environment as @environment and persists it" do
+          post :create, params: {environment: valid_attributes}, session: session
+          expect(assigns(:environment)).to be_a(Environment)
+          expect(assigns(:environment)).to be_persisted
         end
 
-        it "redirects to the created provisioning_key" do
-          post :create, params: {provisioning_key: valid_attributes}, session: session
-          expect(response).to redirect_to(admin_provisioning_key_url(assigns(:provisioning_key)))
+        it "redirects to the created environment" do
+          post :create, params: {environment: valid_attributes}, session: session
+          expect(response).to redirect_to(admin_environment_url(assigns(:environment)))
         end
       end
 
       context "with invalid params" do
-        it "assigns a newly created but unsaved provisioning_key as @provisioning_key" do
-          post :create, params: {provisioning_key: invalid_attributes}, session: session
-          expect(assigns(:provisioning_key)).to be_a_new(ProvisioningKey)
+        it "assigns a newly created but unsaved environment as @environment" do
+          post :create, params: {environment: invalid_attributes}, session: session
+          expect(assigns(:environment)).to be_a_new(Environment)
         end
 
         it "re-renders the 'new' template" do
-          post :create, params: {provisioning_key: invalid_attributes}, session: session
+          post :create, params: {environment: invalid_attributes}, session: session
           expect(response).to render_template("new")
         end
       end

@@ -1,0 +1,10 @@
+- content_for :page_title, "Environment - " + Rails.configuration.app_title
+
+%p#notice= notice
+
+%p
+  %b Issued at:
+  = @environment.created_at || ''
+%p
+  %b Name:
+  = @environment.name

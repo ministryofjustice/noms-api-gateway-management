@@ -6,7 +6,7 @@ module Notify
   def service_team(access_request, link)
     params = {
       requester: access_request.requested_by,
-      env: access_request.api_env,
+      env: access_request.environment.name,
       access_request_link: link
     }
 
@@ -16,7 +16,7 @@ module Notify
   def token_trackback(token, link)
     params = {
       requester: token.requested_by,
-      env: token.api_env,
+      env: token.environment.name,
       trackback_link: link
     }
 
@@ -26,7 +26,7 @@ module Notify
   def reject_access_request(access_request)
     params = {
       requester: access_request.requested_by,
-      env: access_request.api_env
+      env: access_request.environment.name
     }
 
     send_notify_email(access_request.contact_email, Rails.configuration.reject_access_request_template)

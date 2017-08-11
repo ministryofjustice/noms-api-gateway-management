@@ -24,13 +24,13 @@ en:
     label:
       access_request:
         service_name: Application/service name
-        api_env: NOMIS API environment
+        environment: NOMIS API environment
         client_pub_key_file: Your public client key
       token:
         service_name: Application/service name
-        api_env: NOMIS API environment
+        environment: NOMIS API environment
       provisioning_key:
-        api_env: API environment
+        environment: API environment
     hint:
       access_request:
         requested_by: |
@@ -39,12 +39,12 @@ en:
           Your email address.
         service_name: |
           The name of your app or service.
-        api_env: |
+        environment: |
           The NOMIS API enviroment you would like to access.
         reason: |
           Outline which endpoints you require access to and reasons for doing so.
       provisioning_key:
-        api_env: |
+        environment: |
           The API environment this provisioning key will be used to issue tokens for
         content: |
           The EC Private Key
@@ -55,7 +55,7 @@ en:
           The email of the main contact for this token.
         service_name: |
           The app or service this token will be used by.
-        api_env: |
+        environment: |
           The NOMIS API enviroment this token allows access to.
         permissions: |
           A regular expression list of permissions for the API endpoints. ".*" grants permissions to all endpoints. Example: "^\/nomisapi\/lookup\/active_offender$".

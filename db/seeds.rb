@@ -1,6 +1,6 @@
 # Development seeds
 if Rails.env.development?
-  ApiEnv.all.each do |env|
-    ProvisioningKey.find_or_create_by!(api_env: env, content: File.read(Rails.root.join("lib/assets/dummy_#{env}_provisioner.key")))
+  %(dev preprod prod).each do |env_name|
+    Environment.find_or_create_by!(name: env_name, provisioning_key: File.read(Rails.root.join("lib/assets/dummy_#{env_name}_provisioner.key")))
   end
 end

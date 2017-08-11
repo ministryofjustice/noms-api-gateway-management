@@ -1,0 +1,23 @@
+- content_for :page_title, "Environments - " + Rails.configuration.app_title
+
+%h1 Environments (#{@environments.count})
+
+%table
+  %thead
+    %tr
+      %th Name
+      %th Created at
+      %th Actions
+      %th
+
+  %tbody
+    - @environments.each do |env|
+      %tr
+        %td= env.name
+        %td= l env.created_at, format: :long
+        %td= link_to 'Show', admin_environment_url(env)
+        %td= link_to 'Delete', [:admin, env], method: :delete, data: { confirm: 'Are you sure?' }
+
+%br
+
+= link_to 'Create new environment', new_admin_environment_url, class: 'button'

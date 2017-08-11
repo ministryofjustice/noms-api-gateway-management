@@ -1,20 +1,20 @@
 class Token < ApplicationRecord
 
+  belongs_to :environment
+
   CREATED_FROM_VALUES = ['web','import']
 
   attr_accessor :client_pub_key_file
 
-  validates :requested_by, :service_name, :api_env, :expires, :created_from,
+  validates :requested_by, :service_name, :expires, :created_from,
             presence: :true
-
   validates :client_pub_key, presence: true, ec_public_key: true, if: :from_web?
-  validates :permissions, presence: true, if: :from_web?
-  validates :contact_email, presence: true, if: :from_web?
-  validates_email_format_of :contact_email, if: :from_web?
+  validates :environment,    presence: true, unless: :revoked?
+  validates :permissions,    presence: true, if: :from_web?
+  validates :contact_email,  presence: true, if: :from_web?
+  validates_email_format_of  :contact_email, if: :from_web?
 
-  validates :api_env, inclusion: ApiEnv.all
   validates :created_from, inclusion: Token::CREATED_FROM_VALUES
-
 
   before_validation :set_client_pub_key
   after_create :set_trackback_token, if: :from_web?
@@ -23,6 +23,10 @@ class Token < ApplicationRecord
   scope :active, -> { where(state: 'active') }
   scope :revoked, -> { where(state: 'revoked') }
   scope :unrevoked, -> { where.not(state: 'revoked') }
+
+  def environment_name
+    environment ? environment.name : 'Unknown'
+  end
 
   def revoked?
     state == 'revoked'

@@ -9,7 +9,6 @@ RSpec.describe AccessRequest, type: :model do
   it { should validate_presence_of(:requested_by) }
   it { should validate_presence_of(:reason) }
   it { should validate_presence_of(:client_pub_key) }
-  it { should validate_inclusion_of(:api_env).in_array(ApiEnv.all) }
 
   describe 'sets the client pub key' do
     let(:client_pub_key_file) { file_fixture('test_client.pub') }
@@ -21,7 +20,21 @@ RSpec.describe AccessRequest, type: :model do
     it 'should set the client public key content' do
       expect(subject.client_pub_key).to eq(File.read(client_pub_key_file))
     end
+  end
 
+  describe '#environment_name' do
+    context 'when environment is present' do
+      it 'returns the environment name' do
+        expect(subject.environment_name).to eq 'dev'
+      end
+    end
+
+    context 'when environment has been nullified' do
+      before { subject.environment_id = nil }
+      it 'returns "Unknown"' do
+        expect(subject.environment_name).to eq 'Unknown'
+      end
+    end
   end
 
   describe '#process!' do

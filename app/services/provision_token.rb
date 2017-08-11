@@ -3,7 +3,7 @@ module ProvisionToken
 
   def call(token:)
     begin
-      private_key_data = RetrieveKey.call(token.api_env)
+      private_key_data = RetrieveKey.call(token.environment.name)
     rescue
       raise Exception, 'Unable to retrieve provisioning key'
     end

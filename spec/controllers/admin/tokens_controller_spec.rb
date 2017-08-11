@@ -28,7 +28,7 @@ RSpec.describe Admin::TokensController, type: :controller do
     {
       requested_by: 'John Smith',
       service_name: 'xxx',
-      api_env: 'prod',
+      environment_id: Environment.first.id,
       contact_email: 'email@example.com',
       client_pub_key_file: client_pub_key_file,
       expires: 1.year.from_now,
@@ -40,7 +40,7 @@ RSpec.describe Admin::TokensController, type: :controller do
     {
       requested_by: 'John Smith',
       client_name: 'xxx',
-      api_env: 'foobar',
+      environment_id: Environment.first.id,
       contact_email: 'email@example.com'
     }
   }
@@ -54,7 +54,7 @@ RSpec.describe Admin::TokensController, type: :controller do
 
 
   before do
-    ProvisioningKey.create(api_env: 'preprod', content: file_fixture('test_provisioner.key').read)
+    Environment.create(name: 'preprod', provisioning_key: file_fixture('test_provisioner.key').read)
   end
 
   context 'when not logged in' do

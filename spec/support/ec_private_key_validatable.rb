@@ -1,4 +1,4 @@
-shared_examples 'an EC Private Key validatable' do |attribute_name: :content|
+shared_examples 'an EC Private Key validatable' do |attribute_name: :provisioning_key|
   let(:ec_private_key_validatable) { build(described_class.to_s.underscore.to_sym) }
   let(:ec_public_key) { file_fixture('test_client.pub').read }
   let(:ec_private_key) { file_fixture('test_client.key').read }
@@ -6,7 +6,7 @@ shared_examples 'an EC Private Key validatable' do |attribute_name: :content|
   describe 'validation' do
     context 'when the the property is a valid EC private key' do
       it 'is valid' do
-        ec_private_key_validatable.content = ec_private_key
+        ec_private_key_validatable.provisioning_key = ec_private_key
         ec_private_key_validatable.valid?
 
         expect(ec_private_key_validatable).to be_valid
@@ -16,7 +16,7 @@ shared_examples 'an EC Private Key validatable' do |attribute_name: :content|
     context 'when the the property is not a valid EC private key' do
       context 'is public EC key' do
         before do
-          ec_private_key_validatable.content = ec_public_key
+          ec_private_key_validatable.provisioning_key = ec_public_key
           ec_private_key_validatable.valid?
         end
 
@@ -31,7 +31,7 @@ shared_examples 'an EC Private Key validatable' do |attribute_name: :content|
 
       context 'is not valid' do
         before do
-          ec_private_key_validatable.content = 'foobar'
+          ec_private_key_validatable.provisioning_key = 'foobar'
           ec_private_key_validatable.valid?
         end
 

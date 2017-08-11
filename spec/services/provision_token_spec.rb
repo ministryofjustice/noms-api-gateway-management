@@ -11,10 +11,6 @@ RSpec.describe ProvisionToken do
     build(:token, service_name: 'foobar', issued_at: nil, expires: expiration, permissions: permissions_string)
   end
 
-  before do
-    ProvisioningKey.create(api_env: 'preprod', content: file_fixture('test_provisioner.key').read )
-  end
-
   describe '#call' do
     let!(:jwt_token) do
       described_class.call(token: token)

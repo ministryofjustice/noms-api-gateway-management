@@ -12,7 +12,7 @@ class ImportedTokenBuilder
 
   def self.mapped_csv_values(row)
     {
-      api_env: row['NOMS API env'],
+      environment: Environment.find_by(name: row['NOMS API env']),
       expires: row['Expiry date'] || Time.now + 1.year, 
       fingerprint: row['Token fingerprint'],
       requested_by: row['Requested by'] || '(unknown)',

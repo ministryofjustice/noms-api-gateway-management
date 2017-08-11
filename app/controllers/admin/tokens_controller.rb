@@ -17,7 +17,7 @@ class Admin::TokensController < Admin::AdminController
     if params[:access_request]
       @access_request = AccessRequest.find(params[:access_request])
 
-      [:requested_by, :contact_email, :api_env, :service_name, :client_pub_key].each do |variable|
+      [:requested_by, :contact_email, :environment_id, :service_name, :client_pub_key].each do |variable|
         eval("@token.#{variable} = @access_request.#{variable}")
       end
     end
@@ -63,7 +63,7 @@ class Admin::TokensController < Admin::AdminController
       params.require(:token).permit(
         :requested_by,
         :service_name,
-        :api_env,
+        :environment_id,
         :contact_email,
         :permissions,
         :client_pub_key,
