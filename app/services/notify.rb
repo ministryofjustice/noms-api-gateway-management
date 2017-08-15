@@ -3,8 +3,6 @@ require 'notifications/client'
 module Notify
   module_function
 
-  CLIENT = Notifications::Client.new(Rails.configuration.govuk_notify_api_key)
-
   def service_team(access_request, link)
     params = {
       requester: access_request.requested_by,
@@ -35,12 +33,16 @@ module Notify
   end
 
   def send_notify_email(email_address, template_id, params = {})
-    email = CLIENT.send_email(
+    email = client.send_email(
       email_address: email_address,
       template_id: template_id,
       personalisation: params
     )
 
     email.id
+  end
+
+  def client
+    Notifications::Client.new(Rails.configuration.govuk_notify_api_key)
   end
 end

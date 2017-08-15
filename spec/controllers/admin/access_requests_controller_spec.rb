@@ -82,7 +82,7 @@ RSpec.describe Admin::AccessRequestsController, type: :controller do
       describe "DELETE #destroy" do
         before do
           response = double(id: 'f23caa')
-          allow(Notify::CLIENT).to receive(:send_email).and_return(response)
+          allow(Notify.client).to receive(:send_email).and_return(response)
         end
 
         it "destroys the requested access_request" do
