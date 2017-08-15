@@ -47,10 +47,10 @@ Protection against DDoS and bots on the user facing access request form is provi
 |API_AUTH                               |shared secret used to authenticate against the /api/tokens/revoked endpoint|-|-|-|
 |ACCESS_REQUEST_NOTIFICATION_TEMPLATE   |access request template ID|-|-|-|
 |TOKEN_TRACKBACK_TEMPLATE               |token creation template ID|-|-|-|
+|REJECT_ACCESS_REQUEST_TEMPLATE         |access request rejection template ID|-|-|-|
 |TEAM_EMAIL                             |email address of the product/support team|-|-|-|
 |RECAPTCHA_SITE_KEY                     |Google reCAPTCHA key|-|-|-|
 |RECAPTCHA_SECRET_KEY                   |Google reCAPTCHA secret|-|-|-|
-
 
 ### Set up and run
 

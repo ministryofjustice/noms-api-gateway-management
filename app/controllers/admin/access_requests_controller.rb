@@ -13,6 +13,9 @@ class Admin::AccessRequestsController < Admin::AdminController
   # DELETE /access_requests/1
   def destroy
     @access_request.destroy
+
+    Notify.reject_access_request(@access_request) if Rails.configuration.notify_enabled
+
     redirect_to admin_access_requests_url, notice: 'Access request was successfully destroyed.'
   end
 

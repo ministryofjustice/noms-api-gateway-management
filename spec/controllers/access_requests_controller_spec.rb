@@ -86,7 +86,7 @@ RSpec.describe AccessRequestsController, type: :controller do
   describe "POST #create" do
     before do
       response = double(id: 'f23caa')
-      allow(Notify::CLIENT).to receive(:send_email).and_return(response)
+      allow(Notify.client).to receive(:send_email).and_return(response)
     end
 
     context "with valid params" do
