@@ -33,7 +33,10 @@ RSpec.describe AccessRequestsController, type: :controller do
       contact_email: 'example@example.com',
       requested_by: 'John Smith',
       reason: 'lorem ipsum',
-      api_env: 'preprod',
+      environment_id: Environment.find_or_create_by!(
+          name: 'preprod',
+          provisioning_key: file_fixture('test_provisioner.key').read
+        ).id,
       client_pub_key_file: client_pub_key_file,
     }
   }

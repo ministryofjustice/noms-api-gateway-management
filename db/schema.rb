@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170704091532) do
+ActiveRecord::Schema.define(version: 20170810164131) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -19,19 +19,20 @@ ActiveRecord::Schema.define(version: 20170704091532) do
     t.string   "contact_email"
     t.string   "requested_by"
     t.string   "service_name"
-    t.string   "api_env"
     t.text     "reason"
     t.text     "client_pub_key"
     t.boolean  "processed",      default: false
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
+    t.integer  "environment_id"
+    t.index ["environment_id"], name: "index_access_requests_on_environment_id", using: :btree
   end
 
-  create_table "provisioning_keys", force: :cascade do |t|
-    t.string   "api_env"
-    t.text     "content"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table "environments", force: :cascade do |t|
+    t.string   "name"
+    t.text     "provisioning_key"
+    t.datetime "created_at",       null: false
+    t.datetime "updated_at",       null: false
   end
 
   create_table "tokens", force: :cascade do |t|
@@ -39,7 +40,6 @@ ActiveRecord::Schema.define(version: 20170704091532) do
     t.string   "requested_by"
     t.string   "service_name"
     t.string   "fingerprint"
-    t.string   "api_env"
     t.datetime "expires"
     t.string   "contact_email"
     t.string   "state",           default: "inactive"
@@ -49,6 +49,8 @@ ActiveRecord::Schema.define(version: 20170704091532) do
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
     t.string   "created_from",    default: "web"
+    t.integer  "environment_id"
+    t.index ["environment_id"], name: "index_tokens_on_environment_id", using: :btree
     t.index ["trackback_token"], name: "index_tokens_on_trackback_token", using: :btree
   end
 

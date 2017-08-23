@@ -1,17 +1,23 @@
 class AccessRequest < ApplicationRecord
+
+  belongs_to :environment
+
   attr_accessor :client_pub_key_file
 
-  validates :requested_by, :contact_email, :reason, :api_env, :client_pub_key,
+  validates :requested_by, :contact_email, :reason, :environment_id, :client_pub_key,
     presence: :true
 
   validates :client_pub_key, ec_public_key: true
-  validates :api_env, inclusion: ApiEnv.all
   validates_email_format_of :contact_email
 
   before_validation :set_client_pub_key
 
   scope :processed, -> { where(processed: true) }
   scope :unprocessed, -> { where.not(processed: true) }
+
+  def environment_name
+    environment ? environment.name : 'Unknown'
+  end
 
   def process!
     update_attribute(:processed, true)

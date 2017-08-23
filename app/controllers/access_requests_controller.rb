@@ -39,7 +39,7 @@ class AccessRequestsController < ApplicationController
         :requested_by,
         :service_name,
         :reason,
-        :api_env,
+        :environment_id,
         :client_pub_key_file,
         :client_pub_key
       )
