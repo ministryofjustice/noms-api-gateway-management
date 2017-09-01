@@ -1,6 +1,9 @@
 FactoryGirl.define do
 
-  key_files = %w(test_client.pub test_client_2.pub)
+  key_group = OpenSSL::PKey::EC::Group.new('prime256v1')
+  key = OpenSSL::PKey::EC.generate(key_group)
+  pub = OpenSSL::PKey::EC.new(key_group)
+  pub.public_key = key.public_key
 
   factory :token, class: Token do
     issued_at { 1.day.ago }
@@ -10,7 +13,7 @@ FactoryGirl.define do
     expires { 1.year.from_now }
     contact_email { Faker::Internet.email }
     permissions '.*'
-    client_pub_key { File.read("#{Rails.root}/spec/fixtures/files/#{key_files[Token.count]}") }
+    client_pub_key pub.to_pem
     state 'inactive'
     environment do
       Environment.find_or_create_by!(

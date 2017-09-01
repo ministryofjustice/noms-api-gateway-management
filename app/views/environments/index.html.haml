@@ -1,0 +1,25 @@
+- content_for :page_title, "Environments - " + Rails.configuration.app_title
+
+%h1 Environments (#{@environments.count})
+
+%table
+  %thead
+    %tr
+      %th Name
+      %th Status
+      %th Last release
+      %th Release notes
+      %th Documentation
+
+  %tbody
+    - @environments.each do |env|
+      %tr
+        %td= env.name
+        %td= 'Great'
+        %td= 'Today'
+        %td= 'link to notes'
+        %td= 'link to docs'
+
+%br
+
+= link_to 'Request a token', new_access_request_url, class: 'button'

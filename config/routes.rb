@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  root to: 'access_requests#new'
+  root to: 'environments#index'
 
   resources :access_requests, only: [:new, :create, :show]
   get 'access_request/confirmation', to: 'access_requests#show'
