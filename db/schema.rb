@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170810164131) do
+ActiveRecord::Schema.define(version: 20170914133947) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,8 +31,11 @@ ActiveRecord::Schema.define(version: 20170810164131) do
   create_table "environments", force: :cascade do |t|
     t.string   "name"
     t.text     "provisioning_key"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",         null: false
+    t.datetime "updated_at",         null: false
+    t.string   "client_pub_key"
+    t.string   "client_private_key"
+    t.text     "jwt"
   end
 
   create_table "tokens", force: :cascade do |t|

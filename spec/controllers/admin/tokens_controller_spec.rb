@@ -151,7 +151,7 @@ RSpec.describe Admin::TokensController, type: :controller do
 
       it "assigns all tokens as @tokens" do
         get :index, params: {}, session: session
-        expect(assigns(:tokens)).to eq([token])
+        expect(assigns(:tokens)).to eq(Token.order(created_at: :desc))
       end
     end
 

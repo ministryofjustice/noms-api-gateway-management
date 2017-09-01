@@ -72,13 +72,16 @@ RSpec.describe Token, type: :model do
 
     describe '.unrevoked' do
       it 'returns only the unrevoked tokens' do
-        expect(described_class.unrevoked).to match_array([active_token, inactive_token])
+        expect(described_class.unrevoked).to include(active_token)
+        expect(described_class.unrevoked).to include(inactive_token)
+        expect(described_class.active).not_to include(revoked_token)
       end
     end
 
     describe '.active' do
       it 'returns only the active tokens' do
-        expect(described_class.active).to match_array([active_token])
+        expect(described_class.active).not_to include(inactive_token)
+        expect(described_class.active).not_to include(revoked_token)
       end
     end
 

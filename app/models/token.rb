@@ -2,7 +2,7 @@ class Token < ApplicationRecord
 
   belongs_to :environment
 
-  CREATED_FROM_VALUES = ['web','import']
+  CREATED_FROM_VALUES = ['web','import', 'management_app']
 
   attr_accessor :client_pub_key_file
 
@@ -17,7 +17,7 @@ class Token < ApplicationRecord
   validates :created_from, inclusion: Token::CREATED_FROM_VALUES
 
   before_validation :set_client_pub_key
-  after_create :set_trackback_token, if: :from_web?
+  after_create :set_trackback_token, unless: :from_import?
 
   scope :inactive, -> { where(state: 'inactive') }
   scope :active, -> { where(state: 'active') }
@@ -61,6 +61,10 @@ class Token < ApplicationRecord
 
   def from_import?
     created_from == 'import'
+  end
+
+  def from_management_app?
+    created_from == 'management_app'
   end
 
   private

@@ -2,10 +2,6 @@ require "rails_helper"
 
 RSpec.describe AccessRequestsController, type: :routing do
   describe "routing" do
-    it "routes to #new for root /" do
-      expect(get: "/").to route_to("access_requests#new")
-    end
-
     it "routes to #new" do
       expect(get: "/access_requests/new").to route_to("access_requests#new")
     end
