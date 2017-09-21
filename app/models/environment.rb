@@ -12,6 +12,18 @@ class Environment < ApplicationRecord
 
   validates :provisioning_key, ec_private_key: true
 
+  def health
+    NomisApiClient.new(self).get_health
+  end
+
+  def deployed_version
+    NomisApiClient.new(self).get_version
+  end
+
+  def deployed_version_timestamp
+    NomisApiClient.new(self).get_version_timestamp
+  end
+
   private
 
   def revoke_all_tokens!
