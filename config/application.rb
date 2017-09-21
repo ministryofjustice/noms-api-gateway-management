@@ -2,6 +2,7 @@ require_relative 'boot'
 
 require 'rails/all'
 require 'rack/throttle'
+require 'nomis/api'
 require_relative '../app/middleware/access_request_form_throttle'
 
 # Require the gems listed in Gemfile, including any gems

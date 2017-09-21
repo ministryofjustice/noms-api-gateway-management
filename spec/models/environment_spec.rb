@@ -2,8 +2,9 @@ require 'rails_helper'
 
 RSpec.describe Environment, type: :model do
 
-  subject         { create(:environment)                       }
-  let(:key_group) { OpenSSL::PKey::EC::Group.new('prime256v1') }
+  subject            { create(:environment)                                                }
+  let(:key_group)    { OpenSSL::PKey::EC::Group.new('prime256v1')                          }
+  
 
   it { should validate_presence_of(:name)                 }
   it { should validate_presence_of(:provisioning_key)     }
@@ -59,6 +60,27 @@ RSpec.describe Environment, type: :model do
       expect(token_one.environment_id).to be_nil
       expect(token_two.reload).to be_revoked
       expect(token_two.environment_id).to be_nil
+    end
+  end
+
+  describe '#health' do
+    it 'delegates to NomisApiClient#get_health' do
+      expect_any_instance_of(NomisApiClient).to receive(:get_health)
+      subject.health
+    end
+  end
+
+  describe '#deployed_version' do
+    it 'delegates to NomisApiClient#get_version' do
+      expect_any_instance_of(NomisApiClient).to receive(:get_version)
+      subject.deployed_version
+    end
+  end
+
+  describe '#deployed_version_timestamp' do
+    it 'delegates to NomisApiClient#get_version_timestamp' do
+      expect_any_instance_of(NomisApiClient).to receive(:get_version_timestamp)
+      subject.deployed_version_timestamp
     end
   end
 end

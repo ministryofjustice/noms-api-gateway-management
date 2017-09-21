@@ -1,24 +1,24 @@
 - content_for :page_title, "Environments - " + Rails.configuration.app_title
 
-%h1 Environments (#{@environments.count})
+%h1 Environments
+
+%p Reload this page to ensure the information is up to date – it does not refresh automatically
 
 %table
   %thead
     %tr
       %th Name
       %th Status
-      %th Last release
-      %th Release notes
-      %th Documentation
+      %th Release version
+      %th Release timestamp
 
   %tbody
     - @environments.each do |env|
       %tr
         %td= env.name
-        %td= 'Great'
-        %td= 'Today'
-        %td= 'link to notes'
-        %td= 'link to docs'
+        %td= env.health
+        %td= env.deployed_version
+        %td= env.deployed_version_timestamp
 
 %br
 
