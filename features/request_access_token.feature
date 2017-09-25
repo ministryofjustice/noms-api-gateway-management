@@ -5,6 +5,8 @@ Feature: Request access token
 
   Background:
     Given the user is on the home page
+     Then they should see a list of all environments
+     When the user clicks "Request a token"
      Then they should be redirected to the new access request page
       And a link to the NOMIS API documentation should be visble
 
@@ -15,7 +17,7 @@ Feature: Request access token
       | access_request[contact_email]       | johnsmith@example.com | text   |
       | access_request[service_name]        | Candies to prisoners  | text   |
       | access_request[reason]              | Some reason           | text   |
-      | access_request[environment_id]      | prod                  | select |
+      | access_request[environment_id]      | preprod               | select |
       | access_request[client_pub_key_file] | test_client.pub       | file   |
     And submits the form
     Then the user should be redirected to the confirmation page

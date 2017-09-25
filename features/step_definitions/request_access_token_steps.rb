@@ -6,19 +6,30 @@ Given(/^the user is on the home page$/) do
   @home_page = @agent.get(DOMAIN + '/')
 end
 
+Then(/^they should see a list of all environments$/) do
+  env_rows = @home_page.search('tbody tr')
+  expect(env_rows.count).to eq 2
+  expect(env_rows.first.text.split(" ")).to include('preprod')
+  expect(env_rows.last.text.split(" ")).to include('dev')
+end
+
+When(/^the user clicks "([^"]*)"/) do |link_text|
+  @form_page = @home_page.link_with(text: link_text).click
+end
+
 Then(/^they should be redirected to the new access request page$/) do
-  expect(@home_page.title).to eq(
+  expect(@form_page.title).to eq(
     "New access request - NOMIS API access"
   )
 end
 
 Then(/^a link to the NOMIS API documentation should be visble$/) do
-  api_doc_link = @home_page.link_with(:text => 'NOMIS API documentation')
+  api_doc_link = @form_page.link_with(:text => 'NOMIS API documentation')
   expect(api_doc_link).not_to be_nil
 end
 
 When(/^the user fills out the form with:$/) do |table|
-  @form = @home_page.forms.first
+  @form = @form_page.forms.first
 
   table.symbolic_hashes.each do |hash|
     case hash[:type]

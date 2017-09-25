@@ -1,4 +1,4 @@
-class EnvironmentsController < Admin::AdminController
+class EnvironmentsController < ApplicationController
   def index
     @environments = Environment.all
   end
