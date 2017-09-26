@@ -7,10 +7,14 @@ Given(/^the user is on the home page$/) do
 end
 
 Then(/^they should see a list of all environments$/) do
-  env_rows = @home_page.search('tbody tr')
-  expect(env_rows.count).to eq 2
-  expect(env_rows.first.text.split(" ")).to include('preprod')
-  expect(env_rows.last.text.split(" ")).to include('dev')
+  expect(@home_page.title).to eq(
+    "Environments - NOMIS API access"
+  )
+
+  colnames = @home_page.search('th')
+  expect(colnames.map(&:text)).to eq(
+    ["Name", "Status", "Release version", "Release timestamp"]
+  )
 end
 
 When(/^the user clicks "([^"]*)"/) do |link_text|
