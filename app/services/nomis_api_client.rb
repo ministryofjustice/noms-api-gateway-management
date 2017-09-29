@@ -11,10 +11,10 @@ class NomisApiClient
 
   def get_health
     response = get('health')
-    if response.raw_response.code == '200'
+    if response.code == 200
       response.data
     else
-      "ERROR #{response.raw_response.code}"
+      "ERROR #{response.code}#{' ' + response.data.truncate(30) if response.data }"
     end
   end
 
@@ -27,11 +27,15 @@ class NomisApiClient
   end
 
   def get(path)
-    NOMIS::API::Get.new(
-      client_key: client_key,
-      client_token: client_token,
-      base_url: base_url,
-      path: path
-    ).execute
+    begin
+      ApiResponse.new(NOMIS::API::Get.new(
+        client_key: client_key,
+        client_token: client_token,
+        base_url: base_url,
+        path: path
+      ).execute)
+    rescue => exception
+      ApiResponse.new(exception)
+    end
   end
 end
