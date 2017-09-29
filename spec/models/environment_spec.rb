@@ -23,6 +23,11 @@ RSpec.describe Environment, type: :model do
       subject.save
     end
 
+    it 'is not called on update' do
+      expect(subject).not_to receive(:generate_client_keys)
+      subject.update(name: 'new_name')
+    end
+
     it 'sets the client keys' do
       subject = build(:environment)
       expect(subject.client_pub_key).to be_nil
@@ -38,6 +43,11 @@ RSpec.describe Environment, type: :model do
       subject = build(:environment)
       expect(subject).to receive(:generate_jwt)
       subject.save
+    end
+
+    it 'is not called on update' do
+      expect(subject).not_to receive(:generate_jwt)
+      subject.update(name: 'new_name')
     end
 
     it 'sets the jwt' do
