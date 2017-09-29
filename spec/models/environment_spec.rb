@@ -8,8 +8,10 @@ RSpec.describe Environment, type: :model do
 
   it { should validate_presence_of(:name)                 }
   it { should validate_presence_of(:provisioning_key)     }
+  it { should validate_presence_of(:base_url)             }
   it { should validate_uniqueness_of(:name)               }
   it { should validate_uniqueness_of(:provisioning_key)   }
+  it { should validate_uniqueness_of(:base_url)           }
 
   it_behaves_like 'an EC Private Key validatable'
 

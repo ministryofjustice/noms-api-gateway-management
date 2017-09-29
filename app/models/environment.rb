@@ -7,8 +7,8 @@ class Environment < ApplicationRecord
   has_many :tokens, dependent: :nullify
   has_many :access_requests, dependent: :nullify
 
-  validates :name, :provisioning_key, presence: true
-  validates :name, :provisioning_key, uniqueness: true
+  validates :name, :provisioning_key, :base_url, presence: true
+  validates :name, :provisioning_key, :base_url, uniqueness: true
 
   validates :provisioning_key, ec_private_key: true
 

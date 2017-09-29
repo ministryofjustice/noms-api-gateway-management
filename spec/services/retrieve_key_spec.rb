@@ -7,8 +7,8 @@ RSpec.describe RetrieveKey do
     end
 
     it 'returns the key content for the given API env' do
-      Environment.create(name: 'prod', provisioning_key: file_fixture('test_provisioner.key').read)
-      expect( described_class.call('prod') ).to eq(file_fixture('test_provisioner.key').read)
+      create(:environment)
+      expect( described_class.call('preprod') ).to eq(file_fixture('test_provisioner.key').read)
     end
 
   end

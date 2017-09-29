@@ -54,7 +54,7 @@ RSpec.describe Admin::TokensController, type: :controller do
 
 
   before do
-    Environment.create(name: 'preprod', provisioning_key: file_fixture('test_provisioner.key').read)
+    create(:environment)
   end
 
   context 'when not logged in' do

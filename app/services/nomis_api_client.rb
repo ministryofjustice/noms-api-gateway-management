@@ -1,19 +1,12 @@
 class NomisApiClient
 
-  attr_reader :env_name, :client_key, :client_token
+  attr_reader :env_name, :client_key, :client_token, :base_url
 
   def initialize(env)
     @env_name = env.name
     @client_key = env.client_private_key
     @client_token = env.jwt
-  end
-
-  def base_url
-    if env_name == 'prod'
-      "https://noms-api.service.justice.gov.uk/nomisapi/"
-    else
-      "https://noms-api-#{env_name}.dsd.io/nomisapi/"
-    end
+    @base_url = env.base_url
   end
 
   def get_health

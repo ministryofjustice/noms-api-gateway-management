@@ -17,7 +17,8 @@ RSpec.describe Admin::EnvironmentsController, type: :controller do
   let(:valid_attributes) {
     {
       name: 'dev',
-      provisioning_key: file_fixture('test_provisioner.key').read
+      provisioning_key: file_fixture('test_provisioner.key').read,
+      base_url: "https://noms-api.TEST.justice.gov.uk/nomisapi/"
     }
   }
 

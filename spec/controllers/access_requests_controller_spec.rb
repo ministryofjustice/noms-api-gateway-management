@@ -28,15 +28,14 @@ RSpec.describe AccessRequestsController, type: :controller do
     fixture_file_upload('files/test_client.pub', 'text/plain')
   }
 
+  let(:environment) { create(:environment) }
+
   let(:valid_attributes) {
     {
       contact_email: 'example@example.com',
       requested_by: 'John Smith',
       reason: 'lorem ipsum',
-      environment_id: Environment.find_or_create_by!(
-          name: 'preprod',
-          provisioning_key: file_fixture('test_provisioner.key').read
-        ).id,
+      environment_id: environment.id,
       client_pub_key_file: client_pub_key_file,
     }
   }

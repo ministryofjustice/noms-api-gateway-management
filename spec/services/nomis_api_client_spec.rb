@@ -95,20 +95,4 @@ RSpec.describe NomisApiClient do
       subject.get('version')
     end
   end
-
-  describe '#base_url' do
-    context 'when #env_name == prod' do
-      it 'returns the prod url' do
-        subject = NomisApiClient.new(create(:environment, name: 'prod'))
-        expect(subject.base_url).to eq "https://noms-api.service.justice.gov.uk/nomisapi/"
-      end
-    end
-
-    context 'when #env_name != prod' do
-      it 'returns a url with #env_name interpolated' do
-        subject = NomisApiClient.new(create(:environment, name: 'not_prod'))
-        expect(subject.base_url).to eq "https://noms-api-not_prod.dsd.io/nomisapi/"
-      end
-    end
-  end
 end
