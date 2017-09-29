@@ -1,0 +1,5 @@
+- content_for :page_title, "Edit environment - " + Rails.configuration.app_title
+
+%h1 Editing #{@environment.name} environment
+
+= render 'form'
