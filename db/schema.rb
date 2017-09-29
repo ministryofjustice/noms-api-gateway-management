@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170914133947) do
+ActiveRecord::Schema.define(version: 20170929083200) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,6 +36,7 @@ ActiveRecord::Schema.define(version: 20170914133947) do
     t.string   "client_pub_key"
     t.string   "client_private_key"
     t.text     "jwt"
+    t.string   "base_url"
   end
 
   create_table "tokens", force: :cascade do |t|

@@ -18,7 +18,8 @@ FactoryGirl.define do
     environment do
       Environment.find_or_create_by!(
         name: 'preprod',
-        provisioning_key: File.read("#{Rails.root}/spec/fixtures/files/test_provisioner.key")
+        provisioning_key: File.read("#{Rails.root}/spec/fixtures/files/test_provisioner.key"),
+        base_url: "https://noms-api.TEST.justice.gov.uk/nomisapi/"
       )
     end
 

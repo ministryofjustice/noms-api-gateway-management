@@ -30,7 +30,7 @@ class Admin::EnvironmentsController < Admin::AdminController
 
   private
     def environment_params
-      params.require(:environment).permit(:name, :provisioning_key)
+      params.require(:environment).permit(:name, :provisioning_key, :base_url)
     end
 
     def set_environment
