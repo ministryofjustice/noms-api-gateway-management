@@ -1,5 +1,5 @@
 class Admin::EnvironmentsController < Admin::AdminController
-  before_action :set_environment, only: [:show, :destroy]
+  before_action :set_environment, only: [:show, :edit, :update, :destroy]
 
   def index
     @environments = Environment.all
@@ -20,6 +20,18 @@ class Admin::EnvironmentsController < Admin::AdminController
         notice: "#{@environment.name} environment successfully created"
     else
       render :new
+    end
+  end
+
+  def edit
+  end
+
+  def update
+    if @environment.update(environment_params)
+      redirect_to [:admin, @environment],
+        notice: "#{@environment.name} environment successfully updated"
+    else
+      render :edit
     end
   end
 
