@@ -1,21 +1,18 @@
 class NomisApiClient
 
-  attr_reader :env_name, :client_key, :client_token, :base_url
+  attr_reader :env_name, :client_key, :client_token,
+    :base_url, :parser
 
-  def initialize(env)
-    @env_name = env.name
-    @client_key = env.client_private_key
+  def initialize(env, exception_safe_parser)
+    @env_name     = env.name
+    @client_key   = env.client_private_key
     @client_token = env.jwt
-    @base_url = env.base_url
+    @base_url     = env.base_url
+    @parser       = exception_safe_parser
   end
 
   def get_health
-    response = get('health')
-    if response.code == 200
-      response.data
-    else
-      "ERROR #{response.code}#{' ' + response.data.truncate(30) if response.data }"
-    end
+    get('health').data
   end
 
   def get_version
@@ -28,14 +25,14 @@ class NomisApiClient
 
   def get(path)
     begin
-      ExceptionSafeResponse.new(NOMIS::API::Get.new(
+      parser.parse(NOMIS::API::Get.new(
         client_key: client_key,
         client_token: client_token,
         base_url: base_url,
         path: path
       ).execute)
     rescue => exception
-      ExceptionSafeResponse.new(exception)
+      parser.parse(exception)
     end
   end
 end

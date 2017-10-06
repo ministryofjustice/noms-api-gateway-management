@@ -15,7 +15,7 @@ class Environment < ApplicationRecord
   attr_accessor :health, :deployed_version, :deployed_version_timestamp
 
   def populate_properties!
-    client = NomisApiClient.new(self)
+    client = NomisApiClient.new(self, ExceptionSafeResponseParser.new)
     self.health = client.get_health
     self.deployed_version = client.get_version
     self.deployed_version_timestamp = client.get_version_timestamp

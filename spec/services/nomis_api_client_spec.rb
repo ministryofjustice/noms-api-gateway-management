@@ -15,8 +15,9 @@ RSpec.describe NomisApiClient do
 
   let(:api_client)      { double 'NOMIS::API::Get', execute: version_ok }
 
-  let(:env)             { create(:environment) }
-  let(:subject)         { NomisApiClient.new(env) }
+  let(:response_parser) { ExceptionSafeResponseParser.new          }
+  let(:env)             { create(:environment)                     }
+  let(:subject)         { NomisApiClient.new(env, response_parser) }
 
   describe '#env_name' do
     it 'returns the name of the corresponding environment' do
@@ -41,7 +42,7 @@ RSpec.describe NomisApiClient do
       it 'returns "DB Up"' do
         allow(NOMIS::API::Get).to receive(:new).and_return(api_client)
         allow(api_client).to receive(:execute).and_return(health_ok)
-        expect(subject.get_health).to eq 'DB Up'
+        expect(subject.get_health).to eq '200: DB Up'
       end
     end
 
@@ -49,7 +50,7 @@ RSpec.describe NomisApiClient do
       it 'returns a message containing the error code' do
         allow(NOMIS::API::Get).to receive(:new).and_return(api_client)
         allow(api_client).to receive(:execute).and_return(health_bad)
-        expect(subject.get_health).to eq 'ERROR 403'
+        expect(subject.get_health).to eq '403'
       end
     end
   end
