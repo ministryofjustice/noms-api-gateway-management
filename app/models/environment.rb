@@ -12,16 +12,13 @@ class Environment < ApplicationRecord
 
   validates :provisioning_key, ec_private_key: true
 
-  def health
-    NomisApiClient.new(self).get_health
-  end
+  attr_accessor :health, :deployed_version, :deployed_version_timestamp
 
-  def deployed_version
-    NomisApiClient.new(self).get_version
-  end
-
-  def deployed_version_timestamp
-    NomisApiClient.new(self).get_version_timestamp
+  def populate_properties!
+    client = NomisApiClient.new(self)
+    self.health = client.get_health
+    self.deployed_version = client.get_version
+    self.deployed_version_timestamp = client.get_version_timestamp
   end
 
   private

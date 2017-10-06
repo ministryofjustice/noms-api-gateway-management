@@ -28,14 +28,14 @@ class NomisApiClient
 
   def get(path)
     begin
-      ApiResponse.new(NOMIS::API::Get.new(
+      ExceptionSafeResponse.new(NOMIS::API::Get.new(
         client_key: client_key,
         client_token: client_token,
         base_url: base_url,
         path: path
       ).execute)
     rescue => exception
-      ApiResponse.new(exception)
+      ExceptionSafeResponse.new(exception)
     end
   end
 end
