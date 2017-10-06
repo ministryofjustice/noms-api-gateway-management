@@ -75,24 +75,34 @@ RSpec.describe Environment, type: :model do
     end
   end
 
-  describe '#health' do
-    it 'delegates to NomisApiClient#get_health' do
-      expect_any_instance_of(NomisApiClient).to receive(:get_health)
-      subject.health
-    end
+  let(:client) do
+    double 'NomisApiClient',
+    get_health: 'DB Up',
+    get_version: '1.0.0',
+    get_version_timestamp: '2017-09-14 09:56:36'
   end
 
-  describe '#deployed_version' do
-    it 'delegates to NomisApiClient#get_version' do
-      expect_any_instance_of(NomisApiClient).to receive(:get_version)
-      subject.deployed_version
+  describe '#populate_properties!' do
+    it 'instantiates a NomisApiClient' do
+      expect(NomisApiClient).to receive(:new).and_return(client)
+      subject.populate_properties!
     end
-  end
 
-  describe '#deployed_version_timestamp' do
-    it 'delegates to NomisApiClient#get_version_timestamp' do
-      expect_any_instance_of(NomisApiClient).to receive(:get_version_timestamp)
-      subject.deployed_version_timestamp
+    before { allow(NomisApiClient).to receive(:new).and_return(client) }
+
+    it 'sets #health' do
+      subject.populate_properties!
+      expect(subject.health).to eq 'DB Up'
+    end
+
+    it 'sets #deployed_version' do
+      subject.populate_properties!
+      expect(subject.deployed_version).to eq '1.0.0'
+    end
+
+    it 'sets #deployed_version_timestamp' do
+      subject.populate_properties!
+      expect(subject.deployed_version_timestamp).to eq '2017-09-14 09:56:36'
     end
   end
 end
