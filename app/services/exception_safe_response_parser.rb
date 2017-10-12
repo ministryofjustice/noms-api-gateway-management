@@ -31,7 +31,7 @@ class ExceptionSafeResponseParser
     case response
     when SocketError
       'Environment does not exist'
-    when SSLError 
+    when OpenSSL::SSL::SSLError 
       'SSL Error'
     else
       'Unexpected error'
