@@ -29,10 +29,10 @@ class ExceptionSafeResponseParser
     logger.error(response)
 
     case response
+    when OpenSSL::SSL::SSLError 
+      'SSL Error'
     when SocketError
       'Environment does not exist'
-    when SSLError 
-      'SSL Error'
     else
       'Unexpected error'
     end
@@ -44,9 +44,9 @@ class ExceptionSafeResponseParser
 
   def code_for_exception(response)
     case response
-      when SocketError then 404
-      when SSLError    then 525
-      else 'Unexpected error'
+      when OpenSSL::SSL::SSLError then 525
+      when SocketError            then 404
+      else 500
     end
   end
 end
