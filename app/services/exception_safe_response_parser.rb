@@ -25,7 +25,6 @@ class ExceptionSafeResponseParser
   end
 
   def handle_exception(response)
-
     logger.level = Logger::ERROR
     logger.error(response)
 
