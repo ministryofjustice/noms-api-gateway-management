@@ -15,18 +15,30 @@ class ExceptionSafeResponseParser
   private
 
   def set_data(response)
-    response.is_a?(SocketError) ? error_message : parse_data(response.data)
+    response.is_a?(Exception) ? parse_exception(response) : parse_data(response.data)
   end
 
   def parse_data(data)
     data.is_a?(Hash) ? data : "#{parsed_response.code}#{': ' + data.truncate(30) if data }"
   end
 
-  def set_code(response)
-    response.is_a?(SocketError) ? 404 : response.raw_response.code.to_i
+  def parse_exception(response)
+    case response
+      when SocketError then 'Environment does not exist'
+      when SSLError    then 'SSL Error'
+      else 'Unexpected error'
+    end
   end
 
-  def error_message
-    'Environment does not exist'
+  def set_code(response)
+    response.is_a?(Exception) ? code_for_exception(response) : response.raw_response.code.to_i
+  end
+
+  def code_for_exception(response)
+    case response
+      when SocketError then 404
+      when SSLError    then 525
+      else 'Unexpected error'
+    end
   end
 end
