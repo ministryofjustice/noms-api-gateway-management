@@ -3,6 +3,7 @@ class TokensController < ApplicationController
 
   # GET /tokens/new
   def new
+    @team_email = set_team_email
   end
 
   # PATCH/PUT /tokens/1
@@ -22,5 +23,9 @@ class TokensController < ApplicationController
   def set_token
     @token = Token.find_by(trackback_token: params[:trackback_token])
     raise ActionController::RoutingError.new('Not Found') unless @token
+  end
+
+  def set_team_email
+    ENV['TEAM_EMAIL'] || 'nomisapi@digital.justice.gov.uk'
   end
 end
