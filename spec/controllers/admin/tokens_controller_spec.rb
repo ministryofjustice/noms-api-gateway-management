@@ -55,6 +55,7 @@ RSpec.describe Admin::TokensController, type: :controller do
 
   before do
     create(:environment)
+    allow(Notify).to receive(:token_trackback)
   end
 
   context 'when not logged in' do
