@@ -3,54 +3,44 @@ class ExceptionSafeResponseParser
   attr_accessor :parsed_response, :logger
 
   def initialize
-    @parsed_response = ParsedResponse.new(code: nil, data: nil)
+    self.parsed_response = ParsedResponse.new
+    self.logger = Logger.new(STDERR)
   end
 
   def parse(response)
-    parsed_response.parse!(response)
+    parsed_response.code = status_code_for(response)
+    parsed_response.data = message_for(response)
+    parsed_response
   end
 
   private
 
+  def status_code_for(response)
+    response.is_a?(Exception) ? code_for_exception(response) : response.raw_response.code.to_i
+  end
+
+  def code_for_exception(response)
+    ResponseErrorAdapter.new(response).code
+  end
+
+  def message_for(response)
+    response.is_a?(Exception) ? exception_message(response) : normal_message(response)
+  end
+
+  def normal_message(response)
+    data = response.data
+    data.is_a?(Hash) ? data : "#{response.raw_response.code}#{': ' + data.truncate(30) if data }"
+  end
+
+  def exception_message(response)
+    logger.level = Logger::ERROR
+    logger.error(response)
+
+    ResponseErrorAdapter.new(response).message
+  end
+
   class ParsedResponse
-    attr_accessor :code, :data, :logger
-
-    def initialize(attrs = {})
-      self.code = attrs[:code]
-      self.data = attrs[:data]
-      self.logger = Logger.new(STDERR)
-    end
-
-    def parse!(response)
-      self.code = status_code_for(response)
-      self.data = message_for(response)
-      self
-    end
-
-    protected
-
-    def message_for(response)
-      response.is_a?(Exception) ? exception_message(response) : parse_data(response.data)
-    end
-
-    def parse_data(data)
-      data.is_a?(Hash) ? data : "#{self.code}#{': ' + data.truncate(30) if data }"
-    end
-
-    def exception_message(response)
-      logger.level = Logger::ERROR
-      logger.error(response)
-
-      ResponseErrorAdapter.new(response).message
-    end
-
-    def status_code_for(response)
-      response.is_a?(Exception) ? code_for_exception(response) : response.raw_response.code.to_i
-    end
-
-    def code_for_exception(response)
-      ResponseErrorAdapter.new(response).code
-    end
+    attr_accessor :code, :data
   end
 
   class ResponseErrorAdapter
