@@ -1,7 +1,7 @@
 %p#notice= notice
 
 %p
-  Your access token is available for download below. Please note that this is a one time only download link and will expire once downloaded or in X days. If you have any issues please contact X.
+  Your access token is available for download below. Please note that this is a one time only download link and will expire once the token is downloaded. If you have any issues please contact #{ mail_to @team_email }.
 
 = form_for @token do |f|
   = hidden_field_tag :trackback_token, @token.trackback_token
