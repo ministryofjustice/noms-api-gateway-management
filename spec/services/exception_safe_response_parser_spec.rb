@@ -1,17 +1,10 @@
-require 'spec_helper'
+require 'rails_helper'
 
 RSpec.describe ExceptionSafeResponseParser do
 
   let(:raw)          { double 'RawData', code: '200'                          }
   let(:api_response) { double 'ApiResponse', raw_response: raw, data: 'DB Up' }
 
-  let(:subject)   { ExceptionSafeResponseParser.new }
-
-  describe '#new' do
-    it 'generates an OpenStruct called parsed_response on the new object' do
-      expect(subject.parsed_response.to_s).to eq '#<OpenStruct code=nil, data=nil>'
-    end
-  end
 
   describe '#parse' do
     context 'when called with a suceessful api_response' do
