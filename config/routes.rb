@@ -18,7 +18,9 @@ Rails.application.routes.draw do
     end
     resources :access_requests, except: [:new, :create, :edit, :update]
 
-    resources :environments, only: [:index, :new, :create, :show, :destroy]
+    resources :environments, only: [
+      :index, :show, :new, :create, :edit, :update, :destroy
+    ]
   end
 
   namespace :api, format: :json do

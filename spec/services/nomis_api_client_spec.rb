@@ -5,7 +5,7 @@ RSpec.describe NomisApiClient do
   let(:health_ok_raw)   { double 'raw_response',    code: '200' }
   let(:health_ok)       { double 'parsed-response', raw_response: health_ok_raw, data: 'DB Up' }
   let(:health_bad_raw)  { double 'raw_response',    code: '403' }
-  let(:health_bad)      { double 'parsed-response', raw_response: health_bad_raw }
+  let(:health_bad)      { double 'parsed-response', raw_response: health_bad_raw, data: nil }
 
   let(:version_ok_raw)  { double 'raw_response',    code: '200' }
   let(:version_data)    { { 'api-version' => '1.16.1', 'build-timestamp' => '2017-09-20 12:30:06' } }
@@ -15,8 +15,9 @@ RSpec.describe NomisApiClient do
 
   let(:api_client)      { double 'NOMIS::API::Get', execute: version_ok }
 
-  let(:env)             { create(:environment) }
-  let(:subject)         { NomisApiClient.new(env) }
+  let(:response_parser) { ExceptionSafeResponseParser.new          }
+  let(:env)             { create(:environment)                     }
+  let(:subject)         { NomisApiClient.new(env, response_parser) }
 
   describe '#env_name' do
     it 'returns the name of the corresponding environment' do
@@ -39,15 +40,17 @@ RSpec.describe NomisApiClient do
   describe '#get_health' do
     context 'when the environment is UP' do
       it 'returns "DB Up"' do
-        allow(subject).to receive(:get).with('health').and_return(health_ok)
-        expect(subject.get_health).to eq 'DB Up'
+        allow(NOMIS::API::Get).to receive(:new).and_return(api_client)
+        allow(api_client).to receive(:execute).and_return(health_ok)
+        expect(subject.get_health).to eq '200: DB Up'
       end
     end
 
     context 'when the environment is DOWN' do
       it 'returns a message containing the error code' do
-        allow(subject).to receive(:get).with('health').and_return(health_bad)
-        expect(subject.get_health).to eq 'ERROR 403'
+        allow(NOMIS::API::Get).to receive(:new).and_return(api_client)
+        allow(api_client).to receive(:execute).and_return(health_bad)
+        expect(subject.get_health).to eq '403'
       end
     end
   end
@@ -93,6 +96,19 @@ RSpec.describe NomisApiClient do
         path: 'version'
       ).and_return(api_client)
       subject.get('version')
+    end
+
+    context 'when the environment is not yet live' do
+      it 'handles the error and returns a 404' do
+        allow(NOMIS::API::Get).to receive(:new).with(
+          client_key: subject.client_key,
+          client_token: subject.client_token,
+          base_url: subject.base_url,
+          path: 'health'
+        ).and_return(api_client)
+        allow(api_client).to receive(:execute).and_raise(SocketError)
+        expect(subject.get('health').code).to eq 404
+      end
     end
   end
 end
