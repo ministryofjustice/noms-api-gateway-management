@@ -99,6 +99,8 @@ RSpec.describe NomisApiClient do
     end
 
     context 'when the environment is not yet live' do
+      let(:response_code){ subject.get('health').code }
+
       it 'handles the error and returns a 404' do
         allow(NOMIS::API::Get).to receive(:new).with(
           client_key: subject.client_key,
@@ -107,7 +109,9 @@ RSpec.describe NomisApiClient do
           path: 'health'
         ).and_return(api_client)
         allow(api_client).to receive(:execute).and_raise(SocketError)
-        expect(subject.get('health').code).to eq 404
+        puts "EXPECTED ERROR FOR TESTING ERROR HANDLING - please ignore"
+        expect(response_code).to eq 404
+        puts "^ /EXPECTED ERROR FOR TESTING ERROR HANDLING - please ignore"
       end
     end
   end
