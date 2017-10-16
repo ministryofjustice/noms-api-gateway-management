@@ -29,7 +29,14 @@ class ExceptionSafeResponseParser
 
   def normal_message(response)
     data = response.data
-    data.is_a?(Hash) ? data : "#{response.raw_response.code}#{': ' + data.truncate(30) if data }"
+    data.is_a?(Hash) ? data : code_and_data(response)
+  end
+
+  def code_and_data(response)
+    [ 
+      response.raw_response.code, 
+      (response.data ? response.data.truncate(30) : nil)
+    ].compact.join(': ')
   end
 
   def exception_message(response)
