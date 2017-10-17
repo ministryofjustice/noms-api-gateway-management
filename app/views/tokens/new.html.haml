@@ -3,6 +3,13 @@
 %p
   Your access token is available for download below. Please note that this is a one time only download link and will expire once the token is downloaded. If you have any issues please contact #{ mail_to @team_email }.
 
+%p
+  The token encodes your access rights using the following regular expression/s
+
+  %ul
+  - @parsed_permissions.each do |permission|
+    %li= permission
+
 = form_for @token do |f|
   = hidden_field_tag :trackback_token, @token.trackback_token
   = f.submit 'Download', class: 'button'

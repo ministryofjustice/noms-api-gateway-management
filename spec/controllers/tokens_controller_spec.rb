@@ -1,13 +1,27 @@
 require 'rails_helper'
 
 RSpec.describe TokensController, type: :controller do
-  let(:token) { create(:token) }
+  let(:token) { create(:token, permissions: "^\\/nomisapi\\/foo$\n^\\/nomisapi\\/bar$\r\n^\\/nomisapi\\/baz$") }
 
   describe "GET #new" do
     context 'with a valid trackback token' do
       it "returns http success" do
         get :new, params: { trackback_token: token.trackback_token }
         expect(response).to have_http_status(:success)
+      end
+
+      it "assigns @team_email" do
+        get :new, params: { trackback_token: token.trackback_token }
+        expect(assigns(:team_email)).to eq 'nomisapi@digital.justice.gov.uk'
+      end
+
+      it 'assigns @parsed_permissions' do
+        get :new, params: { trackback_token: token.trackback_token }
+        expect(assigns(:parsed_permissions)).to eq [
+            "/^\\/nomisapi\\/foo$/",
+            "/^\\/nomisapi\\/bar$/",
+            "/^\\/nomisapi\\/baz$/"
+          ]
       end
     end
 

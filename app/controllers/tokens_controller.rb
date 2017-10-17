@@ -4,6 +4,7 @@ class TokensController < ApplicationController
   # GET /tokens/new
   def new
     @team_email = set_team_email
+    @parsed_permissions = set_parsed_permissions
   end
 
   # PATCH/PUT /tokens/1
@@ -27,5 +28,9 @@ class TokensController < ApplicationController
 
   def set_team_email
     ENV['TEAM_EMAIL'] || 'nomisapi@digital.justice.gov.uk'
+  end
+
+  def set_parsed_permissions
+    @token.permissions.split.map { |p| Regexp.new(p).inspect }
   end
 end
