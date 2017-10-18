@@ -57,8 +57,11 @@ en:
           The app or service this token will be used by.
         environment: |
           The NOMIS API enviroment this token allows access to.
-        permissions: |
-          A regular expression list of permissions for the API endpoints. ".*" grants permissions to all endpoints. Example: "^\/nomisapi\/lookup\/active_offender$".
+        permissions_html: |
+          - Use regular expressions that match the endpoint/s to which you are granting access.<br>
+          - If you need to use more than one regex, put each one on a separate line.<br>
+          - Using `.*` will grant access to all endpoints.<br>
+          - Using `^\/nomisapi\/health$` will grant access to the health endpoint only.
   time:
     formats:
       default: "%Y-%m-%d"
