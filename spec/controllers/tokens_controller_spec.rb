@@ -27,11 +27,13 @@ RSpec.describe TokensController, type: :controller do
 
     context 'without a valid trackback token' do
       it "raises 404" do
-        expect{ get :new, params: { trackback_token: 'xxxx' } }.to raise_exception(ActionController::RoutingError)
+        expect{ get :new, params: { trackback_token: 'xxxx' } }.
+          to raise_exception(ActionController::RoutingError)
       end
     end
 
-    context 'with no trackback token' do
+    context 'with no trackback token, when a token without a trackback_token exists' do
+      before { create(:token, trackback_token: nil) }
       it "raises 404" do
         expect{ get :new }.to raise_exception(ActionController::RoutingError)
       end
@@ -41,7 +43,8 @@ RSpec.describe TokensController, type: :controller do
   describe "PATCH/PUT #update" do
     context 'non valid trackback token' do
       it 'raises 404' do
-        expect{ patch :update, params: { id: token, trackback_token: '123xxx' } }.to raise_exception(ActionController::RoutingError)
+        expect{ patch :update, params: { id: token, trackback_token: '123xxx' } }.
+          to raise_exception(ActionController::RoutingError)
       end
     end
 
