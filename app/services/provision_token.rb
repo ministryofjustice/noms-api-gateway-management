@@ -10,7 +10,7 @@ module ProvisionToken
 
     private_key = OpenSSL::PKey::EC.new(private_key_data)
     client_pub_key = OpenSSL::PKey::EC.new(token.client_pub_key)
-    permissions = token.permissions.split("\n").reject { |l| l.start_with?('#') }
+    permissions = token.permissions.split.reject { |l| l.start_with?('#') }
 
     now = Time.now
     client_token, fingerprint = generate_client_token(
