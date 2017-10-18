@@ -23,7 +23,7 @@ class TokensController < ApplicationController
 
   def set_token
     @token = Token.find_by(trackback_token: params[:trackback_token])
-    raise ActionController::RoutingError.new('Not Found') unless @token
+    raise ActionController::RoutingError.new('Not Found') if params[:trackback_token].blank? || @token.nil?
   end
 
   def set_team_email
