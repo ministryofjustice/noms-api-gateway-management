@@ -24,15 +24,21 @@ class NomisApiClient
   end
 
   def get(path)
+    opts = {
+      client_key: client_key,
+      client_token: client_token,
+      base_url: base_url,
+      path: path
+    }
+
     begin
-      parser.parse(NOMIS::API::Get.new(
-        client_key: client_key,
-        client_token: client_token,
-        base_url: base_url,
-        path: path
-      ).execute)
+      parser.parse(NOMIS::API::Get.new(opts).execute)
     rescue => exception
-      parser.parse(exception)
+      if exception.is_a? OpenSSL::SSL::SSLError
+        parser.parse(NOMIS::API::Get.new(opts.merge(disable_ssl_verify: true)).execute, ssl_error = true)
+      else
+        parser.parse(exception)
+      end
     end
   end
 end

@@ -34,7 +34,7 @@ RSpec.describe NomisApiClient do
   describe '#client_token' do
     it 'returns the corresponding environment json web token' do
       expect(subject.client_token).to eq env.jwt
-    end 
+    end
   end
 
   describe '#get_health' do
@@ -87,7 +87,7 @@ RSpec.describe NomisApiClient do
     end
   end
 
-  describe '#get' do 
+  describe '#get' do
     it 'delegates to NOMIS::API::Get (gem)' do
       expect(NOMIS::API::Get).to receive(:new).with(
         client_key: subject.client_key,
