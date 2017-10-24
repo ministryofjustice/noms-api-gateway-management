@@ -29,7 +29,7 @@ module Notify
       env: access_request.environment.name
     }
 
-    send_notify_email(access_request.contact_email, Rails.configuration.reject_access_request_template)
+    send_notify_email(access_request.contact_email, Rails.configuration.reject_access_request_template, params)
   end
 
   def send_notify_email(email_address, template_id, params = {})
