@@ -1,15 +1,17 @@
 class ExceptionSafeResponseParser
 
-  attr_accessor :parsed_response, :logger
+  attr_accessor :parsed_response, :logger, :ssl_error
 
   def initialize
     self.parsed_response = ParsedResponse.new
     self.logger = Logger.new(STDERR)
+    self.ssl_error = false
   end
 
   def parse(response, ssl_error = false)
+    self.ssl_error = ssl_error
     parsed_response.code = status_code_for(response)
-    parsed_response.data = message_for(response, ssl_error)
+    parsed_response.data = message_for(response)
     parsed_response
   end
 
@@ -23,16 +25,8 @@ class ExceptionSafeResponseParser
     ResponseErrorAdapter.new(response).code
   end
 
-  def message_for(response, ssl_error)
-    if response.is_a? Exception
-      exception_message(response)
-    else
-      if ssl_error
-        normal_message(response) + ' (SSL Error)'
-      else
-        normal_message(response)
-      end
-    end
+  def message_for(response)
+    response.is_a?(Exception) ? exception_message(response) : normal_message(response)
   end
 
   def normal_message(response)
@@ -41,10 +35,12 @@ class ExceptionSafeResponseParser
   end
 
   def code_and_data(response)
-    [
+    output = [
       response.raw_response.code,
       (response.data ? response.data.truncate(30) : nil)
     ].compact.join(': ')
+
+    ssl_error ? output + ' (SSL Error)' : output
   end
 
   def exception_message(response)
