@@ -32,6 +32,16 @@ module Notify
     send_notify_email(access_request.contact_email, Rails.configuration.reject_access_request_template, params)
   end
 
+  def revoke_token(token)
+    params = {
+      requester: token.requested_by,
+      service: token.service_name,
+      env: token.environment_name
+    }
+
+    send_notify_email(token.contact_email, Rails.configuration.revoke_token_template, params)
+  end
+
   def send_notify_email(email_address, template_id, params = {})
     email = client.send_email(
       email_address: email_address,

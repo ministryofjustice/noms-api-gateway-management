@@ -228,6 +228,13 @@ RSpec.describe Admin::TokensController, type: :controller do
         put :revoke, params: {id: token.to_param}, session: session
         expect(response).to redirect_to(admin_tokens_url)
       end
+
+      it 'calls Notify.revoke_token' do
+        Rails.configuration.notify_enabled = true
+        expect(Notify).to receive(:revoke_token).with(token)
+        
+        put :revoke, params: {id: token.to_param}, session: session
+      end
     end
   end
 end
