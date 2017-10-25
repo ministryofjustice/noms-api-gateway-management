@@ -25,18 +25,22 @@
   .field
     = f.text_area :permissions
 
-  - if @token.client_pub_key.present?
+  - if @token.client_pub_key.present? && @token.errors[:client_pub_key].blank?
     %p
     .field
       = f.text_area :client_pub_key, readonly: true, rows: 6
+
   - else
     .field
-      .form-group
+      .form-group{ class: ('form-group-error' if @token.errors[:client_pub_key]).present? }
         = f.label :client_pub_key_file, class: 'form-label' do
           Client public key
           %span.form-hint
             %p
               Supplied by requester.
+        - if @token.errors[:client_pub_key].present?
+          .error-message
+            = "Client pub key " + @token.errors[:client_pub_key].first
         = f.file_field :client_pub_key_file
         = f.hidden_field :client_pub_key, value: @token.client_pub_key
 
