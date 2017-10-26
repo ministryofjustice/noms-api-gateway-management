@@ -12,16 +12,21 @@ class Environment < ApplicationRecord
 
   validates :provisioning_key, ec_private_key: true
 
-  attr_accessor :health, :deployed_version, :deployed_version_timestamp
-
-  def populate_properties!
-    client = NomisApiClient.new(self, ExceptionSafeResponseParser.new)
-    self.health = client.get_health
-    self.deployed_version = client.get_version
-    self.deployed_version_timestamp = client.get_version_timestamp
+  def update_properties!
+    if properties_last_checked.nil? || properties_stale?
+      client = NomisApiClient.new(self, ExceptionSafeResponseParser.new)
+      update_attribute(:health, client.get_health)
+      update_attribute(:deployed_version, client.get_version)
+      update_attribute(:deployed_version_timestamp, client.get_version_timestamp)
+      update_attribute(:properties_last_checked, DateTime.now)
+    end
   end
 
   private
+
+  def properties_stale?
+    properties_last_checked < interval.minutes.ago
+  end
 
   def revoke_all_tokens!
     tokens.each &:revoke!

@@ -1,11 +1,11 @@
 class EnvironmentsController < ApplicationController
   def index
-    @environments = populate_properties(Environment.all)
+    @environments = update_properties(Environment.all)
   end
 
   private
 
-  def populate_properties(environments)
-    environments.each(&:populate_properties!)
+  def update_properties(environments)
+    environments.each(&:update_properties!)
   end
 end
