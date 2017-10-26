@@ -6,6 +6,8 @@ class Token < ApplicationRecord
 
   attr_accessor :client_pub_key_file
 
+  # has_and_belongs_to_many :permissions
+
   validates :requested_by, :service_name, :expires, :created_from,
             presence: :true
   validates :client_pub_key, presence: true, ec_public_key: true, if: :from_web?

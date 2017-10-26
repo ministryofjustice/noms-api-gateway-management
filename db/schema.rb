@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171031144858) do
+ActiveRecord::Schema.define(version: 20171130120700) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,6 +57,11 @@ ActiveRecord::Schema.define(version: 20171031144858) do
     t.datetime "deployed_version_timestamp"
     t.datetime "properties_last_checked"
     t.integer  "interval",                   default: 10
+  end
+
+  create_table "permissions", force: :cascade do |t|
+    t.string  "regex"
+    t.integer "position"
   end
 
   create_table "tokens", force: :cascade do |t|
