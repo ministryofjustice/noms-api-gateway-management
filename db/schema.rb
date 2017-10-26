@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170929083200) do
+ActiveRecord::Schema.define(version: 20171026154507) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,12 +31,17 @@ ActiveRecord::Schema.define(version: 20170929083200) do
   create_table "environments", force: :cascade do |t|
     t.string   "name"
     t.text     "provisioning_key"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
     t.string   "client_pub_key"
     t.string   "client_private_key"
     t.text     "jwt"
     t.string   "base_url"
+    t.string   "health"
+    t.string   "deployed_version"
+    t.datetime "deployed_version_timestamp"
+    t.datetime "properties_last_checked"
+    t.integer  "interval",                   default: 10
   end
 
   create_table "tokens", force: :cascade do |t|
