@@ -38,4 +38,16 @@ RSpec.describe Notify do
       expect(Notify.reject_access_request(access_request)).to eq('36f043d1-956c-43ed-9253-6a32c423fbbf')
     end
   end
+
+  describe '#revoke_token' do
+    let(:active_token) { create(:token, :active) }
+
+    before do
+      allow(Notify).to receive(:revoke_token).with(active_token).and_return('c7712773-8533-4d1c-997b-0e44469001ec')
+    end
+
+    it 'sends a request to GOV UK Notify and returns the notification id' do
+      expect(Notify.revoke_token(active_token)).to eq('c7712773-8533-4d1c-997b-0e44469001ec')
+    end
+  end
 end
