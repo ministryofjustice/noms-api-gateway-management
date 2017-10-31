@@ -2,7 +2,8 @@
 
 %h1 Environments
 
-%p Reload this page to ensure the information is up to date – it does not refresh automatically
+%p
+  Reload this page to ensure the information is up to date – it does not refresh automatically
 
 %table
   %thead
@@ -11,6 +12,7 @@
       %th Status
       %th Release version
       %th Release timestamp
+      %th Last pinged
 
   %tbody
     - @environments.each do |env|
@@ -19,6 +21,7 @@
         %td= env.health
         %td= env.deployed_version
         %td= env.deployed_version_timestamp
+        %td= env.pretty_last_checked
 
 %br
 
