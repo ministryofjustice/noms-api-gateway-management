@@ -12,6 +12,8 @@ class Environment < ApplicationRecord
 
   validates :provisioning_key, ec_private_key: true
 
+  attr_accessor :pretty_last_checked
+
   def update_properties!
     if properties_last_checked.nil? || properties_stale?
       client = NomisApiClient.new(self, ExceptionSafeResponseParser.new)
@@ -20,6 +22,7 @@ class Environment < ApplicationRecord
       update_attribute(:deployed_version_timestamp, client.get_version_timestamp)
       update_attribute(:properties_last_checked, DateTime.now)
     end
+    self.pretty_last_checked = properties_last_checked.strftime("%H:%M")
   end
 
   private
