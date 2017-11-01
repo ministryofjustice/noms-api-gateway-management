@@ -5,6 +5,8 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+gem 'daemons'
+gem 'delayed_job_active_record'
 gem 'govuk_elements_form_builder', git: 'https://github.com/ministryofjustice/govuk_elements_form_builder.git'
 gem 'govuk_elements_rails'
 gem 'govuk_frontend_toolkit'
