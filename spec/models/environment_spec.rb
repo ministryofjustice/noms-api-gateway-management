@@ -75,39 +75,21 @@ RSpec.describe Environment, type: :model do
     end
   end
 
-  let(:client) do
-    double 'NomisApiClient',
-    get_health: 'DB Up',
-    get_version: '1.0.1',
-    get_version_timestamp: '2017-09-14 09:56:36'
-  end
-
   describe '#update_properties!' do
-    context 'When an env has just been created' do
-      it 'instantiates a NomisApiClient' do
-        expect(NomisApiClient).to receive(:new).and_return(client)
-        subject.update_properties!
-      end
 
-      before { allow(NomisApiClient).to receive(:new).and_return(client) }
+    before do
+      Delayed::Worker.delay_jobs = true
+    end
 
-      it 'sets #health' do
-        subject.update_properties!
-        expect(subject.health).to eq 'DB Up'
-      end
-
-      it 'sets #deployed_version' do
-        subject.update_properties!
-        expect(subject.deployed_version).to eq '1.0.1'
-      end
-
-      it 'sets #deployed_version_timestamp' do
-        subject.update_properties!
-        expect(subject.deployed_version_timestamp.to_s).to eq '2017-09-14 09:56:36 +0100'
+    context 'Called after_create' do
+      it 'enqueues an UpdateEnvironmentProperties job' do
+        expect{
+          create(:environment, properties_last_checked: nil)
+        }.to change{ Delayed::Job.count }.by 1
       end
     end
 
-    context 'When the values for properties are stale' do
+    context 'Called when properties are stale' do
       before do
         subject.health = 'Foo'
         subject.deployed_version = '1.0.0'
@@ -115,30 +97,12 @@ RSpec.describe Environment, type: :model do
         subject.properties_last_checked = 11.minutes.ago
       end
 
-      it 'instantiates a NomisApiClient' do
-        expect(NomisApiClient).to receive(:new).and_return(client)
-        subject.update_properties!
-      end
-
-      before { allow(NomisApiClient).to receive(:new).and_return(client) }
-
-      it 'sets #health' do
-        subject.update_properties!
-        expect(subject.health).to eq 'DB Up'
-      end
-
-      it 'sets #deployed_version' do
-        subject.update_properties!
-        expect(subject.deployed_version).to eq '1.0.1'
-      end
-
-      it 'sets #deployed_version_timestamp' do
-        subject.update_properties!
-        expect(subject.deployed_version_timestamp.to_s).to eq '2017-09-14 09:56:36 +0100'
+      it 'enqueues an UpdateEnvironmentProperties job' do
+        expect{ subject.update_properties! }.to change{ Delayed::Job.count }.by 1
       end
     end
 
-    context 'When the properties have been recently updated' do
+    context 'Called when properties have been recently updated' do
       before do
         subject.health = 'Foo'
         subject.deployed_version = '1.0.2'
@@ -146,26 +110,20 @@ RSpec.describe Environment, type: :model do
         subject.properties_last_checked = 9.minutes.ago
       end
 
-      it 'does not instantiate a new NomisApiClient' do
-        expect(NomisApiClient).not_to receive(:new)
-        subject.update_properties!
+      it 'does not enqueue an UpdateEnvironmentProperties job' do
+        expect{ subject.update_properties! }.to change{ Delayed::Job.count }.by 0
       end
+    end
 
-      before { allow(NomisApiClient).to receive(:new).and_return(client) }
+    context 'when a job is already queued' do
 
-      it 'does not update #health' do
+      before { allow(subject).to receive(:properties_stale?).and_return true }
+
+      it 'does not queue another job' do
         subject.update_properties!
-        expect(subject.health).to eq 'Foo'
-      end
-
-      it 'does not change #deployed_version' do
+        expect(Delayed::Job.count).to eq 1
         subject.update_properties!
-        expect(subject.deployed_version).to eq '1.0.2'
-      end
-
-      it 'does not change #deployed_version_timestamp' do
-        subject.update_properties!
-        expect(subject.deployed_version_timestamp.to_s).to eq 1.day.ago.to_s
+        expect(Delayed::Job.count).to eq 1
       end
     end
   end

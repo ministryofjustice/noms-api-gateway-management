@@ -79,6 +79,10 @@ RSpec.configure do |config|
       example.run
     end
   end
+
+  config.after(:each) do
+    Delayed::Job.destroy_all
+  end
 end
 
 Shoulda::Matchers.configure do |config|
