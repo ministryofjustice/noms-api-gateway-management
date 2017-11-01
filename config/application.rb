@@ -26,6 +26,8 @@ module NomsApiGatewayManagement
 
     config.time_zone = 'London'
 
+    config.active_job.queue_adapter = :delayed_job
+    
     config.generators do |g|
       g.view_specs false
       g.helper_specs false

@@ -35,6 +35,10 @@ RSpec.describe Admin::EnvironmentsController, type: :controller do
     }
   }
 
+  before(:each) do
+    allow_any_instance_of(Environment).to receive(:update_properties!).and_return(nil)
+  end
+
   context 'when not logged in' do
     let(:session){ empty_session }
 
