@@ -13,7 +13,7 @@ Then(/^they should see a list of all environments$/) do
 
   colnames = @home_page.search('th')
   expect(colnames.map(&:text)).to eq(
-    ["Name", "Status", "Release version", "Release timestamp"]
+    ["Name", "Status", "Release version", "Release timestamp", "Last pinged"]
   )
 end
 
