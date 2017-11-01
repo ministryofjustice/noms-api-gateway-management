@@ -114,5 +114,17 @@ RSpec.describe Environment, type: :model do
         expect{ subject.update_properties! }.to change{ Delayed::Job.count }.by 0
       end
     end
+
+    context 'when a job is already queued' do
+
+      before { allow(subject).to receive(:properties_stale?).and_return true }
+
+      it 'does not queue another job' do
+        subject.update_properties!
+        expect(Delayed::Job.count).to eq 1
+        subject.update_properties!
+        expect(Delayed::Job.count).to eq 1
+      end
+    end
   end
 end
