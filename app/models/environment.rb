@@ -29,17 +29,7 @@ class Environment < ApplicationRecord
   end
 
   def already_queued?
-    env_ids_in_queue.include? self.id
-  end
-
-  def env_ids_in_queue
-    queue.map do |job|
-      job.job_data['arguments'].first.values.first.split('/').last.to_i
-    end
-  end
-
-  def queue
-    Delayed::Job.all.map { |job| YAML.load(job.handler) }
+    Delayed::Job.env_ids_in_queue.include? self.id
   end
 
   def revoke_all_tokens!
