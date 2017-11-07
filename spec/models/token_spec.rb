@@ -47,7 +47,7 @@ RSpec.describe Token, type: :model do
     context 'when environment is present' do
       before { subject.environment = create(:environment) }
       it 'returns the environment name' do
-        expect(subject.environment_name).to eq 'dev'
+        expect(subject.environment_name).to eq 'preprod'
       end
     end
 
