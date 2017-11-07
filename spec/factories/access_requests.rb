@@ -7,7 +7,11 @@ FactoryGirl.define do
     client_pub_key { File.read("#{Rails.root}/spec/fixtures/files/test_client.pub") }
     processed false
     environment do
-      create(:environment)
+      Environment.find_or_create_by!(
+        name: 'dev',
+        provisioning_key: File.read("#{Rails.root}/spec/fixtures/files/test_provisioner.key"),
+        base_url: "https://noms-api.TEST.justice.gov.uk/nomisapi/"
+      )
     end
 
     trait :unprocessed do

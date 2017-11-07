@@ -16,8 +16,11 @@ FactoryGirl.define do
     client_pub_key pub.to_pem
     state 'inactive'
     environment do
-      env = Environment.find_by(name: 'dev')
-      env ? env : create(:environment)
+      Environment.find_or_create_by!(
+        name: 'preprod',
+        provisioning_key: File.read("#{Rails.root}/spec/fixtures/files/test_provisioner.key"),
+        base_url: "https://noms-api.TEST.justice.gov.uk/nomisapi/"
+      )
     end
 
     trait :inactive do

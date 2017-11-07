@@ -1,7 +1,7 @@
 class Environment < ApplicationRecord
 
   before_create :generate_client_keys
-  after_create  :generate_jwt, :update_properties!
+  after_create  :generate_jwt
   before_destroy :revoke_all_tokens!
 
   has_many :tokens, dependent: :nullify
@@ -12,14 +12,17 @@ class Environment < ApplicationRecord
 
   validates :provisioning_key, ec_private_key: true
 
+  attr_accessor :pretty_last_checked
+
   def update_properties!
     if properties_last_checked.nil? || properties_stale?
-      UpdateEnvironmentPropertiesJob.perform_later(self)
+      client = NomisApiClient.new(self, ExceptionSafeResponseParser.new)
+      update_attribute(:health, client.get_health)
+      update_attribute(:deployed_version, client.get_version)
+      update_attribute(:deployed_version_timestamp, client.get_version_timestamp)
+      update_attribute(:properties_last_checked, DateTime.now)
     end
-  end
-
-  def pretty_last_checked
-    properties_last_checked.strftime("%H:%M") if !properties_last_checked.nil?
+    self.pretty_last_checked = properties_last_checked.strftime("%H:%M")
   end
 
   private
