@@ -14,7 +14,7 @@ class Environment < ApplicationRecord
 
   def update_properties!
     if properties_last_checked.nil? || properties_stale?
-      UpdateEnvironmentPropertiesJob.perform_later(self) unless already_queued?
+      UpdateEnvironmentPropertiesJob.perform_later(self)
     end
   end
 
@@ -26,20 +26,6 @@ class Environment < ApplicationRecord
 
   def properties_stale?
     properties_last_checked < interval.minutes.ago
-  end
-
-  def already_queued?
-    env_ids_in_queue.include? self.id
-  end
-
-  def env_ids_in_queue
-    queue.map do |job|
-      job.job_data['arguments'].first.values.first.split('/').last.to_i
-    end
-  end
-
-  def queue
-    Delayed::Job.all.map { |job| YAML.load(job.handler) }
   end
 
   def revoke_all_tokens!
