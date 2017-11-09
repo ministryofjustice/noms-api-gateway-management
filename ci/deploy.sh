@@ -30,3 +30,9 @@ if [ "${NOTIFY_ENABLED:-true}" = "true" ]; then
 fi
 
 cf start "${CF_APP_NAME}"
+
+echo Deploying nomis-api-delayed-job
+
+cf push --no-start -f manifest_delayed_job.yml "${CF_JOB_APP_NAME}"
+cf bind-service "${CF_JOB_APP_NAME}" "${CF_DB_NAME}"
+cf start "${CF_JOB_APP_NAME}"

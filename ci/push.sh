@@ -8,4 +8,5 @@ docker run -v "${SCRIPT_DIR}"/..:/app -w /app \
   -e NOTIFY_ENABLED -e GOVUK_NOTIFY_API_KEY \
   -e MOJSSO_ID -e MOJSSO_SECRET -e MOJSSO_URL \
   -e API_AUTH \
+  -e CF_JOB_APP_NAME -e CF_DB_NAME \
   governmentpaas/cf-cli ci/deploy.sh
