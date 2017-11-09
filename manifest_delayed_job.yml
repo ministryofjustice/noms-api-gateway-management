@@ -1,0 +1,10 @@
+---
+applications:
+- name: nomis-api-delayed-jobs
+  memory: 256M
+  buildpack: ruby_buildpack
+  command: bundle exec rake jobs:work
+  no-route: true
+  health-check-type: process
+  env:
+    AUTH_ENABLED: false
