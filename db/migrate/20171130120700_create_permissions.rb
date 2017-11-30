@@ -1,5 +1,5 @@
 class CreatePermissions < ActiveRecord::Migration[5.0]
-  def change
+  def up
     create_table :permissions do |t|
       t.string :regex
       t.integer :position
@@ -13,5 +13,9 @@ class CreatePermissions < ActiveRecord::Migration[5.0]
         position: Permission.any? ? Permission.all.sort_by(&:position).last.position + 100 : 100
       )
     end
+  end
+
+  def down
+    drop_table :permissions
   end
 end

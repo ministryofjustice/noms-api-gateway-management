@@ -63,11 +63,11 @@ class Admin::TokensController < Admin::AdminController
     # Only allow a trusted parameter "white list" through.
     def token_params
       params.require(:token).permit(
+        { permission_ids: [] },
         :requested_by,
         :service_name,
         :environment_id,
         :contact_email,
-        :permissions,
         :client_pub_key,
         :client_pub_key_file,
         :expires

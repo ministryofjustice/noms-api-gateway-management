@@ -1,7 +1,11 @@
 require 'rails_helper'
 
 RSpec.describe TokensController, type: :controller do
-  let(:token) { create(:token, permissions: "^\\/nomisapi\\/foo$\n^\\/nomisapi\\/bar$\r\n^\\/nomisapi\\/baz$") }
+
+  let(:foo_permission) { create(:permission, regex: "/^\\/nomisapi\\/foo$/") }
+  let(:bar_permission) { create(:permission, regex: "/^\\/nomisapi\\/bar$/") }
+  let(:baz_permission) { create(:permission, regex: "/^\\/nomisapi\\/baz$/") }
+  let(:token) { create(:token, permissions: [foo_permission, bar_permission, baz_permission]) }
 
   describe "GET #new" do
     context 'with a valid trackback token' do

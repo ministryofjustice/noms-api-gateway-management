@@ -3,5 +3,6 @@ class Permission < ApplicationRecord
     presence: true,
     uniqueness: true
 
-    # has_and_belongs_to_many :tokens
+  has_many :token_permissions, dependent: :destroy
+  has_many :tokens, through: :token_permissions
 end

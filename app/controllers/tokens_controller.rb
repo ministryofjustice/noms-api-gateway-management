@@ -31,6 +31,6 @@ class TokensController < ApplicationController
   end
 
   def set_parsed_permissions
-    @token.permissions.split.map { |p| Regexp.new(p).inspect }
+    @token.permissions.map(&:regex)
   end
 end

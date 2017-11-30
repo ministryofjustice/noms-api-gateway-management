@@ -8,6 +8,16 @@ def generate_base_url(env_name)
 end
 
 if Rails.env.development?
+  [
+    { regex: "^\\/nomisapi\\/version$", position: 100 },
+    { regex: "^\\/nomisapi\\/health$", position: 200 }
+  ].each do |permission_data|
+    Permission.find_or_create_by!(
+      regex: permission_data[:regex],
+      position: permission_data[:position]
+    )
+  end
+
   %w(dev preprod prod).each do |env_name|
     Environment.find_or_create_by!(
       name: env_name,
@@ -16,4 +26,3 @@ if Rails.env.development?
     )
   end
 end
-

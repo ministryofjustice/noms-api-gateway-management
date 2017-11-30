@@ -6,7 +6,8 @@ class Token < ApplicationRecord
 
   attr_accessor :client_pub_key_file
 
-  # has_and_belongs_to_many :permissions
+  has_many :token_permissions, dependent: :destroy
+  has_many :permissions, through: :token_permissions
 
   validates :requested_by, :service_name, :expires, :created_from,
             presence: :true

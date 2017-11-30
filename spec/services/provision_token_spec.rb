@@ -1,14 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe ProvisionToken do
-  let(:permissions_string) do
-    "^\/api/allowed/endpoint/one$\n" + "^\/api/allowed/endpoint/two$\n" + "^\/api/allowed/endpoint/three$\n"
+  let(:permissions) do
+    [ create(:permission) ]
   end
 
   let(:expiration) { 2.years.from_now }
 
   let(:token) do
-    build(:token, service_name: 'foobar', issued_at: nil, expires: expiration, permissions: permissions_string)
+    build(:token, service_name: 'foobar', issued_at: nil, expires: expiration, permissions: permissions)
   end
 
   describe '#call' do
@@ -27,7 +27,7 @@ RSpec.describe ProvisionToken do
     end
 
     it "sets the generated token's permissions" do
-      expect(decoded_token.first['access']).to eq(permissions_string.split)
+      expect(decoded_token.first['access']).to eq(permissions.map(&:regex))
     end
 
     it "sets the generated token's issued at (iat)" do

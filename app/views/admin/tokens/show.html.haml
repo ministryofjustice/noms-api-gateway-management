@@ -23,7 +23,9 @@
 
 %p
   %b Permissions:
-  = @token.permissions
+  %ul
+    - @token.permissions.map(&:regex).each do |permission_regex|
+      %li= permission_regex
 
 %p
   %b Expires:

@@ -12,7 +12,9 @@ FactoryGirl.define do
     fingerprint SecureRandom.uuid
     expires { 1.year.from_now }
     contact_email { Faker::Internet.email }
-    permissions '.*'
+    permissions do
+      Permission.any? ? [Permission.first] : [create(:permission, regex: ".*")]
+    end
     client_pub_key pub.to_pem
     state 'inactive'
     environment do

@@ -24,6 +24,8 @@ RSpec.describe Admin::TokensController, type: :controller do
   # This should return the minimal set of attributes required to create a valid
   # Token. As you add validations to Token, be sure to
   # adjust the attributes here as well.
+  let(:permission) { create(:permission) }
+
   let(:valid_attributes) {
     {
       requested_by: 'John Smith',
@@ -32,7 +34,7 @@ RSpec.describe Admin::TokensController, type: :controller do
       contact_email: 'email@example.com',
       client_pub_key_file: client_pub_key_file,
       expires: 1.year.from_now,
-      permissions: '.*'
+      permission_ids: [permission.id]
     }
   }
 

@@ -54,7 +54,7 @@ class Environment < ApplicationRecord
       client_pub_key: self.client_pub_key,
       contact_email: nil,
       environment: self,
-      permissions: "^\\/nomisapi\\/version$\n^\\/nomisapi\\/health$",
+      permissions: Permission.where(regex: ["^\\/nomisapi\\/version$", "^\\/nomisapi\\/health$"]),
       created_from: 'management_app'
     )
     self.update_attribute(:jwt, token.provision_and_activate!)

@@ -23,7 +23,11 @@
         = f.date_field :expires, value: 1.year.from_now.to_date
 
   .field
-    = f.text_area :permissions
+    = f.label :permissions, class: 'form-label'
+    = f.collection_check_boxes :permission_ids, Permission.all, :id, :regex do |cb|
+      = cb.check_box
+      = cb.label
+      %br
 
   - if @token.client_pub_key.present? && @token.errors[:client_pub_key].blank?
     %p

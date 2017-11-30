@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171130120700) do
+ActiveRecord::Schema.define(version: 20171130151240) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -64,6 +64,13 @@ ActiveRecord::Schema.define(version: 20171130120700) do
     t.integer "position"
   end
 
+  create_table "token_permissions", force: :cascade do |t|
+    t.integer "token_id"
+    t.integer "permission_id"
+    t.index ["permission_id"], name: "index_token_permissions_on_permission_id", using: :btree
+    t.index ["token_id"], name: "index_token_permissions_on_token_id", using: :btree
+  end
+
   create_table "tokens", force: :cascade do |t|
     t.datetime "issued_at"
     t.string   "requested_by"
@@ -74,7 +81,6 @@ ActiveRecord::Schema.define(version: 20171130120700) do
     t.string   "state",           default: "inactive"
     t.text     "client_pub_key"
     t.text     "trackback_token"
-    t.text     "permissions"
     t.datetime "created_at",                           null: false
     t.datetime "updated_at",                           null: false
     t.string   "created_from",    default: "web"
