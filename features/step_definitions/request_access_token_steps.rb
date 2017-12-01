@@ -117,7 +117,7 @@ end
 
 Then(/^after the admin user adds permissions and clicks "([^"]*)"$/) do |arg1|
   form = @confirmation_page.form_with(action: "/admin/tokens")
-  form.field_with(name: "token[permissions]").value = "/nomisapi/404"
+  form.checkbox_with(:name => 'token[permission_ids][]').check
   @tokens_page = @agent.submit(form)
 end
 
