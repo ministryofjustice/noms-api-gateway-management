@@ -50,7 +50,7 @@ class Admin::TokensController < Admin::AdminController
   # PATCH/PUT /tokens/1
   def revoke
     @token.revoke!
-    Notify.revoke_token(@token) if Rails.configuration.notify_enabled 
+    Notify.revoke_token(@token) if Rails.configuration.notify_enabled && @token.contact_email.present?
     redirect_to admin_tokens_url, notice: 'Token was successfully revoked.'
   end
 
