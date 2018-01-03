@@ -211,7 +211,9 @@ RSpec.describe Admin::TokensController, type: :controller do
     end
 
     describe "PUT #revoke" do
+      
       let(:token) { create(:token) }
+      before { Rails.configuration.notify_enabled = false }
 
       it "updates the requested token" do
         put :revoke, params: {id: token.to_param}, session: session
@@ -229,24 +231,26 @@ RSpec.describe Admin::TokensController, type: :controller do
         expect(response).to redirect_to(admin_tokens_url)
       end
 
-      context 'when token has a contact email' do
+      describe "notifications" do
         before { Rails.configuration.notify_enabled = true }
+        
+        context 'when token has a contact email' do
+          it 'calls Notify.revoke_token' do
+            expect(Notify).to receive(:revoke_token).with(token)
 
-        it 'calls Notify.revoke_token' do
-          expect(Notify).to receive(:revoke_token).with(token)
-
-          put :revoke, params: {id: token.to_param}, session: session
+            put :revoke, params: {id: token.to_param}, session: session
+          end
         end
-      end
 
-      context 'when token does not have a contact email' do
-        it 'does not call Notify.revoke_token' do
-          token.update_attribute(:created_from, 'import')
-          token.update_attribute(:contact_email, nil)
+        context 'when token does not have a contact email' do
+          it 'does not call Notify.revoke_token' do
+            token.update_attribute(:created_from, 'import')
+            token.update_attribute(:contact_email, nil)
 
-          expect(Notify).to_not receive(:revoke_token).with(token.reload)
+            expect(Notify).to_not receive(:revoke_token).with(token.reload)
 
-          put :revoke, params: {id: token.to_param}, session: session
+            put :revoke, params: {id: token.to_param}, session: session
+          end
         end
       end
     end

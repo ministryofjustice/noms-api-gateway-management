@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
+  before_action :setup_required_vars
 
   def current_user
     # TODO: in a real application lookup User record from session['sso_id']
@@ -15,5 +16,9 @@ class ApplicationController < ActionController::Base
         session[:redirect_path] = request.original_fullpath
         redirect_to '/auth/mojsso'
       end
+    end
+
+    def setup_required_vars
+      @scripts = []
     end
 end
