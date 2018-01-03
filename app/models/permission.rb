@@ -1,6 +1,5 @@
 class Permission
-  def self.all
-    {
+  PERMISSIONS = {
       all: {
         all:    '.*'
       },
@@ -12,7 +11,10 @@ class Permission
         health: '^\/nomisapi\/health$',
         all: '^\/nomisapi\/.*$'
       }   
-    }
+    }.freeze
+    
+  def self.all
+    PERMISSIONS
   end
 
   def self.flattened
