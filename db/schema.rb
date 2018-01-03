@@ -59,6 +59,13 @@ ActiveRecord::Schema.define(version: 20171031144858) do
     t.integer  "interval",                   default: 10
   end
 
+  create_table "provisioning_keys", force: :cascade do |t|
+    t.string   "api_env"
+    t.text     "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "tokens", force: :cascade do |t|
     t.datetime "issued_at"
     t.string   "requested_by"

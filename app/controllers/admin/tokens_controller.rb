@@ -13,10 +13,12 @@ class Admin::TokensController < Admin::AdminController
   # GET /tokens/new
   def new
     @token = Token.new
+    @permissions = Permission.all
+    @token.permissions = build_permissions_from_presets(params) if @token.permissions.blank? && params[:token].present?
+    @scripts << permissions_admin_tokens_path(format: :js)
 
     if params[:access_request]
       @access_request = AccessRequest.find(params[:access_request])
-
       [:requested_by, :contact_email, :environment_id, :service_name, :client_pub_key].each do |variable|
         eval("@token.#{variable} = @access_request.#{variable}")
       end
@@ -43,6 +45,9 @@ class Admin::TokensController < Admin::AdminController
       end
 
     else
+      @permissions = Permission.all
+      @token.permissions = build_permissions_from_presets(params) if @token.permissions.blank? && params[:token].present?
+      @scripts << permissions_admin_tokens_path(format: :js)
       render :new
     end
   end
@@ -52,6 +57,12 @@ class Admin::TokensController < Admin::AdminController
     @token.revoke!
     Notify.revoke_token(@token) if Rails.configuration.notify_enabled && @token.contact_email.present?
     redirect_to admin_tokens_url, notice: 'Token was successfully revoked.'
+  end
+
+  # GET /admin/tokens/permissions.js
+  def permissions
+    flattened_perms=Permission.flattened
+    render json: flattened_perms.stringify_keys.to_json
   end
 
   private
@@ -72,5 +83,12 @@ class Admin::TokensController < Admin::AdminController
         :client_pub_key_file,
         :expires
       )
+    end
+
+    def build_permissions_from_presets(given_params)
+      given_params[:token][:permissions_presets].to_a.map do |preset|
+        scope = preset.split('-').map(&:to_sym)
+        @permissions[scope[0]][scope[1]]
+      end.join("\n")
     end
 end

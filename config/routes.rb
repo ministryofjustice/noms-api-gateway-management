@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     resources :tokens, except: [:edit, :update, :destroy] do
       put :revoke, on: :member
       patch :revoke, on: :member
+      get :permissions, on: :collection
     end
     resources :access_requests, except: [:new, :create, :edit, :update]
 

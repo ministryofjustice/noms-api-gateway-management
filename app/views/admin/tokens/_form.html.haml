@@ -5,44 +5,62 @@
   - if @access_request.present?
     = hidden_field_tag :access_request_id, @access_request.id
 
-  .field
-    = f.text_field :requested_by
-  .field
-    = f.text_field :service_name
-  .field
-    = f.text_field :contact_email
-  .field
-    = f.collection_select :environment_id, Environment.all, :id, :name, prompt: true
-  .field
-    .form-group
-      = f.label :expires, class: 'form-label' do
-        Expires
-        %span.form-hint
-          %p
-            When this token will expire. Default is 1 year from issue.
-        = f.date_field :expires, value: 1.year.from_now.to_date
 
-  .field
-    = f.text_area :permissions
+  = f.text_field :requested_by
+
+  = f.text_field :service_name
+
+  = f.text_field :contact_email
+
+  = f.collection_select :environment_id, Environment.all, :id, :name, prompt: true
+
+  .form-group
+    = f.label :expires, class: 'form-label' do
+      Expires
+      %span.form-hint
+        %p
+          When this token will expire. Default is 1 year from issue.
+      = f.date_field :expires, value: 1.year.from_now.to_date
+
+
+          
+
+  .form-group
+    = f.text_area :permissions, hint_text: 'blah', rows: 6, cols: 40
+
+    %details
+      %summary
+        %span.summary
+          Common permissions presets
+      .panel.panel-border-narrow.multiple-choice
+        - @permissions.each do |scope, permissions|
+          - permissions.each do |label, regex|
+            - scoped_label =  [scope, label].map(&:to_s).join('-')
+            - check_box_id = "permissions_presets-#{scope}-#{label}"
+            = f.label check_box_id, class: 'form-label' do
+              = check_box_tag "token[permissions_presets][]",
+                                scoped_label,
+                                params[:token].try(:[], :permissions_presets).to_a.include?(scoped_label.to_s),
+                                id: "token_#{check_box_id}",
+                                class: 'check-box'
+              = I18n.t(label, scope: [:permissions, scope])
 
   - if @token.client_pub_key.present? && @token.errors[:client_pub_key].blank?
-    %p
-    .field
-      = f.text_area :client_pub_key, readonly: true, rows: 6
+    
+    = f.text_area :client_pub_key, readonly: true, rows: 6
 
   - else
-    .field
-      .form-group{ class: ('form-group-error' if @token.errors[:client_pub_key]).present? }
-        = f.label :client_pub_key_file, class: 'form-label' do
-          Client public key
-          %span.form-hint
-            %p
-              Supplied by requester.
-        - if @token.errors[:client_pub_key].present?
-          .error-message
-            = "Client pub key " + @token.errors[:client_pub_key].first
-        = f.file_field :client_pub_key_file
-        = f.hidden_field :client_pub_key, value: @token.client_pub_key
+    .form-group{ class: ('form-group-error' if @token.errors[:client_pub_key]).present? }
+      = f.label :client_pub_key_file, class: 'form-label' do
+        Client public key
+        %span.form-hint
+          %p
+            Supplied by requester.
+      - if @token.errors[:client_pub_key].present?
+        .error-message
+          = "Client pub key " + @token.errors[:client_pub_key].first
+      = f.file_field :client_pub_key_file
+      = f.hidden_field :client_pub_key, value: @token.client_pub_key
 
   .actions
     = f.submit @token.new_record? ? 'Create' : 'Save', class: 'button'

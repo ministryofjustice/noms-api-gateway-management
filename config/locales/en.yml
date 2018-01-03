@@ -62,6 +62,18 @@ en:
           - If you need to use more than one regex, put each one on a separate line.<br>
           - Using `.*` will grant access to all endpoints.<br>
           - Using `^\/nomisapi\/health$` will grant access to the health endpoint only.
+  permissions:
+    all:
+      all: All endpoints on all APIs
+      title: All
+    elite2_api:
+      all: All ELITE2 endpoints
+      health: The ELITE2 healthcheck
+      title: ELITE2 API
+    nomis_api:
+      all: All NOMIS API endpoints
+      health: The NOMIS API healthcheck
+      title: NOMIS API
   time:
     formats:
       default: "%Y-%m-%d"
