@@ -345,6 +345,7 @@ PLATFORMS
 
 DEPENDENCIES
   awesome_print
+  cucumber (~> 2.4.0)
   cucumber-rails
   daemons
   database_cleaner
