@@ -181,8 +181,8 @@ GEM
     nomis-api-client (0.1.4)
       jwt
       openssl
-    notifications-ruby-client (2.1.0)
-      jwt (~> 1.5)
+    notifications-ruby-client (2.6.0)
+      jwt (>= 1.5, < 3)
     ntlm-http (0.1.1)
     oauth2 (1.4.0)
       faraday (>= 0.8, < 0.13)
