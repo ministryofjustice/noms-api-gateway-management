@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
 
   key_group = OpenSSL::PKey::EC::Group.new('prime256v1')
   key = OpenSSL::PKey::EC.generate(key_group)

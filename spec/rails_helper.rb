@@ -38,7 +38,7 @@ ActiveRecord::Migration.maintain_test_schema!
 OmniAuth.config.test_mode = true
 
 RSpec.configure do |config|
-  config.include FactoryGirl::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
   config.include(Shoulda::Matchers::ActiveModel)
 
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
