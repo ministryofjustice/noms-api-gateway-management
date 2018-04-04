@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :access_request, class: AccessRequest do
     requested_by { "#{Faker::Name.first_name} #{Faker::Name.last_name}" }
     contact_email { Faker::Internet.email }

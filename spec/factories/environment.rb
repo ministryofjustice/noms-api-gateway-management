@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :environment, class: Environment do
     name 'dev'
     base_url "https://noms-api.TEST.justice.gov.uk/nomisapi/"
