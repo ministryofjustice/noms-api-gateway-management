@@ -1,4 +1,4 @@
-FROM ruby:2.4.1-alpine
+FROM ruby:2.4.3-alpine
 
 RUN apk add --update git build-base postgresql-dev linux-headers nodejs
 
