@@ -20,7 +20,7 @@ gem 'jquery-rails'
 gem 'jwt'
 gem 'nomis-api-client'
 gem 'notifications-ruby-client', '2.1.0' # TODO: handle unset API key
-gem 'omniauth-oauth2', '>=1.3.1'
+gem 'omniauth-auth0', '~> 2.0'
 gem 'pg'
 gem 'rack-throttle'
 gem 'rails', '~> 5.1.6'
