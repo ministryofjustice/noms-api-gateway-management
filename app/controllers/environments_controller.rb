@@ -1,6 +1,7 @@
 class EnvironmentsController < ApplicationController
   def index
-    @environments = update_properties(Environment.all)
+    sorted = Environment.order(:id).all
+    @environments = update_properties(sorted)
   end
 
   private
