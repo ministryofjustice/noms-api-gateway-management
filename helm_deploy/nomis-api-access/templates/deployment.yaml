@@ -1,0 +1,29 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "nomis-api-access.fullname" . }}
+  labels:
+    app: {{ template "nomis-api-access.name" . }}
+    chart: {{ template "nomis-api-access.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "nomis-api-access.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "nomis-api-access.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      containers:
+        - name: nomis-api-access
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}" 
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+{{ include "nomis-api-access.envs" . | nindent 10 }}
