@@ -56,6 +56,7 @@ staging
 AWS_PROFILE=dev_admin aws secretsmanager get-secret-value --secret-id nomis-api-access-staging | jq -r .SecretString | helm install nomis-api-access  --namespace nomis-api-access-staging. --tiller-namespace nomis-api-access-staging  --values - --values=values-staging.yaml
 ```
 
+
 ### Managing secrets
 
 Secrets can be managed from the AWS console, or from the AWS CLI.  Essentially we are storing blob of yaml inside AWS secretmanager.  It is possible to versions for secrets too.  Here's a few ideas:
