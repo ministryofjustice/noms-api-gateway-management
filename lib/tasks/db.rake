@@ -10,7 +10,8 @@ namespace :db do
   end
 
   desc 'Task: clear the database, run migrations and seeds'
-  task reseed: [:clear, 'db:migrate', 'db:seed'] {}
+  task reseed: [:clear, 'db:migrate', 'db:seed'] do
+  end
 
   desc 'Task: clear the database, run migrations, seeds and reloads demo data'
   task :reload do

@@ -99,3 +99,35 @@ To run the task:
     rake import:tokens FILE=/path/to/the/csv/file/here
 
 The import is surrounded in a transaction - either all the rows import successfully, or the whole operation rolls back and no changes are made.
+
+## Docker Build:
+
+This app runs in MoJ cloudplatform, you will need to get familiar with the setup there:
+
+https://user-guide.cloud-platform.service.justice.gov.uk/#cloud-platform-user-guide
+
+### Build image and tag
+```
+docker build -t  nomis-api-access:latest .
+docker tag nomis-api-access:latest 754256621582.dkr.ecr.eu-west-2.amazonaws.com/digital-prison-services/nomis-api-access-staging:latest
+```
+
+Ensure you've setup an AWS profile for the MoJ cloudplatform namespace this app uses, this will allow you run this command to fectch the login creds for the image repo in AWS, when then allows you login and push the newly build image:
+```
+export AWS_PROFILE=nomis-api-access-staging
+$(aws ecr get-login --no-include-email --region eu-west-2)
+```
+
+Docker push
+```
+docker push 754256621582.dkr.ecr.eu-west-2.amazonaws.com/digital-prison-services/nomis-api-access-staging:latest
+```
+
+.... similar process for pushing to production AWS ecr repo.
+```
+export AWS_PROFILE=nomis-api-access-production
+$(aws ecr get-login --no-include-email --region eu-west-2)
+docker tag nomis-api-access:latest 754256621582.dkr.ecr.eu-west-2.amazonaws.com/digital-prison-services/nomis-api-access-production:v1.0
+
+docker push 754256621582.dkr.ecr.eu-west-2.amazonaws.com/digital-prison-services/nomis-api-access-production:v1.0
+```

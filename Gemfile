@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 # XXX: any change to the ruby version
 # should be synced to .travis.yml and Dockerfile
-ruby '2.4.3'
+ruby '2.6.3'
 
 git_source(:github) do |repo_name|
   repo_name = "#{repo_name}/#{repo_name}" unless repo_name.include?("/")

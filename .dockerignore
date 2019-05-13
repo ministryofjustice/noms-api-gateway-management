@@ -1,0 +1,5 @@
+kubectl_deploy*
+helm_deploy*
+ci*
+README.md
+manifest*
