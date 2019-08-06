@@ -56,6 +56,16 @@ staging
 AWS_PROFILE=dev_admin aws secretsmanager get-secret-value --secret-id nomis-api-access-staging | jq -r .SecretString | helm install nomis-api-access  --namespace nomis-api-access-staging. --tiller-namespace nomis-api-access-staging  --values - --values=values-staging.yaml
 ```
 
+### Rolling back a release
+Find the revision number for the deployment you want to roll back:
+```
+helm --tiller-namespace nomis-api-access-staging history nomis-api-access -o yaml
+```
+
+Rollback
+```
+helm --tiller-namespace nomis-api-access-staging rollback nomis-api-access [INSERT REVISION NUMBER HERE] --wait
+```
 
 ### Managing secrets
 
