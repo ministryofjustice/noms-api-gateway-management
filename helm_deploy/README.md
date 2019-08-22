@@ -2,11 +2,11 @@
 
 ## Prerequisite
 
-Because production uses a friendly hostname, it needs to have some additional config to create a LetsEncrypt certificate.  Before deploying to production you need to deploy the certificate.yaml resource using `kubectl apply`
+Ensure the certificate definition exists in the cloud-platform-environments repo under the relevant namespaces folder
 
 e.g.
 ```
-kubectl -n nomis-api-access-production apply -f certificate.yaml
+cloud-platform-environments/namespaces/live-1.cloud-platform.service.justice.gov.uk/[INSERT NAMESPACE NAME]/05-certificate.yaml
 ```
 
 This is resource is linked to a route53 zone that is managed by terraform in the same namespace (see cloudplatform instructions).  The certificate.yaml will create an LetsEncrypt certificate and save it to the kubernetes secret specificed.  The same secret needs to be referenced on the ingress definition (which is defined as one of the variables to the helm Chart, see below)
