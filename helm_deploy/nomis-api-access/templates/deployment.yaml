@@ -22,7 +22,6 @@ spec:
       containers:
         - name: nomis-api-access
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}" 
-          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
               protocol: TCP
