@@ -6,7 +6,6 @@ replicaCount: 1
 image:
   repository: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/digital-prison-services/nomis-api-access-staging 
   tag: v1.0
-  pullPolicy: Always
 
 ingress:
   enabled: true
